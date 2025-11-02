@@ -32,7 +32,7 @@ from typing import List, Dict, Any, Optional, Tuple
 from pathlib import Path
 
 print("[BANNER] evaluate_ovis.py:", __file__)
-
+print("seems all okay!")
 # ---------------- Utilities ----------------
 
 TIMECODE = re.compile(r"\b(\d{2}):(\d{2})(?::(\d{2}))?\b")
