@@ -1,0 +1,17 @@
+# core HF + runtime
+transformers>=4.44
+accelerate>=0.34
+safetensors>=0.4
+huggingface_hub>=0.24
+tokenizers>=0.19
+
+# vision / media
+pillow>=10.4
+opencv-python-headless>=4.10
+imageio>=2.34
+imageio-ffmpeg>=0.5
+decord>=0.6.0
+
+# utils
+numpy>=1.26
+tqdm>=4.66
