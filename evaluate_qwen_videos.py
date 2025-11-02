@@ -12,15 +12,6 @@ Output
 Backends
   --backend transformers  -> local HF model (e.g., Qwen/Qwen2-VL-2B-Instruct)
   --backend openai        -> OpenAI-compatible API (frames sent as images)
-
-Example:
-  python evaluate_qwen_videos.py \
-    --qa-json "Template.json" \
-    --videos-dir "Template Videos" \
-    --out-json "Template_qwen_answers.json" \
-    --backend transformers \
-    --model-id Qwen/Qwen2-VL-2B-Instruct \
-    --debug
 """
 
 import argparse
@@ -37,17 +28,20 @@ print("[BANNER] evaluate_qwen_videos.py:", __file__)
 
 # ---------------- Utilities ----------------
 
-TIMECODE = re.compile(r"\b(\d{2}):(\d{2})(?::(\d{2}))?\b")
+TIMECODE_RE = re.compile(r"\b(\d{2}):(\d{2})(?::(\d{2}))?\b")
 
 def parse_timecode_to_seconds(tc: str) -> float:
-    m = TIMECODE.search(tc)
+    m = TIMECODE_RE.search(tc)
     if not m:
         return -1
     hh, mm, ss = m.group(1), m.group(2), m.group(3) or "00"
     return int(hh) * 3600 + int(mm) * 60 + int(ss)
 
 def extract_timecodes(text: str) -> List[str]:
-    return [m.group(0) for m in TIMECODE.finditer(text)]
+    return [m.group(0) for m in TIMECODE_RE.finditer(text)]
+
+def has_timecode(text: str) -> bool:
+    return bool(TIMECODE_RE.search(text or ""))
 
 def clamp(v, lo, hi):
     return max(lo, min(hi, v))
@@ -109,7 +103,7 @@ def sample_frames(
 ) -> List[FrameSpec]:
     """
     Strategy:
-    1) Try random-access seeks around hinted times or evenly spaced times.
+    1) Random-access seeks around hinted times or evenly spaced times.
     2) If no frames, do a linear scan with stride to harvest frames.
     3) If still no frames, grab frame 0 with ffmpeg.
     Always return >=1 frame when the file is readable.
@@ -213,7 +207,6 @@ class TransformersQwenStrict(QwenBackend):
             print(f"[DEBUG] transformers={hf_ver}")
             print("[DEBUG] Strict Qwen2VLForConditionalGeneration path with chat template")
 
-        # Load model (prefer modern `dtype`, fall back to `torch_dtype` for compatibility)
         try:
             try:
                 self.model = Qwen2VLForConditionalGeneration.from_pretrained(
@@ -234,7 +227,6 @@ class TransformersQwenStrict(QwenBackend):
                 f"Failed to load {self.model_id} via Qwen2VLForConditionalGeneration. Inner: {e}"
             )
 
-        # Load processor
         try:
             self.processor = AutoProcessor.from_pretrained(self.model_id, trust_remote_code=True)
         except Exception as e:
@@ -262,7 +254,6 @@ class TransformersQwenStrict(QwenBackend):
             "If the question mentions timestamps, assume frames come from around those times.\n"
             f"{guide} Then add one short sentence rationale starting with 'Because'."
         )
-        # Build one image placeholder per image
         content = [{"type": "text", "text": question}]
         for _ in range(num_images):
             content.append({"type": "image"})
@@ -275,48 +266,35 @@ class TransformersQwenStrict(QwenBackend):
 
     def answer(self, question: str, images: List[Path], question_type: str):
         from PIL import Image
-        import re
 
-        # Cap images per call to avoid excessive context; Qwen2-VL supports multiple images.
         if images:
             images = images[: self.max_images]
 
         pil_images = [Image.open(p).convert("RGB") for p in images] if images else []
 
-        def split_rationale(text: str):
-            m = re.search(r"(Because .+)$", text, flags=re.IGNORECASE | re.DOTALL)
-            if m:
-                return text[:m.start()].strip(), m.group(1).strip()
-            return text.strip(), ""
-
         if pil_images:
-            # Build chat with matching number of image placeholders
             messages = self._build_chat(question, question_type, num_images=len(pil_images))
-            # Turn messages into a single text prompt with image tokens
             text = self.processor.apply_chat_template(messages, add_generation_prompt=True)
-            # Now encode both text and images together. Very important: images=pil_images must match the number of image tokens.
             inputs = self.processor(text=[text], images=[pil_images], return_tensors="pt").to(self.model.device)
         else:
-            # Text-only path
             messages = self._build_chat(question, question_type, num_images=0)
             text = self.processor.apply_chat_template(messages, add_generation_prompt=True)
             inputs = self.processor(text=[text], return_tensors="pt").to(self.model.device)
 
         gen_ids = self.model.generate(**inputs, max_new_tokens=128)
         text_out = self.processor.batch_decode(gen_ids, skip_special_tokens=True)
-        raw = (text_out[0] if text_out else "").strip()
+        full_text = (text_out[0] if text_out else "").strip()
 
-        # Some checkpoints echo the whole dialogue; try to keep the assistant bit
-        if not raw:
-            # Retry text-only if something went wrong with images
+        if not full_text:
             messages = self._build_chat(question, question_type, num_images=0)
             text = self.processor.apply_chat_template(messages, add_generation_prompt=True)
             inputs = self.processor(text=[text], return_tensors="pt").to(self.model.device)
             gen_ids = self.model.generate(**inputs, max_new_tokens=128)
             text_out = self.processor.batch_decode(gen_ids, skip_special_tokens=True)
-            raw = (text_out[0] if text_out else "").strip()
+            full_text = (text_out[0] if text_out else "").strip()
 
-        return split_rationale(raw)
+        # Return only one string; we'll parse assistant/rationale in caller
+        return full_text
 
 class OpenAICompatQwen(QwenBackend):
     def __init__(self, model: str, api_key: Optional[str] = None, base_url: Optional[str] = None, debug: bool = False):
@@ -332,61 +310,75 @@ class OpenAICompatQwen(QwenBackend):
         return f"data:{mime};base64,{b64}"
 
     def answer(self, question: str, images: List[Path], question_type: str):
-        import re
-        guide = {
-            "Yes/No": "Answer strictly with Yes or No. If unsure, guess the most likely.",
-            "True/False": "Answer strictly with True or False. If unsure, guess the most likely.",
-            "Timestamp": "Answer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS."
-        }.get(question_type, "Answer concisely.")
-        sys_prompt = (
-            "You are a precise video QA assistant. You see key frames extracted from a video. "
-            "Use only visible evidence; be consistent with identities across frames. "
-            "If the question mentions timestamps, assume frames come from around those times.\n"
-            f"{guide} Then add one short sentence rationale starting with 'Because'."
-        )
         content = [{"type": "text", "text": question}]
         for p in images[:20]:
             content.append({"type": "input_image", "image_url": self._image_to_dataurl(p)})
 
-        if self.debug:
-            print(f"[DEBUG] OpenAI backend: sending {len(images[:20])} images")
-
         resp = self.client.chat.completions.create(
             model=self.model,
-            messages=[{"role": "system", "content": sys_prompt},
+            messages=[{"role": "system", "content":
+                       "You are a precise video QA assistant. You see key frames extracted from a video. "
+                       "Use only visible evidence; be consistent with identities across frames. "
+                       "If the question mentions timestamps, assume frames come from around those times. "
+                       "Answer strictly as requested and add one short sentence rationale starting with 'Because'."},
                       {"role": "user", "content": content}],
             temperature=0.0,
             max_tokens=128
         )
-        text = (resp.choices[0].message.content or "").strip()
-        m = re.search(r"(Because .+)$", text, flags=re.IGNORECASE | re.DOTALL)
-        if m:
-            return text[:m.start()].strip(), m.group(1).strip()
-        return text, ""
+        return (resp.choices[0].message.content or "").strip()
 
-# ---------------- Postprocess ----------------
+# ---------------- Parsing & Postprocess ----------------
+
+def extract_after_assistant(full_text: str) -> str:
+    """
+    If the model echoes 'system\\n... user\\n... assistant\\n<answer>',
+    strip everything up to and including the 'assistant' marker.
+    """
+    if not full_text:
+        return ""
+    m = re.search(r'(?:^|\n)assistant\s*\n?', full_text, flags=re.IGNORECASE)
+    if m:
+        return full_text[m.end():].strip()
+    return full_text.strip()
+
+def split_answer_and_rationale(assistant_text: str) -> Tuple[str, str]:
+    """
+    Split assistant text into the main answer and trailing rationale
+    starting with 'Because ...'. Returns (answer_only, rationale_text).
+    """
+    if not assistant_text:
+        return "", ""
+    m = re.search(r"(Because .+)$", assistant_text, flags=re.IGNORECASE | re.DOTALL)
+    if m:
+        return assistant_text[:m.start()].strip(), m.group(1).strip()
+    return assistant_text.strip(), ""
 
 def normalize_answer(raw: str, question_type: str) -> str:
-    txt = (raw or "").strip().lower()
+    txt = (raw or "").strip()
+    low = txt.lower()
+
     if question_type == "Yes/No":
-        if "yes" in txt and "no" not in txt:
-            return "Yes"
-        if "no" in txt and "yes" not in txt:
-            return "No"
-        return "Yes" if txt.startswith("y") else "No" if txt.startswith("n") else raw
+        if "yes" in low and "no" not in low: return "Yes"
+        if "no" in low and "yes" not in low: return "No"
+        if low.startswith("y"): return "Yes"
+        if low.startswith("n"): return "No"
+        return txt
+
     if question_type == "True/False":
-        if "true" in txt and "false" not in txt:
-            return "True"
-        if "false" in txt and "true" not in txt:
-            return "False"
-        return "True" if txt.startswith("t") else "False" if txt.startswith("f") else raw
+        if "true" in low and "false" not in low: return "True"
+        if "false" in low and "true" not in low: return "False"
+        if low.startswith("t"): return "True"
+        if low.startswith("f"): return "False"
+        return txt
+
     if question_type == "Timestamp":
-        m = re.search(r"\b(\d{2}):(\d{2})(?::(\d{2}))?\b", raw or "")
+        m = TIMECODE_RE.search(txt)
         if m:
             hh, mm, ss = m.group(1), m.group(2), m.group(3) or "00"
             return f"{int(hh):02d}:{int(mm):02d}:{int(ss):02d}"
-        return raw
-    return raw
+        return txt
+
+    return txt
 
 # ---------------- Core ----------------
 
@@ -460,16 +452,45 @@ def run(
         full_q = f"{question}\n\nConstraints: {directive}"
 
         try:
-            raw_text, rationale = qwen.answer(full_q, images, qtype)
-            model_answer = normalize_answer(raw_text, qtype)
+            full_text = qwen.answer(full_q, images, qtype)
+
+            # Keep full text for debugging regardless
+            model_raw_text = full_text
+
+            # 1) Cut to the assistant segment
+            assistant_text = extract_after_assistant(full_text)
+
+            # 2) Split off rationale
+            ans_main, rationale = split_answer_and_rationale(assistant_text)
+
+            # 3) Normalize main
+            model_answer = normalize_answer(ans_main, qtype).strip()
+
+            # 4) Fallbacks
+            if qtype in ("Yes/No", "True/False"):
+                if not model_answer or model_answer.lower() in ("system", "user", "assistant"):
+                    # try pulling from rationale if it accidentally held the token
+                    fallback = normalize_answer(rationale, qtype).strip()
+                    if fallback and fallback.lower() not in ("system", "user", "assistant"):
+                        model_answer = fallback
+
+            elif qtype == "Timestamp":
+                # If assistant text has no time, try rationale for a time; else set 00:00:00
+                if not has_timecode(model_answer):
+                    alt = normalize_answer(rationale, qtype).strip()
+                    if has_timecode(alt):
+                        model_answer = alt
+                    else:
+                        model_answer = "00:00:00"
+
         except Exception as e:
-            raw_text = f"[ERROR] {type(e).__name__}: {e}"
+            model_raw_text = f"[ERROR] {type(e).__name__}: {e}"
             rationale = ""
             model_answer = "[ERROR]"
 
-        out_item = dict(item)  # keep original fields
+        out_item = dict(item)
         out_item["model_answer"] = model_answer
-        out_item["model_raw"] = raw_text
+        out_item["model_raw"] = model_raw_text
         if add_rationale and rationale:
             out_item["model_rationale"] = rationale
         if vpath:

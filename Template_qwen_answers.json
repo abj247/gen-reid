@@ -1,0 +1,811 @@
+[
+  {
+    "id": "--oCWVOBuvA",
+    "question_type": "True/False",
+    "question": "True or False: The man wearing the dark short-sleeved shirt at 00:03 is wearing a different outfit when he is speaking in the close-up at 01:45.",
+    "answer": "False",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The man wearing the dark short-sleeved shirt at 00:03 is wearing a different outfit when he is speaking in the close-up at 01:45.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/--oCWVOBuvA.mp4"
+  },
+  {
+    "id": "--oCWVOBuvA",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the woman seen standing in the garage at 00:05 the same person shown near steering wheel of the car at 00:11?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the woman seen standing in the garage at 00:05 the same person shown near steering wheel of the car at 00:11?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/--oCWVOBuvA.mp4"
+  },
+  {
+    "id": "--oCWVOBuvA",
+    "question_type": "Timestamp",
+    "question": "After the scene cuts to the woman in the car (00:11), at what timestamp does the man (in the dark shirt) first reappear, walking towards the car?",
+    "answer": "00:13",
+    "model_answer": "00:11:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAfter the scene cuts to the woman in the car (00:11), at what timestamp does the man (in the dark shirt) first reappear, walking towards the car?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:11",
+    "model_rationale": "Because 00:11",
+    "video_path": "Template Videos/--oCWVOBuvA.mp4"
+  },
+  {
+    "id": "--oCWVOBuvA",
+    "question_type": "True/False",
+    "question": "True or False: The person who fiddles with a small object by the car door at 00:25 is the same person who is later seen holding a long metal tool (lug wrench) at 01:19.",
+    "answer": "True",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The person who fiddles with a small object by the car door at 00:25 is the same person who is later seen holding a long metal tool (lug wrench) at 01:19.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/--oCWVOBuvA.mp4"
+  },
+  {
+    "id": "--oCWVOBuvA",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the woman (in the light-colored shirt) continuously visible on screen from 01:30 until 02:13?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the woman (in the light-colored shirt) continuously visible on screen from 01:30 until 02:13?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/--oCWVOBuvA.mp4"
+  },
+  {
+    "id": "--oCWVOBuvA",
+    "question_type": "Timestamp",
+    "question": "What is the timestamp of the *last* frame where the man and the woman are both visible on screen together before the ending montage begins?",
+    "answer": "02:13",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nWhat is the timestamp of the *last* frame where the man and the woman are both visible on screen together before the ending montage begins?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\n1:00",
+    "video_path": "Template Videos/--oCWVOBuvA.mp4"
+  },
+  {
+    "id": "--oCWVOBuvA",
+    "question_type": "True/False",
+    "question": "True or False: The woman's hairstyle (tied back) is consistent in her first appearance at 00:01 and her final close-up at 02:05.",
+    "answer": "True",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The woman's hairstyle (tied back) is consistent in her first appearance at 00:01 and her final close-up at 02:05.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/--oCWVOBuvA.mp4"
+  },
+  {
+    "id": "--UgPWRVt8A",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the baseball player shown pitching in a 'PIRATES 17' uniform at 00:02 the same person shown on the field at 03:06?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the baseball player shown pitching in a 'PIRATES 17' uniform at 00:02 the same person shown on the field at 03:06?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/--UgPWRVt8A.mp4"
+  },
+  {
+    "id": "--UgPWRVt8A",
+    "question_type": "True/False",
+    "question": "True or False: The man shown in the newspaper photograph at 00:15 is wearing the same 'PIRATES 17' uniform as the man pitching at 00:02.",
+    "answer": "True",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The man shown in the newspaper photograph at 00:15 is wearing the same 'PIRATES 17' uniform as the man pitching at 00:02.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/--UgPWRVt8A.mp4"
+  },
+  {
+    "id": "--UgPWRVt8A",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the man speaking at the podium at 02:13 the same person (Dock Ellis) shown in the baseball uniform at the start of the video?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the man speaking at the podium at 02:13 the same person (Dock Ellis) shown in the baseball uniform at the start of the video?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/--UgPWRVt8A.mp4"
+  },
+  {
+    "id": "--UgPWRVt8A",
+    "question_type": "True/False",
+    "question": "True or False: The man being interviewed at 01:19 (wearing an orange polo shirt) and the man being interviewed at 01:51 (wearing a 'Willie Stargell' cap) are the same person.",
+    "answer": "False",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The man being interviewed at 01:19 (wearing an orange polo shirt) and the man being interviewed at 01:51 (wearing a 'Willie Stargell' cap) are the same person.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/--UgPWRVt8A.mp4"
+  },
+  {
+    "id": "--UgPWRVt8A",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the man wearing the black 'Willie Stargell' cap and black/yellow shirt first appear?",
+    "answer": "01:51",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the man wearing the black 'Willie Stargell' cap and black/yellow shirt first appear?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause [00:00:00.00]",
+    "model_rationale": "Because [00:00:00.00]",
+    "video_path": "Template Videos/--UgPWRVt8A.mp4"
+  },
+  {
+    "id": "--UgPWRVt8A",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the man (Dock Ellis) last appear on screen wearing his 'PIRATES 17' uniform?",
+    "answer": "03:14",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the man (Dock Ellis) last appear on screen wearing his 'PIRATES 17' uniform?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:00",
+    "model_rationale": "Because 00:00:00",
+    "video_path": "Template Videos/--UgPWRVt8A.mp4"
+  },
+  {
+    "id": "-2KGPYEFnsU",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the woman sitting alone in the restaurant at 00:01 the same person talking on a cell phone at 00:14?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the woman sitting alone in the restaurant at 00:01 the same person talking on a cell phone at 00:14?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-2KGPYEFnsU.mp4"
+  },
+  {
+    "id": "-2KGPYEFnsU",
+    "question_type": "True/False",
+    "question": "True or False: The man working in the office at 00:08 is a different person from the man talking on the landline phone at 00:21.",
+    "answer": "False",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The man working in the office at 00:08 is a different person from the man talking on the landline phone at 00:21.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-2KGPYEFnsU.mp4"
+  },
+  {
+    "id": "-2KGPYEFnsU",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the woman with dark hair wearing a grey top first appear?",
+    "answer": "00:35",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the woman with dark hair wearing a grey top first appear?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:00",
+    "model_rationale": "Because 00:00:00",
+    "video_path": "Template Videos/-2KGPYEFnsU.mp4"
+  },
+  {
+    "id": "-2KGPYEFnsU",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the blonde woman seen talking in the kitchen at 00:42 the same person as the man seen working in the office at 00:06?",
+    "answer": "No",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the blonde woman seen talking in the kitchen at 00:42 the same person as the man seen working in the office at 00:06?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-2KGPYEFnsU.mp4"
+  },
+  {
+    "id": "-2KGPYEFnsU",
+    "question_type": "True/False",
+    "question": "True or False: The person seen in the restaurant at 00:03 and the person sitting on the right (from the viewer's perspective) at the kitchen island at 00:39 are the same individual.",
+    "answer": "True",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The person seen in the restaurant at 00:03 and the person sitting on the right (from the viewer's perspective) at the kitchen island at 00:39 are the same individual.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-2KGPYEFnsU.mp4"
+  },
+  {
+    "id": "-2KGPYEFnsU",
+    "question_type": "Timestamp",
+    "question": "What is the timestamp of the *last* frame where the man in the white shirt and red tie appears?",
+    "answer": "00:32",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nWhat is the timestamp of the *last* frame where the man in the white shirt and red tie appears?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:00",
+    "model_rationale": "Because 00:00:00",
+    "video_path": "Template Videos/-2KGPYEFnsU.mp4"
+  },
+  {
+    "id": "-2LmKW3TtuI",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the boy in the red shirt at 00:01 the same person as the boy in the black sleeveless shirt at 00:04?",
+    "answer": "No",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the boy in the red shirt at 00:01 the same person as the boy in the black sleeveless shirt at 00:04?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-2LmKW3TtuI.mp4"
+  },
+  {
+    "id": "-2LmKW3TtuI",
+    "question_type": "True/False",
+    "question": "True or False: The boy in the black sleeveless shirt at 00:04 is the same person who stands up holding an oar at 01:33.",
+    "answer": "True",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The boy in the black sleeveless shirt at 00:04 is the same person who stands up holding an oar at 01:33.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-2LmKW3TtuI.mp4"
+  },
+  {
+    "id": "-2LmKW3TtuI",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the boy in the red shirt (George) first stand up in the boat?",
+    "answer": "01:31",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the boy in the red shirt (George) first stand up in the boat?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:00",
+    "model_rationale": "Because 00:00:00",
+    "video_path": "Template Videos/-2LmKW3TtuI.mp4"
+  },
+  {
+    "id": "-2LmKW3TtuI",
+    "question_type": "True/False",
+    "question": "True or False: The boy in the blue/grey shirt (Sam) and the girl with blonde hair (Millie), both seen at 00:15, are also visible in the shot at 01:39.",
+    "answer": "True",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The boy in the blue/grey shirt (Sam) and the girl with blonde hair (Millie), both seen at 00:15, are also visible in the shot at 01:39.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-2LmKW3TtuI.mp4"
+  },
+  {
+    "id": "-2LmKW3TtuI",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the person shown in the close-up at 00:49 (George, red shirt) the same person shown in the angry close-up at 02:00?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the person shown in the close-up at 00:49 (George, red shirt) the same person shown in the angry close-up at 02:00?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-2LmKW3TtuI.mp4"
+  },
+  {
+    "id": "-2LmKW3TtuI",
+    "question_type": "Timestamp",
+    "question": "What is the timestamp of the first clear group shot showing the boy in the red shirt (George) *and* the boy in the brown striped polo shirt in the boat together?",
+    "answer": "01:39",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nWhat is the timestamp of the first clear group shot showing the boy in the red shirt (George) *and* the boy in the brown striped polo shirt in the boat together?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:00",
+    "model_rationale": "Because 00:00:00",
+    "video_path": "Template Videos/-2LmKW3TtuI.mp4"
+  },
+  {
+    "id": "-3ywc_7_IE8",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the boxer with dark hair seen at 00:11 the same person celebrating in the ring at 01:46?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the boxer with dark hair seen at 00:11 the same person celebrating in the ring at 01:46?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-3ywc_7_IE8.mp4"
+  },
+  {
+    "id": "-3ywc_7_IE8",
+    "question_type": "True/False",
+    "question": "True or False: The man seen cheering enthusiastically at ringside at 00:29 is a different person from the man who enters the locker room at 02:04.",
+    "answer": "False",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The man seen cheering enthusiastically at ringside at 00:29 is a different person from the man who enters the locker room at 02:04.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-3ywc_7_IE8.mp4"
+  },
+  {
+    "id": "-3ywc_7_IE8",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the boxer who is knocked down at 01:36 first get a clear close-up of his face?",
+    "answer": "00:12",
+    "model_answer": "01:36:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the boxer who is knocked down at 01:36 first get a clear close-up of his face?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause [01:36]",
+    "model_rationale": "Because [01:36]",
+    "video_path": "Template Videos/-3ywc_7_IE8.mp4"
+  },
+  {
+    "id": "-3ywc_7_IE8",
+    "question_type": "True/False",
+    "question": "True or False: The boxer wearing green trunks at 00:52 is the same person celebrating with his arms raised by the referee at 01:49.",
+    "answer": "False",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The boxer wearing green trunks at 00:52 is the same person celebrating with his arms raised by the referee at 01:49.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-3ywc_7_IE8.mp4"
+  },
+  {
+    "id": "-3ywc_7_IE8",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Are the two men talking in the locker room (starting at 02:03) the same two men seen celebrating together *in the ring* at 01:47?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Are the two men talking in the locker room (starting at 02:03) the same two men seen celebrating together *in the ring* at 01:47?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-3ywc_7_IE8.mp4"
+  },
+  {
+    "id": "-3ywc_7_IE8",
+    "question_type": "Timestamp",
+    "question": "What is the timestamp of the *last* frame where the man in the striped shirt and vest is seen *at ringside* before he climbs into the ring?",
+    "answer": "01:43",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nWhat is the timestamp of the *last* frame where the man in the striped shirt and vest is seen *at ringside* before he climbs into the ring?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:00",
+    "model_rationale": "Because 00:00:00",
+    "video_path": "Template Videos/-3ywc_7_IE8.mp4"
+  },
+  {
+    "id": "-3ywc_7_IE8",
+    "question_type": "Yes/No",
+    "question": "Is the man sitting on the bench in the locker room at 02:16 the same person as the man seen at the 'NBC' microphone at 01:02?",
+    "answer": "No",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nIs the man sitting on the bench in the locker room at 02:16 the same person as the man seen at the 'NBC' microphone at 01:02?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-3ywc_7_IE8.mp4"
+  },
+  {
+    "id": "-4kio7152q4",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the man looking through binoculars at 00:00 the same person drinking a green drink at 00:49?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the man looking through binoculars at 00:00 the same person drinking a green drink at 00:49?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-4kio7152q4.mp4"
+  },
+  {
+    "id": "-4kio7152q4",
+    "question_type": "Yes/No",
+    "question": "Is the person seen swimming in the distance at 00:08 the same woman who walks out of the water at 00:38?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nIs the person seen swimming in the distance at 00:08 the same woman who walks out of the water at 00:38?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-4kio7152q4.mp4"
+  },
+  {
+    "id": "-4kio7152q4",
+    "question_type": "True/False",
+    "question": "True or False: The woman seen emerging from the water through the binoculars at 00:19 is a different person from the woman seen talking to the man at 01:03.",
+    "answer": "False",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The woman seen emerging from the water through the binoculars at 00:19 is a different person from the woman seen talking to the man at 01:03.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-4kio7152q4.mp4"
+  },
+  {
+    "id": "-4kio7152q4",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the woman in the orange bikini first walk up to and stand in front of the man in the blue shirt?",
+    "answer": "00:57",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the woman in the orange bikini first walk up to and stand in front of the man in the blue shirt?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:00",
+    "model_rationale": "Because 00:00:00",
+    "video_path": "Template Videos/-4kio7152q4.mp4"
+  },
+  {
+    "id": "-4kio7152q4",
+    "question_type": "True/False",
+    "question": "True or False: The man in the blue shirt and the woman in the orange bikini are never in the same shot together.",
+    "answer": "False",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The man in the blue shirt and the woman in the orange bikini are never in the same shot together.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-4kio7152q4.mp4"
+  },
+  {
+    "id": "-4kio7152q4",
+    "question_type": "Timestamp",
+    "question": "What is the timestamp of the *last* frame where the man in the blue shirt is actively looking through the binoculars?",
+    "answer": "00:35",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nWhat is the timestamp of the *last* frame where the man in the blue shirt is actively looking through the binoculars?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\n1:00",
+    "video_path": "Template Videos/-4kio7152q4.mp4"
+  },
+  {
+    "id": "-4Qk4eACpXI",
+    "question_type": "True/False",
+    "question": "True or False: The man typing on the briefcase laptop at 00:01 is the same person who gets up to fight the masked attacker at 00:53.",
+    "answer": "True",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The man typing on the briefcase laptop at 00:01 is the same person who gets up to fight the masked attacker at 00:53.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-4Qk4eACpXI.mp4"
+  },
+  {
+    "id": "-4Qk4eACpXI",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the man lying on the floor at 02:10 the same person who was originally using the computers at the beginning of the video?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the man lying on the floor at 02:10 the same person who was originally using the computers at the beginning of the video?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-4Qk4eACpXI.mp4"
+  },
+  {
+    "id": "-4Qk4eACpXI",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the man wearing a shirt, tie, and shoulder holster first appear on screen?",
+    "answer": "02:03",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the man wearing a shirt, tie, and shoulder holster first appear on screen?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause [00:00:00.00]",
+    "model_rationale": "Because [00:00:00.00]",
+    "video_path": "Template Videos/-4Qk4eACpXI.mp4"
+  },
+  {
+    "id": "-4Qk4eACpXI",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the first masked person who attacks the man at the console (at 00:45) the same person who later appears holding a gun at 02:08?",
+    "answer": "No",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the first masked person who attacks the man at the console (at 00:45) the same person who later appears holding a gun at 02:08?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-4Qk4eACpXI.mp4"
+  },
+  {
+    "id": "-4Qk4eACpXI",
+    "question_type": "True/False",
+    "question": "True or False: The masked attacker in the dark top who first grabs the man at 00:45 is the same person as the masked attacker in the grey shirt seen at 01:51.",
+    "answer": "False",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The masked attacker in the dark top who first grabs the man at 00:45 is the same person as the masked attacker in the grey shirt seen at 01:51.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-4Qk4eACpXI.mp4"
+  },
+  {
+    "id": "-4Qk4eACpXI",
+    "question_type": "Timestamp",
+    "question": "What is the timestamp of the *last* frame where the man who was first attacked is seen lying on the floor?",
+    "answer": "02:58",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nWhat is the timestamp of the *last* frame where the man who was first attacked is seen lying on the floor?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:00",
+    "model_rationale": "Because 00:00:00",
+    "video_path": "Template Videos/-4Qk4eACpXI.mp4"
+  },
+  {
+    "id": "--b-8xt2PeE",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the man in the suit and gold tie seen standing at 00:01 the same person who sits down in the chair at 01:19?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the man in the suit and gold tie seen standing at 00:01 the same person who sits down in the chair at 01:19?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/--b-8xt2PeE.mp4"
+  },
+  {
+    "id": "--b-8xt2PeE",
+    "question_type": "True/False",
+    "question": "True or False: The man sitting at the desk in the green blazer at 00:03 remains seated for the entire video clip.",
+    "answer": "False",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The man sitting at the desk in the green blazer at 00:03 remains seated for the entire video clip.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/--b-8xt2PeE.mp4"
+  },
+  {
+    "id": "--b-8xt2PeE",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the man in the green blazer (first seen at 00:03) first stand up from his desk?",
+    "answer": "00:45",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the man in the green blazer (first seen at 00:03) first stand up from his desk?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:00",
+    "model_rationale": "Because 00:00:00",
+    "video_path": "Template Videos/--b-8xt2PeE.mp4"
+  },
+  {
+    "id": "--b-8xt2PeE",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the man in the suit and gold tie (first seen at 00:00) the same person as the man in the green blazer (first seen at 00:03)?",
+    "answer": "No",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the man in the suit and gold tie (first seen at 00:00) the same person as the man in the green blazer (first seen at 00:03)?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/--b-8xt2PeE.mp4"
+  },
+  {
+    "id": "--b-8xt2PeE",
+    "question_type": "Timestamp",
+    "question": "At what timestamp do both men first appear on screen sitting at the desk together?",
+    "answer": "01:19",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp do both men first appear on screen sitting at the desk together?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:00",
+    "model_rationale": "Because 00:00:00",
+    "video_path": "Template Videos/--b-8xt2PeE.mp4"
+  },
+  {
+    "id": "--b-8xt2PeE",
+    "question_type": "True/False",
+    "question": "True or False: The man in the green blazer is standing and talking to the man in the suit (who is also standing) at 00:57.",
+    "answer": "True",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The man in the green blazer is standing and talking to the man in the suit (who is also standing) at 00:57.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/--b-8xt2PeE.mp4"
+  },
+  {
+    "id": "--b-8xt2PeE",
+    "question_type": "Timestamp",
+    "question": "What is the timestamp of the *last* frame where the man in the green blazer is seen standing before he sits back down?",
+    "answer": "01:17",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nWhat is the timestamp of the *last* frame where the man in the green blazer is seen standing before he sits back down?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:00",
+    "model_rationale": "Because 00:00:00",
+    "video_path": "Template Videos/--b-8xt2PeE.mp4"
+  },
+  {
+    "id": "--hendERqm0",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the dog wearing the orange pumpkin shirt at 00:10 the same dog seen wearing the small red hat at 00:25?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the dog wearing the orange pumpkin shirt at 00:10 the same dog seen wearing the small red hat at 00:25?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/--hendERqm0.mp4"
+  },
+  {
+    "id": "--hendERqm0",
+    "question_type": "True/False",
+    "question": "True or False: The dog sitting behind the camera at 00:12 is the same dog wearing the ghost costume at 00:57.",
+    "answer": "False",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The dog sitting behind the camera at 00:12 is the same dog wearing the ghost costume at 00:57.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/--hendERqm0.mp4"
+  },
+  {
+    "id": "--hendERqm0",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the dog in the orange pumpkin shirt (first seen at 00:10) reappear wearing a straw hat and surrounded by pumpkins?",
+    "answer": "01:14",
+    "model_answer": "00:10:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the dog in the orange pumpkin shirt (first seen at 00:10) reappear wearing a straw hat and surrounded by pumpkins?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause [00:10]",
+    "model_rationale": "Because [00:10]",
+    "video_path": "Template Videos/--hendERqm0.mp4"
+  },
+  {
+    "id": "--hendERqm0",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the dog wearing the black top hat and ghost sheet at 00:57 the same dog wearing the black bowler hat and ghost sheet at 01:08?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the dog wearing the black top hat and ghost sheet at 00:57 the same dog wearing the black bowler hat and ghost sheet at 01:08?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/--hendERqm0.mp4"
+  },
+  {
+    "id": "--hendERqm0",
+    "question_type": "True/False",
+    "question": "True or False: The dog wearing the red hat at 00:38 is a different dog from the one wearing the black hat and glasses at 00:17.",
+    "answer": "False",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The dog wearing the red hat at 00:38 is a different dog from the one wearing the black hat and glasses at 00:17.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/--hendERqm0.mp4"
+  },
+  {
+    "id": "--hendERqm0",
+    "question_type": "Timestamp",
+    "question": "What is the timestamp of the *first* appearance of the dog sitting behind the DSLR camera?",
+    "answer": "00:12",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nWhat is the timestamp of the *first* appearance of the dog sitting behind the DSLR camera?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\n00:00:00",
+    "video_path": "Template Videos/--hendERqm0.mp4"
+  },
+  {
+    "id": "-0f67QE-HP8",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the adult emperor penguin singing on the ice at 00:00 the same penguin (Mumble) that is chased by the leopard seal at 00:17?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the adult emperor penguin singing on the ice at 00:00 the same penguin (Mumble) that is chased by the leopard seal at 00:17?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-0f67QE-HP8.mp4"
+  },
+  {
+    "id": "-0f67QE-HP8",
+    "question_type": "True/False",
+    "question": "True or False: The penguin that lands on the leopard seal's head at 00:54 is the same penguin that is seen swimming up the ice wall at 01:28.",
+    "answer": "True",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The penguin that lands on the leopard seal's head at 00:54 is the same penguin that is seen swimming up the ice wall at 01:28.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-0f67QE-HP8.mp4"
+  },
+  {
+    "id": "-0f67QE-HP8",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the adult emperor penguin (first seen at 00:00) first reappear *after* the chase begins at 00:16?",
+    "answer": "01:23",
+    "model_answer": "00:16:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the adult emperor penguin (first seen at 00:00) first reappear *after* the chase begins at 00:16?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:16",
+    "model_rationale": "Because 00:16",
+    "video_path": "Template Videos/-0f67QE-HP8.mp4"
+  },
+  {
+    "id": "-0f67QE-HP8",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the leopard seal that attacks at 00:16 the same leopard seal seen lying on the ice at 01:43?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the leopard seal that attacks at 00:16 the same leopard seal seen lying on the ice at 01:43?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-0f67QE-HP8.mp4"
+  },
+  {
+    "id": "-0f67QE-HP8",
+    "question_type": "True/False",
+    "question": "True or False: The adult emperor penguin (seen at 01:45) and the young fluffy penguin (Mumble, seen at 01:45) are both still present on the ice at 02:50.",
+    "answer": "True",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The adult emperor penguin (seen at 01:45) and the young fluffy penguin (Mumble, seen at 01:45) are both still present on the ice at 02:50.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-0f67QE-HP8.mp4"
+  },
+  {
+    "id": "-0f67QE-HP8",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the young fluffy penguin (Mumble) first appear in the video?",
+    "answer": "00:17",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the young fluffy penguin (Mumble) first appear in the video?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause [00:00:00.00]",
+    "model_rationale": "Because [00:00:00.00]",
+    "video_path": "Template Videos/-0f67QE-HP8.mp4"
+  },
+  {
+    "id": "-0SHIbuEO3w",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the man seen running on the rooftops at 00:04 the same person skateboarding down the hill at 00:23?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the man seen running on the rooftops at 00:04 the same person skateboarding down the hill at 00:23?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-0SHIbuEO3w.mp4"
+  },
+  {
+    "id": "-0SHIbuEO3w",
+    "question_type": "True/False",
+    "question": "True or False: The bald man in the grey tank top is seen running on foot, then skateboarding, then running on foot again.",
+    "answer": "True",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The bald man in the grey tank top is seen running on foot, then skateboarding, then running on foot again.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-0SHIbuEO3w.mp4"
+  },
+  {
+    "id": "-0SHIbuEO3w",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the man in the grey tank top (first seen at 00:04) first appear on foot *after* the skateboarding sequence?",
+    "answer": "01:32",
+    "model_answer": "00:00:30",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the man in the grey tank top (first seen at 00:04) first appear on foot *after* the skateboarding sequence?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:30",
+    "model_rationale": "Because 00:00:30",
+    "video_path": "Template Videos/-0SHIbuEO3w.mp4"
+  },
+  {
+    "id": "-0SHIbuEO3w",
+    "question_type": "Yes/No",
+    "question": "Is the bald man skateboarding at 00:50 the same person talking to the truck driver at 00:53?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nIs the bald man skateboarding at 00:50 the same person talking to the truck driver at 00:53?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-0SHIbuEO3w.mp4"
+  },
+  {
+    "id": "-0SHIbuEO3w",
+    "question_type": "Timestamp",
+    "question": "At what timestamp is the man in the grey tank top last seen holding or riding the skateboard?",
+    "answer": "01:31",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp is the man in the grey tank top last seen holding or riding the skateboard?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause [00:00:00.000]",
+    "model_rationale": "Because [00:00:00.000]",
+    "video_path": "Template Videos/-0SHIbuEO3w.mp4"
+  },
+  {
+    "id": "-0SHIbuEO3w",
+    "question_type": "Yes/No",
+    "question": "Is the truck driver seen at 00:53 the same person as the man in the green/white striped shirt holding a gun at 01:51?",
+    "answer": "No",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nIs the truck driver seen at 00:53 the same person as the man in the green/white striped shirt holding a gun at 01:51?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-0SHIbuEO3w.mp4"
+  },
+  {
+    "id": "-1U0LH6dPfw",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the woman in the red dress on stage at 00:01 the same person who fights the large muscular man at 00:35?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the woman in the red dress on stage at 00:01 the same person who fights the large muscular man at 00:35?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-1U0LH6dPfw.mp4"
+  },
+  {
+    "id": "-1U0LH6dPfw",
+    "question_type": "True/False",
+    "question": "True or False: The three yellow creatures (Minions) seen in the audience at 00:13 are the same three creatures seen on stage at 01:43.",
+    "answer": "True",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The three yellow creatures (Minions) seen in the audience at 00:13 are the same three creatures seen on stage at 01:43.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-1U0LH6dPfw.mp4"
+  },
+  {
+    "id": "-1U0LH6dPfw",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the large muscular villain (first seen at 00:22) reappear, landing in the audience?",
+    "answer": "00:40",
+    "model_answer": "00:22:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the large muscular villain (first seen at 00:22) reappear, landing in the audience?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:22",
+    "model_rationale": "Because 00:22",
+    "video_path": "Template Videos/-1U0LH6dPfw.mp4"
+  },
+  {
+    "id": "-1U0LH6dPfw",
+    "question_type": "True/False",
+    "question": "True or False: The green reptilian creature seen at 00:24 and the man with the pompadour hair seen at 00:26 are the same person.",
+    "answer": "False",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The green reptilian creature seen at 00:24 and the man with the pompadour hair seen at 00:26 are the same person.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-1U0LH6dPfw.mp4"
+  },
+  {
+    "id": "-1U0LH6dPfw",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the small minion (Bob) who appears on stage at 00:49 the same character who is given the teddy bear at 02:04?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the small minion (Bob) who appears on stage at 00:49 the same character who is given the teddy bear at 02:04?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-1U0LH6dPfw.mp4"
+  },
+  {
+    "id": "-1U0LH6dPfw",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the woman in the red dress first reappear *after* the pile of villains forms on the sword (01:19)?",
+    "answer": "01:22",
+    "model_answer": "01:19:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the woman in the red dress first reappear *after* the pile of villains forms on the sword (01:19)?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 01:19",
+    "model_rationale": "Because 01:19",
+    "video_path": "Template Videos/-1U0LH6dPfw.mp4"
+  },
+  {
+    "id": "-1W4xHNKvAk",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the man in the light blue button-down shirt seen at 00:01 the same person seen at 03:35?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the man in the light blue button-down shirt seen at 00:01 the same person seen at 03:35?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-1W4xHNKvAk.mp4"
+  },
+  {
+    "id": "-1W4xHNKvAk",
+    "question_type": "True/False",
+    "question": "True or False: The man wearing a black beanie and black hoodie at 00:07 is a different person from the man wearing only a white tank top at 02:53.",
+    "answer": "False",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The man wearing a black beanie and black hoodie at 00:07 is a different person from the man wearing only a white tank top at 02:53.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-1W4xHNKvAk.mp4"
+  },
+  {
+    "id": "-1W4xHNKvAk",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the man in the black beanie first take *off* his black zip-up hoodie?",
+    "answer": "02:53",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the man in the black beanie first take *off* his black zip-up hoodie?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:00",
+    "model_rationale": "Because 00:00:00",
+    "video_path": "Template Videos/-1W4xHNKvAk.mp4"
+  },
+  {
+    "id": "-1W4xHNKvAk",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the man who gets slapped at 01:20 the same person who gets punched at 03:21?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the man who gets slapped at 01:20 the same person who gets punched at 03:21?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-1W4xHNKvAk.mp4"
+  },
+  {
+    "id": "-1W4xHNKvAk",
+    "question_type": "True/False",
+    "question": "True or False: The man in the light blue shirt is continuously visible on screen from 00:15 to 00:45.",
+    "answer": "False",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The man in the light blue shirt is continuously visible on screen from 00:15 to 00:45.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-1W4xHNKvAk.mp4"
+  },
+  {
+    "id": "-1W4xHNKvAk",
+    "question_type": "Timestamp",
+    "question": "What is the timestamp of the *last* frame where the man in the white tank top is seen wearing the black beanie?",
+    "answer": "02:58",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nWhat is the timestamp of the *last* frame where the man in the white tank top is seen wearing the black beanie?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:00",
+    "model_rationale": "Because 00:00:00",
+    "video_path": "Template Videos/-1W4xHNKvAk.mp4"
+  },
+  {
+    "id": "-2KG4lLGEl0",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the man in the light blue shirt sitting on the couch at 00:03 the same person sitting in the chair at the desk at 01:04?",
+    "answer": "Yes",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the man in the light blue shirt sitting on the couch at 00:03 the same person sitting in the chair at the desk at 01:04?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-2KG4lLGEl0.mp4"
+  },
+  {
+    "id": "-2KG4lLGEl0",
+    "question_type": "True/False",
+    "question": "True or False: The man in the tan suit (on the left) and the man with glasses (in the middle) at 00:05 are the same people seen sitting in the same positions at 01:22.",
+    "answer": "True",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The man in the tan suit (on the left) and the man with glasses (in the middle) at 00:05 are the same people seen sitting in the same positions at 01:22.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-2KG4lLGEl0.mp4"
+  },
+  {
+    "id": "-2KG4lLGEl0",
+    "question_type": "Timestamp",
+    "question": "At what timestamp does the man in the light blue shirt first sit down in the chair at the desk?",
+    "answer": "01:03",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nAt what timestamp does the man in the light blue shirt first sit down in the chair at the desk?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:00",
+    "model_rationale": "Because 00:00:00",
+    "video_path": "Template Videos/-2KG4lLGEl0.mp4"
+  },
+  {
+    "id": "-2KG4lLGEl0",
+    "question_type": "Yes/No",
+    "question": "Yes or No: Is the man in the light blue shirt (first seen at 00:00) the same person as the man in the tan suit (first seen at 00:05)?",
+    "answer": "No",
+    "model_answer": "No",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nYes or No: Is the man in the light blue shirt (first seen at 00:00) the same person as the man in the tan suit (first seen at 00:05)?\n\nConstraints: Answer strictly Yes or No.\nassistant\nNo",
+    "video_path": "Template Videos/-2KG4lLGEl0.mp4"
+  },
+  {
+    "id": "-2KG4lLGEl0",
+    "question_type": "True/False",
+    "question": "True or False: The man standing in the background at 00:17 is the same person as the older, balding man sitting on the couch at 00:05.",
+    "answer": "False",
+    "model_answer": "False",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.\nuser\nTrue or False: The man standing in the background at 00:17 is the same person as the older, balding man sitting on the couch at 00:05.\n\nConstraints: Answer strictly True or False.\nassistant\nFalse",
+    "video_path": "Template Videos/-2KG4lLGEl0.mp4"
+  },
+  {
+    "id": "-2KG4lLGEl0",
+    "question_type": "Timestamp",
+    "question": "What is the timestamp of the *last* frame where the man in the light blue shirt is seen sitting on the couch before he stands up?",
+    "answer": "00:47",
+    "model_answer": "00:00:00",
+    "model_raw": "system\nYou are a precise video QA assistant. You see key frames extracted from a video. Use only visible evidence; be consistent with identities across frames. If the question mentions timestamps, assume frames come from around those times.\nAnswer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'.\nuser\nWhat is the timestamp of the *last* frame where the man in the light blue shirt is seen sitting on the couch before he stands up?\n\nConstraints: Answer strictly with a timestamp in HH:MM:SS.\nassistant\nBecause 00:00:00",
+    "model_rationale": "Because 00:00:00",
+    "video_path": "Template Videos/-2KG4lLGEl0.mp4"
+  }
+]
