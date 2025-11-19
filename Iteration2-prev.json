@@ -1,0 +1,1241 @@
+  [
+    {
+      "id": "-2LmKW3TtuI",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "Which of the following individuals is wearing a red t-shirt over a white long-sleeve shirt?",
+      "options": [
+        "A. The person at the front of the boat in a black sleeveless shirt",
+        "B. The person in the back of the boat with curly hair",
+        "C. The younger person in the blue/grey shirt",
+        "D. The person in the purple shirt"
+      ],
+      "answer": "B. The person in the back of the boat with curly hair"
+    },
+    {
+      "id": "-2LmKW3TtuI",
+      "category": "Activity-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person, who was previously seen sitting and holding a small camera, later stands up and begins to yell?",
+      "answer": "The person in the red t-shirt."
+    },
+    {
+      "id": "-2LmKW3TtuI",
+      "category": "Interaction-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person does the individual in the red shirt primarily direct his insults towards starting at 02:00, calling him a 'faggot'?",
+      "answer": "The person in the purple shirt."
+    },
+    {
+      "id": "-2LmKW3TtuI",
+      "category": "Temporal continuity",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the person in the black sleeveless shirt seen speaking at 00:04 still present at the front of the boat at 01:33?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-2LmKW3TtuI",
+      "category": "Cross-view matching",
+      "question_type": "Identity Confirmation",
+      "question": "Is the person shown in the forward-facing close-up at 00:01 (in the red shirt) the same person seen from behind (wearing a red shirt) in the over-the-shoulder shot at 01:05?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-2LmKW3TtuI",
+      "category": "Group-context based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person is sitting directly next to the blonde girl for the entire duration of the scene?",
+      "answer": "The younger boy in the blue/grey shirt."
+    },
+    {
+      "id": "-2LmKW3TtuI",
+      "category": "Environment-linked",
+      "question_type": "Descriptive Identification",
+      "question": "The person who reveals the plan (in the black sleeveless shirt)—where is he positioned in the boat?",
+      "answer": "He is sitting at the very front (bow) of the boat."
+    },
+    {
+      "id": "-2LmKW3TtuI",
+      "category": "Comparative",
+      "question_type": "Comparative",
+      "question": "Between the person in the red shirt and the person in the black sleeveless shirt, who is the one to stand up?",
+      "answer": "The person in the red shirt."
+    },
+    {
+      "id": "-2LmKW3TtuI",
+      "category": "Clothing-change tracking",
+      "question_type": "Identity Confirmation",
+      "question": "Is the person seen from the waist up in a red shirt at 00:02 the same person seen standing and wearing camouflage pants at 01:32?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-2LmKW3TtuI",
+      "category": "Temporal-appearance drift",
+      "question_type": "Hypothetical",
+      "question": "If the person in the red shirt were to get his hair wet later in the trip, could he still be identified by his distinctive clothing (red shirt, camo pants) and build?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-2LmKW3TtuI",
+      "category": "Cross-modal",
+      "question_type": "Descriptive Identification",
+      "question": "Which person in the boat says the line, 'I'm a man who likes to follow through with his plans'?",
+      "answer": "The person in the black sleeveless shirt."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "What distinctive feature does the main person (the skateboarder) have on his left arm?",
+      "options": [
+        "A. A large burn scar",
+        "B. A prominent tattoo",
+        "C. A watch",
+        "D. A brightly colored sleeve"
+      ],
+      "answer": "B. A prominent tattoo"
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Activity-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person is seen riding a skateboard downhill after grabbing it from a group of people?",
+      "answer": "The bald man with a tattoo on his left arm (wearing a backpack and white pants)."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Interaction-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person briefly grabs onto the side of a red pickup truck to talk to the elderly driver?",
+      "answer": "The bald man on the skateboard."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Temporal continuity",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the person seen running over rooftops at the beginning of the clip (00:02-00:07) the same person who dives into a shack at the end (01:48)?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Cross-view matching",
+      "question_type": "Identity Confirmation",
+      "question": "Is the person seen from an overhead drone shot at 00:21 the same person seen in the close-up holding a phone at 01:38?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Group-context based",
+      "question_type": "Descriptive Identification",
+      "question": "Who is being chased by three men on motorcycles at 00:43?",
+      "answer": "The bald man on the skateboard."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Environment-linked",
+      "question_type": "Descriptive Identification",
+      "question": "The person who starts a timer at 00:10—where does he end up as the timer hits 2 seconds (01:59)?",
+      "answer": "Inside a shack in a salt flat/industrial area."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Comparative",
+      "question_type": "Comparative",
+      "question": "Between the man on the skateboard and the men on the motorcycles, who appears on the downhill road first?",
+      "answer": "The man on the skateboard."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Clothing-change tracking",
+      "question_type": "Identity Confirmation",
+      "question": "Does the man running through the jungle at 00:08 have the same backpack as the man who grabs the skateboard at 00:16?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Temporal-appearance drift",
+      "question_type": "Identity Confirmation",
+      "question": "Does the bald man on the skateboard ever remove his backpack during the entire chase sequence?",
+      "answer": "No."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Cross-modal",
+      "question_type": "Descriptive Identification",
+      "question": "Which person says the line, 'Hey friend... give me a second'?",
+      "answer": "The bald man on the skateboard."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "Which of the following is the main character on stage at the start of the clip (00:01)?",
+      "options": [
+        "A. A small yellow creature in overalls.",
+        "B. A large muscular man with black hair.",
+        "C. A tall woman in a red dress.",
+        "D. A green reptilian creature."
+      ],
+      "answer": "C. A tall woman in a red dress."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Activity-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which character successfully pulls the sword from the stage floor at 01:11?",
+      "answer": "The small, two-eyed yellow creature."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Interaction-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which group of characters does the woman in the red dress hire as her new henchmen at 02:07?",
+      "answer": "The three small yellow creatures."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Temporal continuity",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the woman holding the ruby on stage at 00:05 the same woman who is holding a teddy bear at 01:34?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Cross-view matching",
+      "question_type": "Identity Confirmation",
+      "question": "Are the three yellow creatures seen in the audience at 00:13 the same three creatures seen on stage at 01:55?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Group-context based",
+      "question_type": "Descriptive Identification",
+      "question": "Which three characters are seen running onto the stage together from the audience at 00:43?",
+      "answer": "The three small yellow creatures."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Environment-linked",
+      "question_type": "Descriptive Identification",
+      "question": "The small, two-eyed yellow creature who pulls the sword from the stage—where was he sitting at 00:13?",
+      "answer": "In the audience."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Comparative",
+      "question_type": "Comparative",
+      "question": "Between the muscular man (00:22) and the reptilian man (00:25), who jumps onto the stage first?",
+      "answer": "The muscular man."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Clothing-change tracking",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the ruby held by the woman in the red dress at 00:05 the same object held by the small, two-eyed yellow creature at 01:40?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Temporal-appearance drift",
+      "question_type": "Descriptive Identification",
+      "question": "Which defeated character is seen at the bottom of the villain pile-up at 01:19?",
+      "answer": "The green reptilian creature."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Cross-modal",
+      "question_type": "Descriptive Identification",
+      "question": "Which character says the line, 'Who has the ruby?'",
+      "answer": "The woman in the red dress."
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "Which of the following individuals is wearing a light blue button-down shirt and black pants?",
+      "options": [
+        "A. The shorter man wearing a beanie",
+        "B. The tall man with curly hair",
+        "C. The man in the red shirt at the gate",
+        "D. The persona acting as a romantic interest"
+      ],
+      "answer": "B. The tall man with curly hair"
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Activity-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person in the yard pretends to be three different characters (a gang leader, another gang leader, and a romantic interest)?",
+      "answer": "The shorter man in the black beanie."
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Interaction-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which character 'persona' (the romantic interest, the first gang leader, or the second gang leader) attempts to hug and 'claim' the tall man at 02:08?",
+      "answer": "The persona acting as a romantic interest."
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Temporal continuity",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the tall man with curly hair who first enters the 'yard' at 00:01 the same person who asks about 'French gangs' at 03:30?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Cross-view matching",
+      "question_type": "Identity Confirmation",
+      "question": "Is the man seen from behind with yellow text on his shirt at 00:13 the same man seen from the front at 00:15 (the tall man with curly hair)?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Group-context based",
+      "question_type": "Descriptive Identification",
+      "question": "Which 'gang leader' persona (the one in the hoodie or the one who is shirtless) confronts the other about the tall man at 01:55?",
+      "answer": "The persona in the hoodie confronts the shirtless persona."
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Environment-linked",
+      "question_type": "Descriptive Identification",
+      "question": "The person in the black beanie points to what kind of warning sign at 00:09?",
+      "answer": "A 'High Voltage Instant Death' sign."
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Comparative",
+      "question_type": "Comparative",
+      "question": "Between the two main individuals, who is significantly taller?",
+      "answer": "The man in the blue shirt."
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Clothing-change tracking",
+      "question_type": "Identity Confirmation",
+      "question": "Is the person wearing only a white tank top at 02:53 (as the romantic persona) the same person who is wearing a black hoodie over the tank top at 03:01 (as the first gang leader persona)?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Temporal-appearance drift",
+      "question_type": "Identity Confirmation",
+      "question": "Does the tall man with curly hair ever remove his blue button-down shirt during the clip?",
+      "answer": "No."
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Cross-modal",
+      "question_type": "Descriptive Identification",
+      "question": "Which person says the line, 'From this point on, this is the yard'?",
+      "answer": "The shorter man in the black beanie (while playing a persona)."
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "Which of the following individuals is wearing a light blue button-down shirt with no tie?",
+      "options": [
+        "A. The man sitting on the far left of the couch (tan suit).",
+        "B. The man sitting in the middle of the couch (glasses, dark suit).",
+        "C. The man sitting on the far right of the couch (older, dark suit).",
+        "D. The man who is speaking and smoking."
+      ],
+      "answer": "D. The man who is speaking and smoking."
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Activity-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person, after sitting on the couch, stands up at 00:47, walks to a desk, and sits down behind it at 01:03?",
+      "answer": "The man in the light blue shirt."
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Interaction-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person introduces the man in the tan suit to the man in the blue shirt?",
+      "answer": "The older man on the far right of the couch."
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Temporal continuity",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the man sitting on the couch smoking at 00:17 the same man who is sitting at the desk drinking at 01:48?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Cross-view matching",
+      "question_type": "Identity Confirmation",
+      "question": "Is the man in the blue shirt seen in close-up at 00:09 the same man seen from a distance, sitting with three other men, at 00:49?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Group-context based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person is sitting between the man in the tan suit and the older man in the dark suit?",
+      "answer": "The man with glasses in the dark suit."
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Environment-linked",
+      "question_type": "Descriptive Identification",
+      "question": "The man in the light blue shirt moves from the couch to what piece of furniture?",
+      "answer": "The desk."
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Comparative",
+      "question_type": "Comparative",
+      "question": "Between the man in the blue shirt and the three men on the couch, who is the one to stand up and move across the room?",
+      "answer": "The man in the blue shirt."
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Clothing-change tracking",
+      "question_type": "Identity Confirmation",
+      "question": "Is the man in the tan suit at 00:25 wearing the same attire when he speaks at 01:42?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Temporal-appearance drift",
+      "question_type": "Identity Confirmation",
+      "question": "Does the man in the light blue shirt ever put on a suit jacket during this scene?",
+      "answer": "No."
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Cross-modal",
+      "question_type": "Descriptive Identification",
+      "question": "Which person says the line, 'I think the time comes to decide whether you're running a museum or you're running a casino'?",
+      "answer": "The man in the tan suit."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "Which individual is seen wearing a white shirt and a red patterned tie?",
+      "options": [
+        "A. The blonde woman at the restaurant.",
+        "B. The man working late in the office.",
+        "C. The younger woman in the kitchen.",
+        "D. The man in the background of the restaurant."
+      ],
+      "answer": "B. The man working late in the office."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Activity-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person is seen working late at a desk in a high-rise office and talking on a landline phone?",
+      "answer": "The man in the white shirt."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Interaction-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which two characters have a long conversation at a kitchen island starting around 00:38?",
+      "answer": "The blonde woman and the younger woman."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Temporal continuity",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the woman seen waiting alone at a restaurant at 00:01 the same woman talking to a babysitter at home at 01:05?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Cross-view matching",
+      "question_type": "Identity Confirmation",
+      "question": "Is the man in the white shirt seen from a wide shot at his desk at 00:08 the same person seen in a close-up answering the phone at 00:13?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Group-context based",
+      "question_type": "Descriptive Identification",
+      "question": "Who is the blonde woman talking to in the kitchen scene?",
+      "answer": "The younger woman / babysitter."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Environment-linked",
+      "question_type": "Descriptive Identification",
+      "question": "The blonde woman appears in three locations. Which of these is NOT one of them?",
+      "options": [
+        "A. A restaurant",
+        "B. A high-rise office",
+        "C. Her home (on a cell phone)",
+        "D. Her kitchen"
+      ],
+      "answer": "B. A high-rise office"
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Comparative",
+      "question_type": "Comparative",
+      "question": "Between the two women talking in the kitchen, who is wearing a black top/dress?",
+      "answer": "The blonde woman."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Clothing-change tracking",
+      "question_type": "Identity Confirmation",
+      "question": "Does the blonde woman change her black outfit between the restaurant scene (00:01) and the kitchen scene (00:38)?",
+      "answer": "No."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Temporal-appearance drift",
+      "question_type": "Identity Confirmation",
+      "question": "Is the man in the office still wearing his red patterned tie at 00:26 after answering the phone at 00:13?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Cross-modal",
+      "question_type": "Descriptive Identification",
+      "question": "Which person says the line, '...he just forgot me at the coffee shop'?",
+      "answer": "The blonde woman."
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "Which of the two main fighters is wearing the dark-colored trunks?",
+      "options": [
+        "A. The fighter with darker hair",
+        "B. The fighter with lighter, shorter hair",
+        "C. The referee",
+        "D. The man at ringside in a vest"
+      ],
+      "answer": "A. The fighter with darker hair"
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Activity-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person is seen celebrating ecstatically at ringside (00:34) and later enters the ring to hug the winner (01:45)?",
+      "answer": "The man in the vest."
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Interaction-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person enters the locker room after the fight to talk to the winner while he is eating from a bowl?",
+      "answer": "The balding man in the vest."
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Temporal continuity",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the boxer who gets knocked down at 00:32 the same boxer who is counted out by the referee at 01:37?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Cross-view matching",
+      "question_type": "Identity Confirmation",
+      "question": "Is the boxer seen from an overhead shot at 01:06 (wearing dark trunks) the same boxer seen celebrating with his arm raised at 01:41?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Group-context based",
+      "question_type": "Descriptive Identification",
+      "question": "Besides the two fighters, which person is inside the ring with them during the entire match?",
+      "answer": "The referee (older man in a white shirt and bowtie)."
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Environment-linked",
+      "question_type": "Descriptive Identification",
+      "question": "After winning the fight, where is the boxer in the dark trunks seen eating at 02:01?",
+      "answer": "In a locker room."
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Comparative",
+      "question_type": "Comparative",
+      "question": "Between the two main fighters, who wins the match by knockout?",
+      "answer": "The fighter with dark hair in dark trunks."
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Clothing-change tracking",
+      "question_type": "Identity Confirmation",
+      "question": "Is the man in the vest at ringside (00:16) the same person who enters the locker room wearing a dark suit jacket over the vest (02:04)?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Temporal-appearance drift",
+      "question_type": "Identity Confirmation",
+      "question": "Is the fighter with lighter hair visibly bleeding from his nose at 01:33, whereas he was not at the start of the clip (00:12)?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Cross-modal",
+      "question_type": "Descriptive Identification",
+      "question": "Which person says the line, 'Jesus, Mary and Joseph... Did I say Jesus?' in the locker room?",
+      "answer": "The man in the vest."
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "Which of the following individuals is seen emerging from the ocean wearing an orange bikini?",
+      "options": [
+        "A. The man in the blue shirt at the bar.",
+        "B. The woman at the bar.",
+        "C. The woman sitting at a table in the background.",
+        "D. The bartender."
+      ],
+      "answer": "B. The woman at the bar."
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Activity-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person is first seen using binoculars at a bar and later drinks a mojito while talking to a woman?",
+      "answer": "The man in the blue patterned shirt."
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Interaction-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person approaches the man at the bar after walking out of the ocean?",
+      "answer": "The woman in the orange bikini."
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Temporal continuity",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the man looking through binoculars at 00:01 the same man who is smoking a cigar at 00:13 and talking to the woman at 01:02?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Cross-view matching",
+      "question_type": "Identity Confirmation",
+      "question": "Is the woman seen through the binoculars at 00:19 the same person seen walking up to the bar in a wide shot at 00:43?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Group-context based",
+      "question_type": "Descriptive Identification",
+      "question": "Who is the man in the blue shirt interacting with at the bar from 00:57 onwards?",
+      "answer": "The woman in the orange bikini."
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Environment-linked",
+      "question_type": "Descriptive Identification",
+      "question": "The woman in the orange bikini—from what location does she enter the bar area?",
+      "answer": "She walks directly out of the ocean."
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Comparative",
+      "question_type": "Comparative",
+      "question": "Between the two main characters, who is first seen swimming and who is first seen at the bar?",
+      "answer": "The woman is first seen swimming; the man is first seen at the bar."
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Clothing-change tracking",
+      "question_type": "Identity Confirmation",
+      "question": "Is the woman seen swimming at 00:08 the same woman who wraps a towel around herself at 00:46?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Temporal-appearance drift",
+      "question_type": "Identity Confirmation",
+      "question": "Is the man at the bar still wearing his blue patterned shirt when he speaks to the woman at 01:08?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Cross-modal",
+      "question_type": "Descriptive Identification",
+      "question": "Which person says the line, 'My friends call me Jinx'?",
+      "answer": "The woman in the orange bikini."
+    },
+    {
+      "id": "-4Qk4eACpXI",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "Which individual in the room is wearing a white shirt, dark tie, and a shoulder holster?",
+      "options": [
+        "A. The man first seen at the computer (in the grey/blue shirt).",
+        "B. The intruder wearing a black mask.",
+        "C. The man who enters the room at 01:48.",
+        "D. No one is wearing a tie."
+      ],
+      "answer": "C. The man who enters the room at 01:48."
+    },
+    {
+      "id": "-4Qk4eACpXI",
+      "category": "Activity-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person is first seen typing on a laptop in a briefcase and is later attacked by a masked intruder?",
+      "answer": "The man in the grey/blue button-down shirt."
+    },
+    {
+      "id": "-4Qk4eACpXI",
+      "category": "Interaction-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which two individuals fight each other starting at 02:13?",
+      "answer": "The intruder in the black mask and the man in the white shirt and tie."
+    },
+    {
+      "id": "-4Qk4eACpXI",
+      "category": "Temporal continuity",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the man working at the computer terminal at 00:09 the same man seen crawling on the floor at 02:40?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-4Qk4eACpXI",
+      "category": "Cross-view matching",
+      "question_type": "Identity Confirmation",
+      "question": "Is the person seen in close-up at 00:05 the same person seen from a distance at 00:27?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-4Qk4eACpXI",
+      "category": "Group-context based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person enters the room while the man in the grey/blue shirt is on the floor and the masked intruder is at the computer?",
+      "answer": "The man in the white shirt and tie."
+    },
+    {
+      "id": "-4Qk4eACpXI",
+      "category": "Environment-linked",
+      "question_type": "Descriptive Identification",
+      "question": "The man in the balaclava (intruder) interacts with which object after knocking down the first man?",
+      "answer": "The laptop in the briefcase."
+    },
+    {
+      "id": "-4Qk4eACpXI",
+      "category": "Comparative",
+      "question_type": "Comparative",
+      "question": "Between the man in the grey/blue shirt and the man in the white shirt, who is the first one to be attacked by the masked intruder?",
+      "answer": "The man in the grey/blue shirt."
+    },
+    {
+      "id": "-4Route 4Qk4eACpXI",
+      "category": "Clothing-change tracking",
+      "question_type": "Identity Confirmation",
+      "question": "Does the man who enters at 01:48 (in the white shirt) wear the same attire when he is fighting at 02:22?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-4Qk4eACpXI",
+      "category": "Temporal-appearance drift",
+      "question_type": "Identity Confirmation",
+      "question": "Is the man who is first seen typing at 00:01 still wearing his grey/blue shirt when he is on the floor at 01:30?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-4Qk4eACpXI",
+      "category": "Cross-modal",
+      "question_type": "Descriptive Identification",
+      "question": "Which person says 'let's check the control panel' (around 00:21) while working?",
+      "answer": "The man in the grey/blue shirt."
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "Which of the following individuals is wearing a dark suit and a gold tie?",
+      "options": [
+        "A. The man sitting behind the desk at the start",
+        "B. The man standing at the start",
+        "C. Both men are wearing suits and ties",
+        "D. Neither man is wearing a tie"
+      ],
+      "answer": "B. The man standing at the start"
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Activity-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person sits down behind the desk at 01:18 after previously standing and walking around the room?",
+      "answer": "The man in the dark suit."
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Interaction-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person remains seated behind the desk for the first 30 seconds of the clip?",
+      "answer": "The man in the green jacket."
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Temporal continuity",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the man standing in front of the desk at 00:01 the same man who sits behind the desk at 01:19?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Cross-view matching",
+      "question_type": "Identity Confirmation",
+      "question": "Is the man in the green jacket seen in the over-the-shoulder shot at 00:03 the same man seen in close-up at 00:46?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Group-context based",
+      "question_type": "Descriptive Identification",
+      "question": "Who is the man in the green jacket talking to for the entire clip?",
+      "answer": "The man in the dark suit."
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Environment-linked",
+      "question_type": "Descriptive Identification",
+      "question": "The man in the green jacket starts the clip sitting behind a desk. Where does he sit after standing up at 00:56?",
+      "answer": "In a chair in front of the desk."
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Comparative",
+      "question_type": "Comparative",
+      "question": "Between the two men, who is the one to first sit behind the desk?",
+      "answer": "The man in the green jacket."
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Clothing-change tracking",
+      "question_type": "Identity Confirmation",
+      "question": "Is the man in the green jacket still wearing it when he sits down opposite the desk at 01:23?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Temporal-appearance drift",
+      "question_type": "Identity Confirmation",
+      "question": "Does the man in the dark suit ever remove his suit jacket?",
+      "answer": "No."
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Cross-modal",
+      "question_type": "Descriptive Identification",
+      "question": "Which person says the line, 'I don't want you to check into 1408 because I don't want to clean up the mess'?",
+      "answer": "The man in the dark suit."
+    },
+    {
+      "id": "--hendERqm0",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "Which of the following is the *first* costume worn by the small white dog?",
+      "options": [
+        "A. A red fedora and white shirt",
+        "B. A black top hat and glasses",
+        "C. An orange pumpkin shirt and a purple witch hat",
+        "D. A ghost sheet with a top hat"
+      ],
+      "answer": "C. An orange pumpkin shirt and a purple witch hat"
+    },
+    {
+      "id": "--hendERqm0",
+      "category": "Activity-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which dog is seen posing for a photo shoot while wearing multiple different hats?",
+      "answer": "The small white Maltese."
+    },
+    {
+      "id": "--hendERqm0",
+      "category": "Interaction-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which dog is seen posing *behind* a DSLR camera, as if taking a picture?",
+      "answer": "The small white Maltese (at 00:12)."
+    },
+    {
+      "id": "--hendERqm0",
+      "category": "Temporal continuity",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the dog wearing a red hat at 00:25 the same dog seen wearing a black top hat at 00:53?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--hendERqm0",
+      "category": "Cross-view matching",
+      "question_type": "Identity Confirmation",
+      "question": "Is the dog seen from the front wearing a straw hat (at 01:14) the same dog seen from the side wearing a purple witch hat (at 00:10)?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--hendERqm0",
+      "category": "Group-context based",
+      "question_type": "Descriptive Identification",
+      "question": "Which character appears wearing a white sheet *after* the small white dog is shown in multiple hats?",
+      "answer": "The larger dog."
+    },
+    {
+      "id": "--hendERqm0",
+      "category": "Environment-linked",
+      "question_type": "Descriptive Identification",
+      "question": "The small white dog appears in a photo studio. Where is this dog seen immediately before this?",
+      "answer": "This dog is not seen before; the clip opens with a futuristic hallway."
+    },
+    {
+      "id": "--hendERqm0",
+      "category": "Comparative",
+      "question_type": "Comparative",
+      "question": "Between the two dogs that appear, which one is wearing a ghost costume?",
+      "answer": "The larger dog."
+    },
+    {
+      "id": "--hendERqm0",
+      "category": "Clothing-change tracking",
+      "question_type": "Descriptive Identification",
+      "question": "The small white dog is wearing an orange pumpkin shirt at 00:10. What is it wearing at 00:17?",
+      "answer": "A black hat with a feather and round glasses."
+    },
+    {
+      "id": "--hendERqm0",
+      "category": "Temporal-appearance drift",
+      "question_type": "Identity Confirmation",
+      "question": "Is the dog wearing the ghost sheet at 00:57 the same dog that is wearing the pumpkin shirt at 01:02?",
+      "answer": "No."
+    },
+    {
+      "id": "--hendERqm0",
+      "category": "Cross-modal",
+      "question_type": "Descriptive Identification",
+      "question": "Which dog is on screen when the line 'Wow, you're getting the hang of it' is spoken?",
+      "answer": "The small white dog (wearing a black hat and glasses)."
+    },
+    {
+      "id": "--oCWVOBuvA",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "What is the man wearing in the garage scene?",
+      "options": [
+        "A. A suit and tie",
+        "B. A dark, short-sleeved t-shirt and light-colored pants",
+        "C. A white t-shirt and overalls",
+        "D. A light-colored button-down shirt"
+      ],
+      "answer": "B. A dark, short-sleeved t-shirt and light-colored pants"
+    },
+    {
+      "id": "--oCWVOBuvA",
+      "category": "Activity-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person is seen working on a car and later hands a small mechanical part to the other person?",
+      "answer": "The man."
+    },
+    {
+      "id": "--oCWVOBuvA",
+      "category": "Interaction-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person gets into the car at 00:11, then gets out to speak with the man?",
+      "answer": "The woman."
+    },
+    {
+      "id": "--oCWVOBuvA",
+      "category": "Temporal continuity",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the man sitting on the ground at 00:01 the same man who is seen walking with the woman at 01:08?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--oCWVOBuvA",
+      "category": "Cross-view matching",
+      "question_type": "Identity Confirmation",
+      "question": "Is the woman seen from behind at 00:07 the same woman seen in the close-up at 01:47?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--oCWVOBuvA",
+      "category": "Group-context based",
+      "question_type": "Descriptive Identification",
+      "question": "Who is the man talking to for the entire duration of the clip?",
+      "answer": "The woman."
+    },
+    {
+      "id": "--oCWVOBuvA",
+      "category": "Environment-linked",
+      "question_type": "Descriptive Identification",
+      "question": "Where does the conversation between the two characters primarily take place?",
+      "answer": "In a garage or auto repair shop."
+    },
+    {
+      "id": "--oCWVOBuvA",
+      "category": "Comparative",
+      "question_type": "Comparative",
+      "question": "Between the two characters, who is the one to stand up from a crouching position at 00:13?",
+      "answer": "The man."
+    },
+    {
+      "id": "--oCWVOBuvA",
+      "category": "Clothing-change tracking",
+      "question_type": "Identity Confirmation",
+      "question": "Is the woman wearing the same button-down shirt and pants at 00:05 as she is at 01:50?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--oCWVOBuvA",
+      "category": "Temporal-appearance drift",
+      "question_type": "Identity Confirmation",
+      "question": "Is the man still wearing his dark t-shirt at the end of the clip (02:08)?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--oCWVOBuvA",
+      "category": "Cross-modal",
+      "question_type": "Descriptive Identification",
+      "question": "Which person says the line, 'You want to live your all life fast'?",
+      "answer": "The woman."
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "Which of the following individuals is the baseball player shown in the archival pitching footage at 00:02?",
+      "options": [
+        "A. The man in the orange polo shirt (01:19)",
+        "B. The man pitching in a 'Pirates 17' uniform (00:02)",
+        "C. The man speaking at a podium (02:13)",
+        "D. The man in the black t-shirt (01:43)"
+      ],
+      "answer": "B. The man pitching in a 'Pirates 17' uniform (00:02)"
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Activity-based",
+      "question_type": "Descriptive Identification",
+      "question": "What activity is the man in the 'Pirates 17' uniform performing at 00:02-00:10?",
+      "answer": "Pitching a baseball / Warming up on a baseball field."
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Interaction-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person is standing next to the man at the podium (02:13) and using hand gestures?",
+      "answer": "The sign language interpreter (a woman with short hair)."
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Temporal continuity",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the man pitching in the 'Pirates 17' uniform (00:02) the same person seen speaking at a podium (02:13) later in life?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Cross-view matching",
+      "question_type": "Identity Confirmation",
+      "question": "Is the man in the newspaper photo at 00:15 the same person shown pitching at 00:02?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Group-context based",
+      "question_type": "Descriptive Identification",
+      "question": "Which interviewee is sitting in stadium seats (02:03)?",
+      "answer": "The older, bald man with glasses in a black polo shirt."
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Environment-linked",
+      "question_type": "Descriptive Identification",
+      "question": "The man wearing a 'Pirates 17' jersey is seen in what type of environment?",
+      "answer": "A baseball stadium."
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Comparative",
+      "question_type": "Comparative",
+      "question": "Between the man in the orange polo shirt (01:19) and the man in the black fedora (01:40), who is wearing glasses?",
+      "answer": "The man in the orange polo shirt."
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Clothing-change tracking",
+      "question_type": "Identity Confirmation",
+      "question": "Is the man in the baseball uniform (00:02) the same person seen later in life wearing a suit and white t-shirt at a podium (02:13)?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Temporal-appearance drift",
+      "question_type": "Identity Confirmation",
+      "question": "Is the young pitcher with dark hair (00:02) the same person as the older, bald man with a white streak of hair (02:1S3)?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Cross-modal",
+      "question_type": "Descriptive Identification",
+      "question": "Which person is seen wiping away tears (00:54) while speaking?",
+      "answer": "The first interviewee (the older, bald man in the black jacket)."
+    },
+    {
+      "id": "--uyzf7X_0c",
+      "category": "Appearance-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person entering the room at 00:03 is wearing a full suit with fur trimming, a large belt, and a hat?",
+      "answer": "The man with the white beard."
+    },
+    {
+      "id": "--uyzf7X_0c",
+      "category": "Activity-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person approaches the seated child and leans down to speak with her at 00:38?",
+      "answer": "The man in the Santa suit."
+    },
+    {
+      "id": "--uyzf7X_0c",
+      "category": "Interaction-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which person hands the woman at the desk an employment card at 01:12?",
+      "answer": "The other woman (her secretary) who enters from the outer office."
+    },
+    {
+      "id": "--uyzf7X_0c",
+      "category": "Temporal continuity",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the woman seen seated at her desk at 00:01 the same woman who stands up to greet the man at 00:06?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--uyzf7X_0c",
+      "category": "Cross-view matching",
+      "question_type": "Identity Confirmation",
+      "question": "Is the woman seen from behind at 00:06 the same woman seen in the close-up at 00:20?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--uyzf7X_0c",
+      "category": "Group-context based",
+      "question_type": "Descriptive Identification",
+      "question": "Which individual enters the room where the woman and the young girl are already present?",
+      "answer": "The man in the Santa suit."
+    },
+    {
+      "id": "--uyzf7X_0c",
+      "category": "Environment-linked",
+      "question_type": "Descriptive Identification",
+      "question": "The woman at the desk reads a document at 01:15. What 'Place' of birth is listed on it?",
+      "answer": "North Pole."
+    },
+    {
+      "id": "--uyzf7X_0c",
+      "category": "Comparative",
+      "question_type": "Comparative",
+      "question": "Between the man in the Santa suit and the woman at the desk, who is the first to speak to the child?",
+      "answer": "The man in the Santa suit."
+    },
+    {
+      "id": "--uyzf7X_0c",
+      "category": "Clothing-change tracking",
+      "question_type": "Identity Confirmation",
+      "question": "Does the man who enters at 00:03 ever remove his Santa hat or beard in this scene?",
+      "answer": "No."
+    },
+    {
+      "id": "--uyzf7X_0c",
+      "category": "Temporal-appearance drift",
+      "question_type": "Identity Confirmation",
+      "question": "Is the woman's (at the desk) hair styled the same way at 00:20 as it is at 01:27?",
+      "answer": "Yes."
+    },
+    {
+      "id": "--uyzf7X_0c",
+      "category": "Cross-modal",
+      "question_type": "Descriptive Identification",
+      "question": "Which person says the line, 'I'm sorry to disagree with you... but not only is there such a person, but here I am to prove it'?",
+      "answer": "The man in the Santa suit."
+    },
+    {
+      "id": "-0f67QE-HP8",
+      "category": "Appearance-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which character is a large sea mammal with dark spots, a long snout, and sharp teeth?",
+      "answer": "The leopard seal."
+    },
+    {
+      "id": "-0f67QE-HP8",
+      "category": "Activity-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which penguin is seen tap-dancing on the ice at 02:25?",
+      "answer": "The fluffy young emperor penguin."
+    },
+    {
+      "id": "-0f67QE-HP8",
+      "category": "Interaction-based",
+      "question_type": "Descriptive Identification",
+      "question": "Which animal chases the fluffy penguin into a group of five smaller penguins at 01:43?",
+      "answer": "The leopard seal."
+    },
+    {
+      "id": "-0f67QE-HP8",
+      "category": "Temporal continuity",
+      "question_type": "Identity Confirmation (Validation)",
+      "question": "Is the leopard seal that first attacks the penguin at 00:15 the same seal that is being taunted by the group of penguins at 02:01?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-0f67QE-HP8",
+      "category": "Cross-view matching",
+      "question_type": "Identity Confirmation",
+      "question": "Is the fluffy penguin seen from a distance at 00:27 the same penguin seen in the close-up at 00:32?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-0f67QE-HP8",
+      "category": "Group-context based",
+      "question_type": "Descriptive Identification",
+      "question": "Which character is standing in the middle of the five smaller (Adelie) penguins at 02:11?",
+      "answer": "The fluffy emperor penguin."
+    },
+    {
+      "id": "-0f67QE-HP8",
+      "category": "Environment-linked",
+      "question_type": "Descriptive Identification",
+      "question": "The main fluffy penguin escapes the leopard seal at 01:42 by landing on what type of surface?",
+      "answer": "A large sheet of ice (an ice floe)."
+    },
+    {
+      "id": "-0f67QE-HP8",
+      "category": "Comparative",
+      "question_type": "Comparative",
+      "question": "Between the adult penguin singing at 00:00 and the fluffy young penguin at 00:06, which one is chased by the leopard seal?",
+      "answer": "The fluffy young penguin at 00:06."
+    },
+    {
+      "id": "-0f67QE-HP8",
+      "category": "Clothing-change tracking",
+      "question_type": "Identity Confirmation",
+      "question": "Does the main fluffy penguin still have his fluffy down feathers at the end of the chase (01:42) as he did at the beginning (00:06)?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-0f67QE-HP8",
+      "category": "Temporal-appearance drift",
+      "question_type": "Identity Confirmation",
+      "question": "Is the leopard seal's distinctive face scar (seen at 00:17) still visible when it is on the ice at 02:01?",
+      "answer": "Yes."
+    },
+    {
+      "id": "-0f67QE-HP8",
+      "category": "Cross-modal",
+      "question_type": "Descriptive Identification",
+      "question": "Which penguin is seen singing (his 'Heartsong') at the very beginning of the clip (00:00)?",
+      "answer": "The adult emperor penguin."
+    }
+  ]
