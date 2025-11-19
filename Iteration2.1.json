@@ -1,0 +1,2238 @@
+[
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Activity-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The main character (skateboarder) runs over several rooftops between 00:02 and 00:07. What is he doing immediately after activating the 'DEFCON-1' timer at 00:10?",
+      "options": [
+        "A. Jumping onto a red pickup truck.",
+        "B. Hiding inside a large orange box truck.",
+        "C. Grabbing his skateboard from a group of children (00:15).",
+        "D. Talking to the elderly driver (00:53)."
+      ],
+      "answer": "C. Grabbing his skateboard from a group of children (00:15)."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Temporal Continuity",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "After the main character begins his downhill chase on the skateboard (around 00:23), how long does it take for the three men on motorcycles to appear in pursuit?",
+      "options": [
+        "A. Approximately 5 seconds (appearing around 00:28).",
+        "B. Approximately 10 seconds (appearing around 00:33).",
+        "C. Approximately 20 seconds (appearing around 00:43).",
+        "D. They appear simultaneously with the skateboarder."
+      ],
+      "answer": "C. Approximately 20 seconds (appearing around 00:43)."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Interaction-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "At approximately 00:53, the skateboarder grabs the red pickup truck. Which action immediately follows his conversation with the elderly driver (which ends at 01:02)?",
+      "options": [
+        "A. He dives into the water.",
+        "B. He leaps onto the side of a graffiti-covered bus (01:09).",
+        "C. He throws his skateboard at a pursuing motorcycle.",
+        "D. He enters a nearby building."
+      ],
+      "answer": "B. He leaps onto the side of a graffiti-covered bus (01:09)."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Environment-linked",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "What is the primary visual difference in the environment the skateboarder passes through between the **01:15** mark (hilly, green setting) and the **01:27** mark?",
+      "options": [
+        "A. The presence of a large, modern highway.",
+        "B. The transition to an open, industrial salt flat or dockyard.",
+        "C. He moves indoors into a warehouse structure.",
+        "D. The sudden appearance of dense fog."
+      ],
+      "answer": "B. The transition to an open, industrial salt flat or dockyard."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Cross-view Matching",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "Is the close-up shot of the timer showing '00:00:30' at **01:38** taken before or after the skateboarder is chased by armed men on the dock (starting at 01:44)?",
+      "options": [
+        "A. The timer shot (01:38) is taken **before** the chase on the dock (01:44).",
+        "B. The timer shot (01:38) is taken **during** the chase on the dock (01:44).",
+        "C. The timer shot (01:38) is taken **after** the chase, as he dives into the shack (01:48).",
+        "D. The timer shot is unrelated to the dock sequence."
+      ],
+      "answer": "A. The timer shot (01:38) is taken **before** the chase on the dock (01:44)."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "During the downhill chase (00:35), the skateboarder uses his hands to maintain speed. Which distinguishing features are visible on his left arm and right hand at this time?",
+      "options": [
+        "A. A large tattoo on his left arm and a watch on his right wrist.",
+        "B. A large tattoo on his left arm and a black, fingerless glove on his right hand.",
+        "C. A large tattoo on his left arm and a scar running the length of his right arm.",
+        "D. No tattoos are visible, but he wears gloves on both hands."
+      ],
+      "answer": "B. A large tattoo on his left arm and a black, fingerless glove on his right hand."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Group-context Based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "When the skateboarder dives into the shack at **01:48**, what is the fate of the first armed pursuer seen entering the shack behind him (around 01:51)?",
+      "options": [
+        "A. The pursuer successfully follows him inside.",
+        "B. The pursuer is shot by an unseen ally.",
+        "C. The pursuer is tripped by the skateboarder and gets stuck in the doorway.",
+        "D. The pursuer stops and reports to his comrades."
+      ],
+      "answer": "C. The pursuer is tripped by the skateboarder and gets stuck in the doorway."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Activity-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "What is the primary activity of the group of people seen gathered on the dock around the main area (starting at **01:32**)?",
+      "options": [
+        "A. Loading wooden crates onto trucks.",
+        "B. Operating machinery to move large piles of salt or mineral.",
+        "C. Fishing from the side of the dock.",
+        "D. Watching a soccer match on a screen (02:01)."
+      ],
+      "answer": "B. Operating machinery to move large piles of salt or mineral."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Cross-modal",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "What is the phrase the elderly driver of the red pickup truck utters (at 01:02) immediately after the main character says, 'Hey friend... give me a second'?",
+      "options": [
+        "A. 'No problem, brother.'",
+        "B. 'Run faster!'",
+        "C. He lets out a hearty laugh.",
+        "D. 'I can't help you.'"
+      ],
+      "answer": "C. He lets out a hearty laugh."
+    },
+    {
+      "id": "-0SHIbuEO3w",
+      "category": "Temporal Continuity",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "At what approximate time in the scene does the initial 7-minute timer, activated at **00:10**, finally count down to less than 30 seconds?",
+      "options": [
+        "A. 01:10",
+        "B. 01:38",
+        "C. 01:59",
+        "D. 02:05"
+      ],
+      "answer": "B. 01:38"
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Temporal Continuity",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The three minions, initially seen reacting with confusion in the audience (00:13), are later seen running onto the stage. At what later timestamp are they formally introduced by the woman in the red dress?",
+      "options": [
+        "A. 01:22 (When they are celebrating alone)",
+        "B. 01:44 (When the ruby falls out)",
+        "C. 02:07 (When they are named as her new henchmen)",
+        "D. 02:13 (When they run around the stage)"
+      ],
+      "answer": "C. 02:07 (When they are named as her new henchmen)"
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Activity-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The minion who successfully pulls the sword from the stage floor (01:11) is initially seen sitting on the lap of which much larger character (00:42) just before running onto the stage?",
+      "options": [
+        "A. The green reptilian creature.",
+        "B. The large muscular man with long black hair.",
+        "C. The woman in the red dress.",
+        "D. The older male villain in a suit (01:15)."
+      ],
+      "answer": "B. The large muscular man with long black hair."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Comparative",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The muscular man, seen attempting a split (00:28), and the reptilian creature, seen leaping (00:25), both end up at the bottom of the villain pile-up (01:19). Which character is seen directly on top of the muscular man's stomach in the pile-up?",
+      "options": [
+        "A. The green reptilian creature.",
+        "B. The woman in the red dress.",
+        "C. The villain wearing a striped shirt (referee outfit).",
+        "D. The man in the suit (01:15)."
+      ],
+      "answer": "C. The villain wearing a striped shirt (referee outfit)."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The woman in the red dress, seen dramatically tossing her hair at 00:06, later holds a small stuffed teddy bear (01:34). What does she physically do with the teddy bear when she turns back to the three minions at 01:50?",
+      "options": [
+        "A. She throws it to the ground in frustration.",
+        "B. She uses it to point and gesture angrily.",
+        "C. She hands it to the tallest minion.",
+        "D. She hides it behind her back."
+      ],
+      "answer": "B. She uses it to point and gesture angrily."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Cross-view Matching",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The ruby, shown in a close-up at 00:08, is eventually pulled from the stage by a minion. Does the minion who physically holds the ruby at 01:43 have one eye or two eyes?",
+      "options": [
+        "A. One eye (the minion on the far left).",
+        "B. Two eyes (the minion in the center).",
+        "C. Two eyes (the minion on the far right).",
+        "D. The ruby is held by the woman at that time."
+      ],
+      "answer": "B. Two eyes (the minion in the center)."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Interaction-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "When the large muscular man jumps onto the stage (00:22), the woman in the red dress reacts by kissing him (00:34). Which character then attempts to attack her by jumping at her at 00:51?",
+      "options": [
+        "A. The muscular man, in anger.",
+        "B. The green reptilian creature.",
+        "C. The older male villain in the suit (01:15).",
+        "D. A minion."
+      ],
+      "answer": "B. The green reptilian creature."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Environment-linked",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The large pile of defeated villains on the stage (01:19) suddenly disperses at 01:21. What happens on the stage platform *immediately* after the platform is cleared?",
+      "options": [
+        "A. The stage lights go out.",
+        "B. The platform collapses entirely.",
+        "C. The woman in the red dress spins around on the central platform.",
+        "D. The minions begin dancing in a circle."
+      ],
+      "answer": "C. The woman in the red dress spins around on the central platform."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Cross-modal",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The woman in the red dress, who first says 'Oh, you see this tiny little trinket?' (00:05), later yells the question, 'Who has the ruby?' (01:28). What object does she hold in her hand when she asks this question?",
+      "options": [
+        "A. The sword handle.",
+        "B. The teddy bear.",
+        "C. The ruby itself.",
+        "D. The muscular man's costume accessory."
+      ],
+      "answer": "B. The teddy bear."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Group-context Based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The three minions, initially sitting in the audience (00:13), are seen hiding the ruby from the woman (01:50). What is the last action the minions perform before the woman hires them (02:07)?",
+      "options": [
+        "A. They throw the ruby to the edge of the stage.",
+        "B. They bow deeply to the woman in unison (02:00).",
+        "C. They yell a battle cry.",
+        "D. They attempt to escape the stage by sliding off the platform."
+      ],
+      "answer": "B. They bow deeply to the woman in unison (02:00)."
+    },
+    {
+      "id": "-1U0LH6dPfw",
+      "category": "Clothing-change Tracking",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The woman in the red dress, seen proudly wearing long black gloves (00:05), later holds the teddy bear (01:34). Is she still wearing the gloves when she turns and smiles, celebrating her new henchmen at 02:06?",
+      "options": [
+        "A. Yes, she is still wearing the same long black gloves.",
+        "B. No, she removed the gloves at 01:22 to confront the minions.",
+        "C. No, she is wearing red gloves by 02:06.",
+        "D. Yes, but the gloves have changed from long to short."
+      ],
+      "answer": "A. Yes, she is still wearing the same long black gloves."
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Temporal Continuity",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The tall man (James) is first seen entering the facility (00:01). How does the shorter man's attire change between this moment and when he attempts to demonstrate the 'romantic' persona at 02:08?",
+      "options": [
+        "A. He removes his jacket and beanie.",
+        "B. He removes his beanie and jacket, leaving only the white tank top.",
+        "C. He swaps his black hoodie for a red jacket.",
+        "D. He removes his pants, but keeps his hoodie."
+      ],
+      "answer": "B. He removes his beanie and jacket, leaving only the white tank top."
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Interaction-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The shorter man (as 'Carlos') points aggressively at the 'HIGH VOLTAGE' sign (00:09) while establishing the 'yard' rules. Which 'gang' persona does he adopt when he physically embraces James (02:35) later in the scene?",
+      "options": [
+        "A. The original 'Darnell' gang leader persona.",
+        "B. The confrontational 'Carlos' gang leader persona.",
+        "C. The non-gang related 'romantic interest' persona.",
+        "D. The 'Leroy' persona, right before the hug."
+      ],
+      "answer": "C. The non-gang related 'romantic interest' persona."
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Clothing-change Tracking",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The tall man (James), seen initially wearing a blue button-down shirt and black pants (00:01), has yellow text on his shirt's back (00:13). What is the yellow text that is visible on the back of his shirt for the duration of the clip?",
+      "options": [
+        "A. SECURITY CHECK",
+        "B. VIDEO SURVEILLANCE",
+        "C. TOP RUNNER",
+        "D. MAXIMUM SECURITY FACILITY"
+      ],
+      "answer": "C. TOP RUNNER"
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Comparative",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "Between the 'Carlos' persona (starting at 01:21) and the 'Darnell' persona (starting at 00:32), which character first suggests that James (the tall man) should 'walk' away from the area?",
+      "options": [
+        "A. The 'Darnell' persona (around 01:05).",
+        "B. The 'Carlos' persona (around 01:21).",
+        "C. They suggest it simultaneously.",
+        "D. The 'Darnell' persona (around 00:10)."
+      ],
+      "answer": "A. The 'Darnell' persona (around 01:05)."
+    },
+    {
+      "id": "-1W4xHNKvAk",
+      "category": "Cross-modal",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The shorter man, after adopting the 'Darnell' identity (00:32), demands that James 'Walk' (01:07). Immediately following this order, what is the *next* line of dialogue spoken by the shorter man when he switches to his 'Carlos' identity (01:21)?",
+      "options": [
+        "A. 'You looking at Carlos.'",
+        "B. 'I suggest you walk wherever you came from.'",
+        "C. 'Bitch you got two seconds to let that fucking pocket go!'",
+        "D. 'Hey, I suggest you walk wherever you came from.'"
+      ],
+      "answer": "D. 'Hey, I suggest you walk wherever you came from.'"
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Temporal Continuity",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the light blue shirt (Mr. Baldwin's character) is seen sitting on the couch smoking at **00:17**. What is the key difference in his action when he is seen again at the desk at **01:25**?",
+      "options": [
+        "A. He is still seated, but drinking instead of smoking.",
+        "B. He is standing up, pointing to a document on the desk.",
+        "C. He is seated behind the desk and lighting a new cigarette.",
+        "D. He has put on a suit jacket over his shirt."
+      ],
+      "answer": "C. He is seated behind the desk and lighting a new cigarette."
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Activity-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the tan suit is heard questioning the current state of the business (00:25). What is he doing when he finally delivers the thesis statement, 'I think the time comes to decide whether you're running a museum or you're running a casino' (01:42)?",
+      "options": [
+        "A. He is pouring himself a drink at the bar.",
+        "B. He is sitting on the couch, leaning forward and speaking directly to the man in blue.",
+        "C. He is smiling and listening to the man in blue's response.",
+        "D. He is shaking hands with the older man on the couch."
+      ],
+      "answer": "B. He is sitting on the couch, leaning forward and speaking directly to the man in blue."
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Comparative",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the light blue shirt is first seen seated on the couch (00:17). The man in the tan suit starts speaking at 00:24. Who is the first of these two men to physically stand up from the couch, and at what time?",
+      "options": [
+        "A. The man in the tan suit (at 00:24).",
+        "B. The man in the light blue shirt (at 00:47).",
+        "C. The older man on the far right (at 01:19).",
+        "D. The man in the light blue shirt (at 01:03)."
+      ],
+      "answer": "B. The man in the light blue shirt (at 00:47)."
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Group-context Based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The older man on the far right of the couch, seen smiling at **00:05**, later introduces the tan-suited man to Mr. Baldwin's character (00:14). What happens to the older man's facial expression when Mr. Baldwin's character points and speaks forcefully at **01:17**?",
+      "options": [
+        "A. He laughs and shrugs off the comment.",
+        "B. He looks down and grimaces slightly.",
+        "C. He smiles and nods in agreement.",
+        "D. He stands up and leaves the room."
+      ],
+      "answer": "B. He looks down and grimaces slightly."
+    },
+    {
+      "id": "-2KG4lLGEl0",
+      "category": "Interaction-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the light blue shirt moves from the couch to the desk (01:03). When he is seated behind the desk at **01:16**, what is he doing when he points his finger directly at the men on the couch?",
+      "options": [
+        "A. He is showing them a map of the city.",
+        "B. He is refilling their drinks.",
+        "C. He is emphatically making a point in the argument.",
+        "D. He is calling for security."
+      ],
+      "answer": "C. He is emphatically making a point in the argument."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Temporal Continuity",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The blonde woman, seen waiting alone at a restaurant at **00:01**, later takes a phone call at home at **00:14**. How does the expression on her face change when she hangs up the phone at **00:29** and turns to look at the younger woman (starting at 00:33)?",
+      "options": [
+        "A. She changes from sadness to confusion.",
+        "B. She changes from concern to a forced, overly-bright smile.",
+        "C. She begins to cry uncontrollably.",
+        "D. She immediately starts arguing with the younger woman."
+      ],
+      "answer": "B. She changes from concern to a forced, overly-bright smile."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Activity-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man working late in the high-rise office (00:06) is seen signing papers and talking on the phone (00:13). What action is he performing immediately before this scene ends (around 00:32)?",
+      "options": [
+        "A. He puts on his suit jacket to leave.",
+        "B. He hangs up the phone and starts crying.",
+        "C. He continues working, head down, handling papers.",
+        "D. He gets up and turns off the lights."
+      ],
+      "answer": "C. He continues working, head down, handling papers."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Comparative",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The blonde woman starts a conversation at the kitchen island (00:38) with the younger woman. Who is the first of the two women to visibly show distress or a negative emotional reaction?",
+      "options": [
+        "A. The younger woman (at 01:00) when asked about the test.",
+        "B. The blonde woman (at 01:18) when discussing compromise.",
+        "C. The younger woman (at 01:42) when the topic shifts to her test.",
+        "D. The blonde woman (at 01:56) when discussing compromise."
+      ],
+      "answer": "B. The blonde woman (at 01:18) when discussing compromise."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Cross-modal",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The blonde woman, who complains about being forgotten at the coffee shop (00:33), later uses the metaphor of 'getting the shit end' (01:29) in life. Which action is she performing with her hands at the exact moment she says, 'I'll be so beaten down by life' (01:55)?",
+      "options": [
+        "A. She is holding her head in her hands, sobbing.",
+        "B. She is slamming her fist on the table.",
+        "C. She is covering her face and eyes with her hands.",
+        "D. She is simply holding her hands clasped together."
+      ],
+      "answer": "C. She is covering her face and eyes with her hands."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Group-context Based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The younger woman, who initially smiles at **00:37**, later tells the blonde woman she has a Spanish test (01:15). What is the younger woman's final action before the scene ends at **02:12**?",
+      "options": [
+        "A. She offers to write a note (01:15).",
+        "B. She looks away nervously (01:21).",
+        "C. She smiles awkwardly and attempts to be supportive (02:09).",
+        "D. She gets up to go home (01:13)."
+      ],
+      "answer": "C. She smiles awkwardly and attempts to be supportive (02:09)."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Temporal Continuity",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the high-rise office, seen diligently working at his desk at **00:06**, is later called by the blonde woman (00:13). What is the significant difference in the environment when he is next seen working at **00:26**?",
+      "options": [
+        "A. The lights have been turned off in the office.",
+        "B. He is now wearing his suit jacket.",
+        "C. He is now sitting on the couch instead of at his desk.",
+        "D. His desk is noticeably more organized."
+      ],
+      "answer": "C. He continues working, head down, handling papers."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Activity-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The blonde woman, seen waiting at a restaurant at **00:01**, later describes her emotional state to the younger woman (01:29). What is she doing with her hands at **01:38** just before she mentions the car wash attendant?",
+      "options": [
+        "A. She is raising her hand emphatically.",
+        "B. She is sketching on a notepad.",
+        "C. She is covering her face with her hands.",
+        "D. She is checking her cell phone."
+      ],
+      "answer": "A. She is raising her hand emphatically."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Comparative",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The younger woman (babysitter) expresses that she should leave due to a Spanish test (01:13), while the blonde woman details her marital frustrations (01:30). Which woman is the first to visibly express sadness, covering her face and turning away from the other?",
+      "options": [
+        "A. The younger woman (at 01:27) after her Spanish test is discussed.",
+        "B. The blonde woman (at 01:56) while discussing being 'beaten down by life'.",
+        "C. The blonde woman (at 01:18) after realizing she has to compromise.",
+        "D. The younger woman (at 02:09) while offering support."
+      ],
+      "answer": "B. The blonde woman (at 01:56) while discussing being 'beaten down by life'."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Cross-modal",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The younger woman, who says 'I'm not getting any closer to leaving, am I?' (02:09), previously offered to write a note to excuse herself (01:15). When does she make this offer?",
+      "options": [
+        "A. Immediately after the blonde woman says, 'I kind of gotta go home now' (01:13).",
+        "B. Immediately before the blonde woman says, 'He just forgot me at the coffee shop' (00:33).",
+        "C. After the blonde woman says, 'Nobody's fucking me here' (01:55).",
+        "D. At 00:38, as the conversation begins."
+      ],
+      "answer": "A. Immediately after the blonde woman says, 'I kind of gotta go home now' (01:13)."
+    },
+    {
+      "id": "-2KGPYEFnsU",
+      "category": "Group-context Based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the office, visible at **00:06**, is in a professional setting. The blonde woman, seen at **00:38**, is in a domestic setting. What shared background detail links the blonde woman's discussion in the restaurant (00:01) to her environment in the kitchen (00:38)?",
+      "options": [
+        "A. The presence of her wedding ring on the table.",
+        "B. The presence of a red wine glass/bottle in both settings.",
+        "C. The presence of the younger woman who is later seen in her home.",
+        "D. The black top/dress she wears is consistent across all locations."
+      ],
+      "answer": "D. The black top/dress she wears is consistent across all locations."
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Temporal Continuity",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The fighter in the dark trunks, seen aggressively trading punches at **00:20**, eventually wins the match. At what later timestamp is he seen celebrating the victory in the ring with both hands raised, confirming the knockout?",
+      "options": [
+        "A. 01:37 (When the opponent is counted out)",
+        "B. 01:40 (When the referee raises his hand)",
+        "C. 01:55 (When he is surrounded by fans)",
+        "D. 02:01 (When he is eating in the locker room)"
+      ],
+      "answer": "B. 01:40 (When the referee raises his hand)"
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Activity-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the vest, seen celebrating wildly at ringside at **00:34**, is later seen entering the locker room at **02:04**. What is the winning boxer doing inside the locker room when the man in the vest enters?",
+      "options": [
+        "A. Lying down on a cot.",
+        "B. Eating from a yellow bowl.",
+        "C. Getting his gloves removed.",
+        "D. Talking on a telephone."
+      ],
+      "answer": "B. Eating from a yellow bowl."
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Comparative",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The boxer in the light trunks is seen clean at **00:12**, but is visibly bleeding from his nose at **01:33**. Who is the first boxer shown in a close-up looking visibly exhausted after taking a heavy hit (around 01:10)?",
+      "options": [
+        "A. The fighter in the light trunks (at 01:10).",
+        "B. The fighter in the dark trunks (at 01:19).",
+        "C. The referee (at 01:25).",
+        "D. The fighter in the light trunks (at 00:32)."
+      ],
+      "answer": "A. The fighter in the light trunks (at 01:10)."
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Interaction-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the vest, who enters the locker room at **02:04**, later tells the boxer, 'I swear to God, I'll cut you' (around 02:19). What is the emotional context of the boxer's final response (around 02:22) after this threat is made?",
+      "options": [
+        "A. He stands up to fight back.",
+        "B. He bursts into tears.",
+        "C. He smiles and nods, seemingly unconcerned.",
+        "D. He laughs and pushes the man away."
+      ],
+      "answer": "C. He smiles and nods, seemingly unconcerned."
+    },
+    {
+      "id": "-3ywc_7_IE8",
+      "category": "Cross-modal",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The referee, who is seen in the center of the ring counting the knockdown at **01:37**, later joins the celebration (01:49). Which line of dialogue is spoken by the announcer at **01:02** while the two boxers are still actively fighting?",
+      "options": [
+        "A. 'He's holding back an avalanche!'",
+        "B. 'A plan has been stomping in potholes!'",
+        "C. 'He's finally moving his hand!'",
+        "D. 'Unbelievable!'"
+      ],
+      "answer": "C. 'He's finally moving his hand!'"
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Temporal Continuity",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man (James Bond) is first seen using binoculars to view a building (00:01). After he lowers the binoculars and lights a cigar (00:13), what is the next major action he performs with the binoculars (around 00:31)?",
+      "options": [
+        "A. He hands them to the bartender to look at the view.",
+        "B. He uses them to watch the woman emerging from the ocean.",
+        "C. He accidentally drops them over the edge of the bar.",
+        "D. He uses them to look back at the distant building."
+      ],
+      "answer": "B. He uses them to watch the woman emerging from the ocean."
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Activity-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The woman in the orange bikini is seen swimming in the ocean (00:08) and later wraps a towel around herself (00:46). Where does she acquire the towel after walking out of the water?",
+      "options": [
+        "A. She pulls it out of her bag hidden under a table.",
+        "B. A waiter hands it to her immediately.",
+        "C. She takes it from a nearby chair/railing near the bar.",
+        "D. She pulls it from her waist where it was tucked."
+      ],
+      "answer": "C. She takes it from a nearby chair/railing near the bar."
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Comparative",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man is seen drinking a green beverage (a mojito) at **00:49** as the woman approaches. Who is the first person in this scene to offer the other person a physical object (drink or cigar)?",
+      "options": [
+        "A. The woman, offering the man a small object (01:15).",
+        "B. The man, offering the woman a drink (01:03).",
+        "C. The man, offering the woman a puff of his cigar (01:13).",
+        "D. The bartender, offering the man a refill (01:02)."
+      ],
+      "answer": "B. The man, offering the woman a drink (01:03)."
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man, seen smoking a cigar at **00:13**, later engages in conversation with the woman at **01:11**. What does he do with the cigar just before the woman delivers her final line (around 01:21)?",
+      "options": [
+        "A. He puts it out in the ashtray.",
+        "B. He continues smoking it, blowing smoke in her face.",
+        "C. He throws it into the ocean.",
+        "D. He passes it to the bartender."
+      ],
+      "answer": "B. He continues smoking it, blowing smoke in her face."
+    },
+    {
+      "id": "-4kio7152q4",
+      "category": "Cross-modal",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The woman, who is introduced to the man as 'Jinx' (around 01:07), later responds to his question (01:20). What is the last line of dialogue spoken by the woman before the scene cuts away?",
+      "options": [
+        "A. 'I thought you were never going to show up.'",
+        "B. 'I'm here for the job.'",
+        "C. 'If you're looking for diamonds, they're not here.'",
+        "D. 'My friends call me Jinx.'"
+      ],
+      "answer": "C. 'If you're looking for diamonds, they're not here.'"
+    },
+    {
+      "id": "-4Qk4eACpXI",
+      "category": "Temporal Continuity",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the gray/blue shirt, seen typing at a laptop in a briefcase at **00:01**, is later lying unconscious on the floor (01:30). What is the key difference in his appearance from the start of the clip to when he is seen crawling across the floor (02:40)?",
+      "options": [
+        "A. He has removed his shirt and tie.",
+        "B. He has put on a dark mask.",
+        "C. His hair is noticeably wet and disheveled.",
+        "D. He is no longer wearing his shoulder holster."
+      ],
+      "answer": "C. His hair is noticeably wet and disheveled."
+    },
+    {
+      "id": "-4Qk4eACpXI",
+      "category": "Interaction-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The first man is attacked by the masked intruder (around 00:46). Which key object does the intruder focus on and manipulate after subduing the first man (around **01:11**)?",
+      "options": [
+        "A. The man's personal cell phone.",
+        "B. The 'Emergency Stop' button (01:23).",
+        "C. The laptop/computer terminal he was working on.",
+        "D. The main facility door controls."
+      ],
+      "answer": "C. The laptop/computer terminal he was working on."
+    },
+    {
+      "id": "-4Qk4eACpXI",
+      "category": "Comparative",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the gray/blue shirt is attacked first (00:46), and the man in the white shirt enters later (01:48). Who is the first of these two victims seen on the ground at any point in the fight sequence?",
+      "options": [
+        "A. The man in the gray/blue shirt (at 01:04).",
+        "B. The man in the white shirt (at 02:10).",
+        "C. The masked intruder (at 02:26).",
+        "D. They are both taken down at the same time (around 01:30)."
+      ],
+      "answer": "A. The man in the gray/blue shirt (at 01:04)."
+    },
+    {
+      "id": "-4Qk4eACpXI",
+      "category": "Cross-view Matching",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the white shirt is seen drawing a gun at **02:08**. Does the masked intruder still have the object he was focused on earlier (around 01:36) when he begins fighting the man in the white shirt at **02:17**?",
+      "options": [
+        "A. Yes, the intruder is still carrying the laptop.",
+        "B. No, the intruder has dropped the laptop and is carrying a pistol.",
+        "C. Yes, the intruder still has the laptop, but he drops it at 02:20.",
+        "D. No, the intruder has only the man's tie."
+      ],
+      "answer": "B. No, the intruder has dropped the laptop and is carrying a pistol."
+    },
+    {
+      "id": "-4Qk4eACpXI",
+      "category": "Activity-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the white shirt enters the room (01:48) after the first man is down. What is the final action performed by the first man in the gray/blue shirt before the scene cuts away to the fight (around **02:46**)?",
+      "options": [
+        "A. He successfully crawls to and presses the 'Emergency Stop' button.",
+        "B. He is crawling and is grabbed by the masked intruder.",
+        "C. He stands up to join the fight with the masked intruder.",
+        "D. He manages to throw a wrench at the intruder."
+      ],
+      "answer": "B. He is crawling and is grabbed by the masked intruder."
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Temporal Continuity",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the green jacket is seated behind the desk (00:03). What is the key change in his action when he is next seen seated at **01:23**?",
+      "options": [
+        "A. He is now sitting behind the desk, reading a ledger.",
+        "B. He is now sitting in the guest chair, reading a hotel newspaper.",
+        "C. He is now sitting in the guest chair, actively participating in the conversation.",
+        "D. He has removed his jacket and is pouring a drink."
+      ],
+      "answer": "C. He is now sitting in the guest chair, actively participating in the conversation."
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Activity-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the dark suit (manager) is standing at **00:01**, and then delivers a long speech about the history of the hotel. What is he doing at **01:44** while listening to the man in the green jacket speak?",
+      "options": [
+        "A. He is writing in a ledger.",
+        "B. He is standing up, gesturing emphatically.",
+        "C. He is seated in the large chair, looking through a drawer.",
+        "D. He is seated, calmly resting his chin on his fist."
+      ],
+      "answer": "D. He is seated, calmly resting his chin on his fist."
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Comparative",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the green jacket finishes his story about the hotel's decline at **01:05**. Which of the two men is the first to open a desk drawer during their discussion, and at what approximate time?",
+      "options": [
+        "A. The man in the green jacket (at 00:03).",
+        "B. The man in the dark suit (at 01:42).",
+        "C. The man in the dark suit (at 01:18).",
+        "D. The man in the green jacket (at 01:44)."
+      ],
+      "answer": "B. The man in the dark suit (at 01:42)."
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Cross-modal",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the green jacket, who says 'I don't think anybody can dispute that' (00:32), is later warned by the manager, 'I don't want you to check into 1408 because I don't want to clean up the mess' (02:08). What object does the manager gesture towards when delivering this line?",
+      "options": [
+        "A. A large, leather-bound book on the desk.",
+        "B. A bottle of alcohol.",
+        "C. A glass of water.",
+        "D. The drawer he just closed."
+      ],
+      "answer": "A. A large, leather-bound book on the desk."
+    },
+    {
+      "id": "--b-8xt2PeE",
+      "category": "Appearance-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man in the dark suit wears a yellow tie at **00:05**. The man in the green jacket is wearing a shirt with a floral pattern under his jacket (01:03). Which character is described by the manager as a 'sucker' who knocks up the hotel?",
+      "options": [
+        "A. The man in the green jacket.",
+        "B. Steve Winckox (mentioned at 00:50).",
+        "C. Gerald Olin (mentioned at 01:54).",
+        "D. The man in the dark suit himself."
+      ],
+      "answer": "B. Steve Winckox (mentioned at 00:50)."
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Temporal Continuity",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The player in the 'Pirates 17' uniform, seen pitching at **00:02**, is later shown speaking at a podium (02:13). What major physical change is visible in his hair and head between the archival footage and the podium appearance?",
+      "options": [
+        "A. His dark hair is replaced by a bald head with a prominent white streak.",
+        "B. He grew a full beard and longer sideburns.",
+        "C. He wears a baseball cap in the later scene.",
+        "D. He has transitioned from dark hair to entirely gray hair."
+      ],
+      "answer": "A. His dark hair is replaced by a bald head with a prominent white streak."
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Cross-view Matching",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The article's headline (00:23) describes the former major league pitcher helping addicts. Which interviewee, seen at **01:19**, is featured in a baseball cap in the later part of the article displayed at **01:34**?",
+      "options": [
+        "A. The older man in the black polo shirt (02:03).",
+        "B. The interviewee in the black fedora (01:40).",
+        "C. The interviewee in the orange polo shirt and glasses (01:19).",
+        "D. The speaker at the podium (02:13)."
+      ],
+      "answer": "C. The interviewee in the orange polo shirt and glasses (01:19)."
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Activity-based",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man speaking at the podium (02:13) is using sign language interpretation. Which interviewee, seen earlier, is shown wiping tears from his eyes at **00:54** while discussing the player's life?",
+      "options": [
+        "A. The man in the black fedora (01:40).",
+        "B. The man in the orange polo shirt (01:19).",
+        "C. The older man in the black jacket (00:36).",
+        "D. The sign language interpreter (02:13)."
+      ],
+      "answer": "C. The older man in the black jacket (00:36)."
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Comparative",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The player is seen pitching in a stadium at **00:02** and later sitting in stadium seats at **02:03**. Between the player speaking at the podium (02:13) and the man in the black fedora (01:40), who is seen wearing a plain white undershirt beneath their dark suit jacket?",
+      "options": [
+        "A. Both men wear a plain white undershirt.",
+        "B. Only the player speaking at the podium (02:13).",
+        "C. Only the man in the black fedora (01:40).",
+        "D. Neither man is wearing a white undershirt."
+      ],
+      "answer": "B. Only the player speaking at the podium (02:13)."
+    },
+    {
+      "id": "--UgPWRVt8A",
+      "category": "Cross-modal",
+      "question_type": "Multiple Choice Question (MCQ)",
+      "question": "The man who is seen smiling and laughing at **01:44** later says the line, 'A lot of kids nowadays... especially the players, don't understand what happened.' When is this line spoken?",
+      "options": [
+        "A. Around 00:54, after the first man cries.",
+        "B. Around 01:27, after the newspaper is shown.",
+        "C. Around 01:51, when talking in front of lockers.",
+        "D. Around 02:03, when seated in the stadium."
+      ],
+      "answer": "C. Around 01:51, when talking in front of lockers."
+    },    
+    {
+        "id": "-2LmKW3TtuI",
+        "category": "Appearance-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which of the following individuals is wearing a red t-shirt over a white long-sleeve shirt?",
+        "options": [
+            "A. The person at the front of the boat in a black sleeveless shirt",
+            "B. The person in the back of the boat with curly hair",
+            "C. The younger person in the blue/grey shirt",
+            "D. The person in the purple shirt"
+        ],
+        "answer": "B. The person in the back of the boat with curly hair"
+    },
+    {
+        "id": "-2LmKW3TtuI",
+        "category": "Activity-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person, who was previously seen sitting and holding a small camera, later stands up and begins to yell?",
+        "options": [
+            "A. A bystander",
+            "B. The person in the purple shirt",
+            "C. The person in the red t-shirt",
+            "D. The person in the black sleeveless shirt"
+        ],
+	      "answer": "C. The person in the red t-shirt"
+    },  
+    {
+        "id": "-2LmKW3TtuI",
+        "category": "Interaction-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person does the individual in the red shirt primarily direct his insults towards starting at 02:00, calling him a 'faggot'?",
+        "answer": "D. The person in the purple shirt",
+        "options": [
+            "A. The blonde girl",
+            "B. A cleaner",
+            "C. The secretary",
+            "D. The person in the purple shirt"
+        ]
+    },
+    {
+        "id": "-2LmKW3TtuI",
+        "category": "Group-context based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person is sitting directly next to the blonde girl for the entire duration of the scene?",
+        "answer": "C. The younger boy in the blue/grey shirt",
+        "options": [
+            "A. The person in the black sleeveless shirt",
+            "B. The manager/boss",
+            "C. The younger boy in the blue/grey shirt",
+            "D. The person in the purple shirt"
+        ]
+    },
+    {
+        "id": "-2LmKW3TtuI",
+        "category": "Environment-linked",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "The person who reveals the plan (in the black sleeveless shirt)\u2014where is he positioned in the boat?",
+        "answer": "C. He is sitting at the very front (bow) of the boat",
+        "options": [
+            "A. The blonde girl",
+            "B. The younger person in the blue/grey shirt",
+            "C. He is sitting at the very front (bow) of the boat",
+            "D. A guard"
+        ]
+    },
+    {
+        "id": "-2LmKW3TtuI",
+        "category": "Comparative",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Between the person in the red shirt and the person in the black sleeveless shirt, who is the one to stand up?",
+        "answer": "A. The person in the red t-shirt (around 01:30)",
+        "options": [
+            "A. The person in the red t-shirt (around 01:30)",
+            "B. The person in the black sleeveless shirt (around 01:00)",
+            "C. The person in the red t-shirt (around 00:30)",
+            "D. Neither person stands up in the scene"
+        ]
+    },
+    {
+        "id": "-2LmKW3TtuI",
+        "category": "Cross-modal",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person in the boat says the line, 'I'm a man who likes to follow through with his plans'?",
+        "answer": "B. The person in the black sleeveless shirt",
+        "options": [
+            "A. The referee",
+            "B. The person in the black sleeveless shirt",
+            "C. The blonde girl",
+            "D. The older man on the far right of the couch"
+        ]
+    },
+    {
+        "id": "-0SHIbuEO3w",
+        "category": "Appearance-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "What distinctive feature does the main person (the skateboarder) have on his left arm?",
+        "options": [
+            "A. A large burn scar",
+            "B. A prominent tattoo",
+            "C. A watch",
+            "D. A brightly colored sleeve"
+        ],
+        "answer": "B. A prominent tattoo"
+    },
+    {
+        "id": "-0SHIbuEO3w",
+        "category": "Activity-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person is seen riding a skateboard downhill after grabbing it from a group of people?",
+        "answer": "A. The bald man with a tattoo on his left arm (wearing a backpack and white pants)",
+        "options": [
+            "A. The bald man with a tattoo on his left arm (wearing a backpack and white pants)",
+            "B. A background extra",
+            "C. On the edge of the ice flow",
+            "D. The blonde girl"
+        ]
+    },
+    {
+        "id": "-0SHIbuEO3w",
+        "category": "Interaction-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person briefly grabs onto the side of a red pickup truck to talk to the elderly driver?",
+        "answer": "D. The bald man on the skateboard",
+        "options": [
+            "A. The older man on the far right of the couch",
+            "B. A guard",
+            "C. In a small fishing boat",
+            "D. The bald man on the skateboard"
+        ]
+    },
+    {
+        "id": "-0SHIbuEO3w",
+        "category": "Group-context based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Who is being chased by three men on motorcycles at 00:43?",
+        "answer": "B. The bald man on the skateboard",
+        "options": [
+            "A. The person in the purple shirt",
+            "B. The bald man on the skateboard",
+            "C. Backstage in the dressing room",
+            "D. A guard"
+        ]
+    },
+    {
+        "id": "-0SHIbuEO3w",
+        "category": "Environment-linked",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "The person who starts a timer at 00:10 where does he end up as the timer hits 2 seconds (01:59)?",
+        "answer": "D. Inside a shack in a salt flat/industrial area",
+        "options": [
+            "A. In a small fishing boat",
+            "B. In the hallway outside the room",
+            "C. Backstage in the dressing room",
+            "D. Inside a shack in a salt flat/industrial area"
+        ]
+    },
+    {
+        "id": "-0SHIbuEO3w",
+        "category": "Comparative",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Between the man on the skateboard and the men on the motorcycles, who appears on the downhill road first?",
+        "answer": "A. The man on the skateboard (around 00:20)",
+        "options": [
+            "A. The man on the skateboard (around 00:20)",
+            "B. The men on the motorcycles (around 00:30)",
+            "C. The man on the skateboard (around 00:45)",
+            "D. They appear simultaneously (around 00:43)"
+        ]
+    },
+    {
+        "id": "-0SHIbuEO3w",
+        "category": "Cross-modal",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person says the line, 'Hey friend... give me a second'?",
+        "answer": "D. The bald man on the skateboard",
+        "options": [
+            "A. The person in the purple shirt",
+            "B. The younger person in the blue/grey shirt",
+            "C. The referee",
+            "D. The bald man on the skateboard"
+        ]
+    },
+    {
+        "id": "-1U0LH6dPfw",
+        "category": "Appearance-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which of the following is the main character on stage at the start of the clip (00:01)?",
+        "options": [
+            "A. A small yellow creature in overalls.",
+            "B. A large muscular man with black hair.",
+            "C. A tall woman in a red dress.",
+            "D. A green reptilian creature."
+        ],
+        "answer": "C. A tall woman in a red dress"
+    },
+    {
+        "id": "-1U0LH6dPfw",
+        "category": "Activity-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which character successfully pulls the sword from the stage floor at 01:11?",
+        "answer": "A. The small, two-eyed yellow creature",
+        "options": [
+            "A. The small, two-eyed yellow creature",
+            "B. The referee",
+            "C. A child",
+            "D. A bystander"
+        ]
+    },
+    {
+        "id": "-1U0LH6dPfw",
+        "category": "Interaction-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which group of characters does the woman in the red dress hire as her new henchmen at 02:07?",
+        "answer": "C. The three small yellow creatures",
+        "options": [
+            "A. The secretary",
+            "B. The referee",
+            "C. The three small yellow creatures",
+            "D. A child"
+        ]
+    },
+    {
+        "id": "-1U0LH6dPfw",
+        "category": "Group-context based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which three characters are seen running onto the stage together from the audience at 00:43?",
+        "answer": "C. The three small yellow creatures",
+        "options": [
+            "A. A different dog",
+            "B. The person in the purple shirt",
+            "C. The three small yellow creatures",
+            "D. A skua bird"
+        ]
+    },
+    {
+        "id": "-1U0LH6dPfw",
+        "category": "Environment-linked",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "The small, two-eyed yellow creature who pulls the sword from the stage\u2014where was he sitting at 00:13?",
+        "answer": "A. In the audience",
+        "options": [
+            "A. In the audience",
+            "B. A skua bird",
+            "C. An Adelie penguin",
+            "D. A whale"
+        ]
+    },
+    {
+        "id": "-1U0LH6dPfw",
+        "category": "Comparative",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Between the muscular man (00:22) and the reptilian man (00:25), who jumps onto the stage first?",
+        "answer": "A. The muscular man",
+        "options": [
+            "A. The muscular man",
+            "B. The defeated boxer",
+            "C. The referee",
+            "D. The leopard seal"
+        ]
+    },
+    {
+        "id": "-1U0LH6dPfw",
+        "category": "Temporal-appearance drift",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which defeated character is seen at the bottom of the villain pile-up at 01:19?",
+        "answer": "C. The green reptilian creature",
+        "options": [
+            "A. The person in the purple shirt",
+            "B. The person in the black sleeveless shirt",
+            "C. The green reptilian creature",
+            "D. An Adelie penguin"
+        ]
+    },
+    {
+        "id": "-1U0LH6dPfw",
+        "category": "Cross-modal",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which character says the line, 'Who has the ruby?'",
+        "answer": "B. The woman in the red dress",
+        "options": [
+            "A. A seal pup",
+            "B. The woman in the red dress",
+            "C. A different dog",
+            "D. A background extra"
+        ]
+    },
+    {
+        "id": "-1W4xHNKvAk",
+        "category": "Appearance-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which of the following individuals is wearing a light blue button-down shirt and black pants?",
+        "options": [
+            "A. The shorter man wearing a beanie",
+            "B. The tall man with curly hair",
+            "C. The man in the red shirt at the gate",
+            "D. The persona acting as a romantic interest"
+        ],
+        "answer": "B. The tall man with curly hair"
+    },
+    {
+        "id": "-1W4xHNKvAk",
+        "category": "Activity-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person in the yard pretends to be three different characters (a gang leader, another gang leader, and a romantic interest)?",
+        "answer": "D. The shorter man in the black beanie",
+        "options": [
+            "A. A guard",
+            "B. The blonde girl",
+            "C. The manager/boss",
+            "D. The shorter man in the black beanie"
+        ]
+    },
+    {
+        "id": "-1W4xHNKvAk",
+        "category": "Interaction-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which character 'persona' (the romantic interest, the first gang leader, or the second gang leader) attempts to hug and 'claim' the tall man at 02:08?",
+        "answer": "B. The persona acting as a romantic interest",
+        "options": [
+            "A. A guard",
+            "B. The persona acting as a romantic interest",
+            "C. The older man on the far right of the couch",
+            "D. A cleaner"
+        ]
+    },
+    {
+        "id": "-1W4xHNKvAk",
+        "category": "Group-context based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which 'gang leader' persona (the one in the hoodie or the one who is shirtless) confronts the other about the tall man at 01:55?",
+        "answer": "A. The persona in the hoodie confronts the shirtless persona",
+        "options": [
+            "A. The persona in the hoodie confronts the shirtless persona",
+            "B. The manager/boss",
+            "C. A child",
+            "D. Pitching a baseball / warming up on a football field"
+        ]
+    },
+    {
+        "id": "-1W4xHNKvAk",
+        "category": "Environment-linked",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "The person in the black beanie points to what kind of warning sign at 00:09?",
+        "answer": "B. A 'High Voltage Instant Death' sign",
+        "options": [
+            "A. A heavy gold chain",
+            "B. A 'High Voltage Instant Death' sign",
+            "C. The blonde girl",
+            "D. Pitching a baseball / warming up on a football field"
+        ]
+    },
+    {
+        "id": "-1W4xHNKvAk",
+        "category": "Comparative",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Between the two main individuals, who is significantly taller?",
+        "answer": "D. The man in the blue shirt",
+        "options": [
+            "A. A warning sign for a cliff edge",
+            "B. The referee",
+            "C. The older man on the far right of the couch",
+            "D. The man in the blue shirt"
+        ]
+    },
+    {
+        "id": "-1W4xHNKvAk",
+        "category": "Cross-modal",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person says the line, 'From this point on, this is the yard'?",
+        "answer": "C. The shorter man in the black beanie (while playing a persona)",
+        "options": [
+            "A. The older man on the far right of the couch",
+            "B. A guard",
+            "C. The shorter man in the black beanie (while playing a persona)",
+            "D. The secretary"
+        ]
+    },
+    {
+        "id": "-2KG4lLGEl0",
+        "category": "Appearance-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which of the following individuals is wearing a light blue button-down shirt with no tie?",
+        "options": [
+            "A. The man sitting on the far left of the couch (tan suit).",
+            "B. The man sitting in the middle of the couch (glasses, dark suit).",
+            "C. The man sitting on the far right of the couch (older, dark suit).",
+            "D. The man who is speaking and smoking."
+        ],
+        "answer": "D. The man who is speaking and smoking"
+    },
+    {
+        "id": "-2KG4lLGEl0",
+        "category": "Activity-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person, after sitting on the couch, stands up at 00:47, walks to a desk, and sits down behind it at 01:03?",
+        "answer": "D. The man in the light blue shirt",
+        "options": [
+            "A. Near the window",
+            "B. A bystander",
+            "C. A guard",
+            "D. The man in the light blue shirt"
+        ]
+    },
+    {
+        "id": "-2KG4lLGEl0",
+        "category": "Interaction-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person introduces the man in the tan suit to the man in the blue shirt?",
+        "answer": "B. The older man on the far right of the couch",
+        "options": [
+            "A. A background extra",
+            "B. The older man on the far right of the couch",
+            "C. Near the window",
+            "D. The man with glasses in the dark suit"
+        ]
+    },
+    {
+        "id": "-2KG4lLGEl0",
+        "category": "Group-context based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person is sitting between the man in the tan suit and the older man in the dark suit?",
+        "answer": "D. The man with glasses in the dark suit",
+        "options": [
+            "A. A background extra",
+            "B. In a small fishing boat",
+            "C. The younger person in the blue/grey shirt",
+            "D. The man with glasses in the dark suit"
+        ]
+    },
+    {
+        "id": "-2KG4lLGEl0",
+        "category": "Environment-linked",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "The man in the light blue shirt moves from the couch to what piece of furniture?",
+        "answer": "A. The desk",
+        "options": [
+            "A. The desk",
+            "B. The defeated boxer",
+            "C. A guard",
+            "D. On the edge of the ice flow"
+        ]
+    },
+    {
+        "id": "-2KG4lLGEl0",
+        "category": "Comparative",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Between the man in the blue shirt and the three men on the couch, who is the one to stand up and move across the room?",
+        "answer": "A. The man in the blue shirt (at 00:47)",
+        "options": [
+            "A. The man in the blue shirt (at 00:47)",
+            "B. The man in the tan suit (at 01:42)",
+            "C. The older man on the far right (at 00:05)",
+            "D. The man with glasses in the middle (at 01:00)"
+        ]
+    },
+    {
+        "id": "-2KG4lLGEl0",
+        "category": "Cross-modal",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person says the line, 'I think the time comes to decide whether you're running a museum or you're running a casino'?",
+        "answer": "A. The man in the tan suit",
+        "options": [
+            "A. The man in the tan suit",
+            "B. Backstage in the dressing room",
+            "C. The blonde girl",
+            "D. The person in the purple shirt"
+        ]
+    },
+    {
+        "id": "-2KGPYEFnsU",
+        "category": "Appearance-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which individual is seen wearing a white shirt and a red patterned tie?",
+        "options": [
+            "A. The blonde woman at the restaurant.",
+            "B. The man working late in the office.",
+            "C. The younger woman in the kitchen.",
+            "D. The man in the background of the restaurant."
+        ],
+        "answer": "B. The man working late in the office"
+    },
+    {
+        "id": "-2KGPYEFnsU",
+        "category": "Activity-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person is seen working late at a desk in a high-rise office and talking on a landline phone?",
+        "answer": "D. The man in the white shirt",
+        "options": [
+            "A. In the hallway outside the room",
+            "B. The secretary",
+            "C. A background extra",
+            "D. The man in the white shirt"
+        ]
+    },
+    {
+        "id": "-2KGPYEFnsU",
+        "category": "Interaction-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which two characters have a long conversation at a kitchen island starting around 00:38?",
+        "answer": "C. The blonde woman and the younger woman",
+        "options": [
+            "A. In the hallway outside the room",
+            "B. A guard",
+            "C. The blonde woman and the younger woman",
+            "D. The secretary"
+        ]
+    },
+    {
+        "id": "-2KGPYEFnsU",
+        "category": "Group-context based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Who is the blonde woman talking to in the kitchen scene?",
+        "answer": "D. The younger woman / babysitter",
+        "options": [
+            "A. In the hallway outside the room",
+            "B. On the edge of the ice flow",
+            "C. In a small fishing boat",
+            "D. The younger woman / babysitter"
+        ]
+    },
+    {
+        "id": "-2KGPYEFnsU",
+        "category": "Environment-linked",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "The blonde woman appears in three locations. Which of these is NOT one of them?",
+        "options": [
+            "A. A restaurant",
+            "B. A high-rise office",
+            "C. Her home (on a cell phone)",
+            "D. Her kitchen"
+        ],
+        "answer": "B. A high-rise office"
+    },
+    {
+        "id": "-2KGPYEFnsU",
+        "category": "Comparative",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Between the two women talking in the kitchen, who is wearing a black top/dress?",
+        "answer": "C. The blonde woman",
+        "options": [
+            "A. Near the window",
+            "B. In the hallway outside the room",
+            "C. The blonde woman",
+            "D. The younger person in the blue/grey shirt"
+        ]
+    },
+    {
+        "id": "-2KGPYEFnsU",
+        "category": "Cross-modal",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person says the line, '...he just forgot me at the coffee shop'?",
+        "answer": "A. The blonde woman",
+        "options": [
+            "A. The blonde woman",
+            "B. The manager/boss",
+            "C. A child",
+            "D. The secretary"
+        ]
+    },
+    {
+        "id": "-3ywc_7_IE8",
+        "category": "Appearance-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which of the two main fighters is wearing the dark-colored trunks?",
+        "options": [
+            "A. The fighter with darker hair",
+            "B. The fighter with lighter, shorter hair",
+            "C. The referee",
+            "D. The man at ringside in a vest"
+        ],
+        "answer": "A. The fighter with darker hair"
+    },
+    {
+        "id": "-3ywc_7_IE8",
+        "category": "Activity-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person is seen celebrating ecstatically at ringside (00:34) and later enters the ring to hug the winner (01:45)?",
+        "answer": "A. The man in the vest",
+        "options": [
+            "A. The man in the vest",
+            "B. A background extra",
+            "C. The referee",
+            "D. The secretary"
+        ]
+    },
+    {
+        "id": "-3ywc_7_IE8",
+        "category": "Interaction-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person enters the locker room after the fight to talk to the winner while he is eating from a bowl?",
+        "answer": "D. The balding man in the vest",
+        "options": [
+            "A. The older man on the far right of the couch",
+            "B. A cleaner",
+            "C. In a small fishing boat",
+            "D. The balding man in the vest"
+        ]
+    },
+    {
+        "id": "-3ywc_7_IE8",
+        "category": "Group-context based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Besides the two fighters, which person is inside the ring with them during the entire match?",
+        "answer": "C. The referee (older man in a white shirt and bowtie)",
+        "options": [
+            "A. A background extra",
+            "B. The younger person in the blue/grey shirt",
+            "C. The referee (older man in a white shirt and bowtie)",
+            "D. The person in the purple shirt"
+        ]
+    },
+    {
+        "id": "-3ywc_7_IE8",
+        "category": "Environment-linked",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "After winning the fight, where is the boxer in the dark trunks seen eating at 02:01?",
+        "answer": "D. In a locker room",
+        "options": [
+            "A. On the edge of the ice flow",
+            "B. Backstage in the dressing room",
+            "C. In a small fishing boat",
+            "D. In a locker room"
+        ]
+    },
+    {
+        "id": "-3ywc_7_IE8",
+        "category": "Comparative",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Between the two main fighters, who wins the match by knockout?",
+        "answer": "C. The fighter with dark hair in dark trunks (at 01:37)",
+        "options": [
+            "A. The fighter with lighter hair in light trunks (at 00:32)",
+            "B. The referee (by TKO at 01:37)",
+            "C. The fighter with dark hair in dark trunks (at 01:37)",
+            "D. The fight ends in a draw"
+        ]
+    },
+    {
+        "id": "-3ywc_7_IE8",
+        "category": "Cross-modal",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person says the line, 'Jesus, Mary and Joseph... Did I say Jesus?' in the locker room?",
+        "answer": "B. The man in the vest",
+        "options": [
+            "A. A background extra",
+            "B. The man in the vest",
+            "C. The younger person in the blue/grey shirt",
+            "D. The person in the purple shirt"
+        ]
+    },
+    {
+        "id": "-4kio7152q4",
+        "category": "Appearance-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which of the following individuals is seen emerging from the ocean wearing an orange bikini?",
+        "options": [
+            "A. The man in the blue shirt at the bar.",
+            "B. The woman at the bar.",
+            "C. The woman sitting at a table in the background.",
+            "D. The bartender."
+        ],
+        "answer": "B. The woman at the bar"
+    },
+    {
+        "id": "-4kio7152q4",
+        "category": "Activity-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person is first seen using binoculars at a bar and later drinks a mojito while talking to a woman?",
+        "answer": "D. The man in the blue patterned shirt",
+        "options": [
+            "A. The defeated boxer",
+            "B. The referee",
+            "C. A child",
+            "D. The man in the blue patterned shirt"
+        ]
+    },
+    {
+        "id": "-4kio7152q4",
+        "category": "Interaction-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person approaches the man at the bar after walking out of the ocean?",
+        "answer": "C. The woman in the orange bikini",
+        "options": [
+            "A. The referee",
+            "B. The person in the purple shirt",
+            "C. The woman in the orange bikini",
+            "D. The older man on the far right of the couch"
+        ]
+    },
+    {
+        "id": "-4kio7152q4",
+        "category": "Group-context based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Who is the man in the blue shirt interacting with at the bar from 00:57 onwards?",
+        "answer": "C. The woman in the orange bikini",
+        "options": [
+            "A. The younger person in the blue/grey shirt",
+            "B. The secretary",
+            "C. The woman in the orange bikini",
+            "D. The defeated boxer"
+        ]
+    },
+    {
+        "id": "-4kio7152q4",
+        "category": "Environment-linked",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "The woman in the orange bikini\u2014from what location does she enter the bar area?",
+        "answer": "D. She walks directly out of the ocean",
+        "options": [
+            "A. In the hallway outside the room",
+            "B. Near the window",
+            "C. Backstage in the dressing room",
+            "D. She walks directly out of the ocean"
+        ]
+    },
+    {
+        "id": "-4kio7152q4",
+        "category": "Comparative",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Between the two main characters, who is first seen swimming and who is first seen at the bar?",
+        "answer": "B. The woman is first seen swimming; the man is first seen at the bar",
+        "options": [
+            "A. In a small fishing boat",
+            "B. The woman is first seen swimming; the man is first seen at the bar",
+            "C. The defeated boxer",
+            "D. Near the window"
+        ]
+    },
+    {
+        "id": "-4kio7152q4",
+        "category": "Cross-modal",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person says the line, 'My friends call me Jinx'?",
+        "answer": "B. The woman in the orange bikini",
+        "options": [
+            "A. The older man on the far right of the couch",
+            "B. The woman in the orange bikini",
+            "C. The defeated boxer",
+            "D. The manager/boss"
+        ]
+    },
+    {
+        "id": "-4Qk4eACpXI",
+        "category": "Appearance-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which individual in the room is wearing a white shirt, dark tie, and a shoulder holster?",
+        "options": [
+            "A. The man first seen at the computer (in the grey/blue shirt).",
+            "B. The intruder wearing a black mask.",
+            "C. The man who enters the room at 01:48.",
+            "D. No one is wearing a tie."
+        ],
+        "answer": "C. The man who enters the room at 01:48"
+    },
+    {
+        "id": "-4Qk4eACpXI",
+        "category": "Activity-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person is first seen typing on a laptop in a briefcase and is later attacked by a masked intruder?",
+        "answer": "B. The man in the grey/blue button-down shirt",
+        "options": [
+            "A. A background extra",
+            "B. The man in the grey/blue button-down shirt",
+            "C. The defeated boxer",
+            "D. The person in the purple shirt"
+        ]
+    },
+    {
+        "id": "-4Qk4eACpXI",
+        "category": "Interaction-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which two individuals fight each other starting at 02:13?",
+        "answer": "A. The intruder in the black mask and the man in the white shirt and tie",
+        "options": [
+            "A. The intruder in the black mask and the man in the white shirt and tie",
+            "B. The defeated boxer",
+            "C. The younger person in the blue/grey shirt",
+            "D. The person in the black sleeveless shirt"
+        ]
+    },
+    {
+        "id": "-4Qk4eACpXI",
+        "category": "Group-context based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person enters the room while the man in the grey/blue shirt is on the floor and the masked intruder is at the computer?",
+        "answer": "A. The man in the white shirt and tie",
+        "options": [
+            "A. The man in the white shirt and tie",
+            "B. The younger person in the blue/grey shirt",
+            "C. The defeated boxer",
+            "D. The older man on the far right of the couch"
+        ]
+    },
+    {
+        "id": "-4Qk4eACpXI",
+        "category": "Environment-linked",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "The man in the balaclava (intruder) interacts with which object after knocking down the first man?",
+        "answer": "D. The laptop in the briefcase",
+        "options": [
+            "A. A heavy gold chain",
+            "B. A warning sign for a cliff edge",
+            "C. A pair of binoculars",
+            "D. The laptop in the briefcase"
+        ]
+    },
+    {
+        "id": "-4Qk4eACpXI",
+        "category": "Comparative",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Between the man in the grey/blue shirt and the man in the white shirt, who is the first one to be attacked by the masked intruder?",
+        "answer": "D. The man in the grey/blue shirt",
+        "options": [
+            "A. The defeated boxer",
+            "B. A background extra",
+            "C. The referee",
+            "D. The man in the grey/blue shirt"
+        ]
+    },
+    {
+        "id": "-4Qk4eACpXI",
+        "category": "Cross-modal",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person says 'let's check the control panel' (around 00:21) while working?",
+        "answer": "B. The man in the grey/blue button-down shirt",
+        "options": [
+            "A. The older man on the far right of the couch",
+            "B. The man in the grey/blue button-down shirt",
+            "C. The blonde girl",
+            "D. The younger person in the blue/grey shirt"
+        ]
+    },
+    {
+        "id": "--b-8xt2PeE",
+        "category": "Appearance-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which of the following individuals is wearing a dark suit and a gold tie?",
+        "options": [
+            "A. The man sitting behind the desk at the start",
+            "B. The man standing at the start",
+            "C. Both men are wearing suits and ties",
+            "D. Neither man is wearing a tie"
+        ],
+        "answer": "B. The man standing at the start"
+    },
+    {
+        "id": "--b-8xt2PeE",
+        "category": "Activity-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person sits down behind the desk at 01:18 after previously standing and walking around the room?",
+        "answer": "D. The man in the dark suit",
+        "options": [
+            "A. The defeated boxer",
+            "B. A cleaner",
+            "C. The younger person in the blue/grey shirt",
+            "D. The man in the dark suit"
+        ]
+    },
+    {
+        "id": "--b-8xt2PeE",
+        "category": "Interaction-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person remains seated behind the desk for the first 30 seconds of the clip?",
+        "answer": "A. The man in the green jacket",
+        "options": [
+            "A. The man in the green jacket",
+            "B. The defeated boxer",
+            "C. The person in the purple shirt",
+            "D. The person in the black sleeveless shirt"
+        ]
+    },
+    {
+        "id": "--b-8xt2PeE",
+        "category": "Group-context based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Who is the man in the green jacket talking to for the entire clip?",
+        "answer": "D. The man in the dark suit",
+        "options": [
+            "A. The person in the black sleeveless shirt",
+            "B. The referee",
+            "C. The older man on the far right of the couch",
+            "D. The man in the dark suit"
+        ]
+    },
+    {
+        "id": "--b-8xt2PeE",
+        "category": "Environment-linked",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "The man in the green jacket starts the clip sitting behind a desk. Where does he sit after standing up at 00:56?",
+        "answer": "A. In a chair in front of the desk",
+        "options": [
+            "A. In a chair in front of the desk",
+            "B. Near the window",
+            "C. Backstage in the dressing room",
+            "D. In a small fishing boat"
+        ]
+    },
+    {
+        "id": "--b-8xt2PeE",
+        "category": "Comparative",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Between the two men, who is the one to first sit behind the desk?",
+        "answer": "A. Green jacket first, Dark suit last.",
+        "options": [
+            "A. Green jacket first, Dark suit last.",
+            "B. The man in the dark suit (at 01:18)",
+            "C. The man in the dark suit (at 00:01)",
+            "D. The man in the green jacket (at 01:18)"
+        ]
+    },
+    {
+        "id": "--b-8xt2PeE",
+        "category": "Cross-modal",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person says the line, 'I don't want you to check into 1408 because I don't want to clean up the mess'?",
+        "answer": "A. The man in the dark suit",
+        "options": [
+            "A. The man in the dark suit",
+            "B. The defeated boxer",
+            "C. The referee",
+            "D. The blonde girl"
+        ]
+    },
+    {
+        "id": "--hendERqm0",
+        "category": "Appearance-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which of the following is the *first* costume worn by the small white dog?",
+        "options": [
+            "A. A red fedora and white shirt",
+            "B. A black top hat and glasses",
+            "C. An orange pumpkin shirt and a purple witch hat",
+            "D. A ghost sheet with a top hat"
+        ],
+        "answer": "C. An orange pumpkin shirt and a purple witch hat"
+    },
+    {
+        "id": "--hendERqm0",
+        "category": "Activity-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which dog is seen posing for a photo shoot while wearing multiple different hats?",
+        "answer": "A. The small white Maltese",
+        "options": [
+            "A. The small white Maltese",
+            "B. A seal pup",
+            "C. The leopard seal",
+            "D. A different dog"
+        ]
+    },
+    {
+        "id": "--hendERqm0",
+        "category": "Interaction-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which dog is seen posing *behind* a DSLR camera, as if taking a picture?",
+        "answer": "A. The small white Maltese (at 00:12)",
+        "options": [
+            "A. The small white Maltese (at 00:12)",
+            "B. A whale",
+            "C. A skua bird",
+            "D. A seal pup"
+        ]
+    },
+    {
+        "id": "--hendERqm0",
+        "category": "Group-context based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which character appears wearing a white sheet *after* the small white dog is shown in multiple hats?",
+        "answer": "D. The larger dog",
+        "options": [
+            "A. A skua bird",
+            "B. A different dog",
+            "C. A seal pup",
+            "D. The larger dog"
+        ]
+    },
+    {
+        "id": "--hendERqm0",
+        "category": "Environment-linked",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "The small white dog appears in a photo studio. Where is this dog seen immediately before this?",
+        "answer": "A. This dog is not seen before; the clip opens with a futuristic hallway",
+        "options": [
+            "A. This dog is not seen before; the clip opens with a futuristic hallway",
+            "B. In the hallway outside the room",
+            "C. Backstage in the dressing room",
+            "D. Near the window"
+        ]
+    },
+    {
+        "id": "--hendERqm0",
+        "category": "Comparative",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Between the two dogs that appear, which one is wearing a ghost costume?",
+        "answer": "D. The larger dog",
+        "options": [
+            "A. A different dog",
+            "B. A seal pup",
+            "C. An Adelie penguin",
+            "D. The larger dog"
+        ]
+    },
+    {
+        "id": "--hendERqm0",
+        "category": "Clothing-change tracking",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "The small white dog is wearing an orange pumpkin shirt at 00:10. What is it wearing at 00:17?",
+        "answer": "A. A black hat with a feather and round glasses.",
+        "options": [
+            "A. A black hat with a feather and round glasses.",
+            "B. A simple red hat",
+            "C. A warning sign for a cliff edge",
+            "D. A heavy gold chain"
+        ]
+    },
+    {
+        "id": "--hendERqm0",
+        "category": "Cross-modal",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which dog is on screen when the line 'Wow, you're getting the hang of it' is spoken?",
+        "answer": "C. The small white dog (wearing a black hat and glasses)",
+        "options": [
+            "A. The leopard seal",
+            "B. An Adelie penguin",
+            "C. The small white dog (wearing a black hat and glasses)",
+            "D. The defeated boxer"
+        ]
+    },
+    {
+        "id": "--oCWVOBuvA",
+        "category": "Appearance-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "What is the man wearing in the garage scene?",
+        "options": [
+            "A. A suit and tie",
+            "B. A dark, short-sleeved t-shirt and light-colored pants",
+            "C. A white t-shirt and overalls",
+            "D. A light-colored button-down shirt"
+        ],
+        "answer": "B. A dark, short-sleeved t-shirt and light-colored pants"
+    },
+    {
+        "id": "--oCWVOBuvA",
+        "category": "Activity-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person is seen working on a car and later hands a small mechanical part to the other person?",
+        "answer": "D. The man",
+        "options": [
+            "A. The man with glasses in the dark suit",
+            "B. The younger person in the blue/grey shirt",
+            "C. The person in the purple shirt",
+            "D. The man"
+        ]
+    },
+    {
+        "id": "--oCWVOBuvA",
+        "category": "Interaction-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person gets into the car at 00:11, then gets out to speak with the man?",
+        "answer": "B. The woman",
+        "options": [
+            "A. A cleaner",
+            "B. The woman",
+            "C. The referee",
+            "D. A child"
+        ]
+    },
+    {
+        "id": "--oCWVOBuvA",
+        "category": "Group-context based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Who is the man talking to for the entire duration of the clip?",
+        "answer": "D. The woman",
+        "options": [
+            "A. The younger person in the blue/grey shirt",
+            "B. The older man on the far right of the couch",
+            "C. The defeated boxer",
+            "D. The woman"
+        ]
+    },
+    {
+        "id": "--oCWVOBuvA",
+        "category": "Environment-linked",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Where does the conversation between the two characters primarily take place?",
+        "answer": "C. In a garage or auto repair shop",
+        "options": [
+            "A. In a small fishing boat",
+            "B. Backstage in the dressing room",
+            "C. In a garage or auto repair shop",
+            "D. In the hallway outside the room"
+        ]
+    },
+    {
+        "id": "--oCWVOBuvA",
+        "category": "Comparative",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Between the two characters, who is the one to stand up from a crouching position at 00:13?",
+        "answer": "A. The man (at 00:13)",
+        "options": [
+            "A. The man (at 00:13)",
+            "B. The woman (at 00:15)",
+            "C. Both characters are standing the entire time",
+            "D. A third character enters and stands up"
+        ]
+    },
+    {
+        "id": "--oCWVOBuvA",
+        "category": "Cross-modal",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person says the line, 'You want to live your all life fast'?",
+        "answer": "C. The woman",
+        "options": [
+            "A. The younger person in the blue/grey shirt",
+            "B. A guard",
+            "C. The woman",
+            "D. The older man on the far right of the couch"
+        ]
+    },
+    {
+        "id": "--UgPWRVt8A",
+        "category": "Appearance-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which of the following individuals is the baseball player shown in the archival pitching footage at 00:02?",
+        "options": [
+            "A. The man in the orange polo shirt (01:19)",
+            "B. The man pitching in a 'Pirates 17' uniform (00:02)",
+            "C. The man speaking at a podium (02:13)",
+            "D. The man in the black t-shirt (01:43)"
+        ],
+        "answer": "B. The man pitching in a 'Pirates 17' uniform (00:02)"
+    },
+    {
+        "id": "--UgPWRVt8A",
+        "category": "Activity-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "What activity is the man in the 'Pirates 17' uniform performing at 00:02-00:10?",
+        "answer": "B. Pitching a baseball / Warming up on a baseball field",
+        "options": [
+            "A. A warning sign for a cliff edge",
+            "B. Pitching a baseball / Warming up on a baseball field",
+            "C. The defeated boxer",
+            "D. The younger person in the blue/grey shirt"
+        ]
+    },
+    {
+        "id": "--UgPWRVt8A",
+        "category": "Interaction-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person is standing next to the man at the podium (02:13) and using hand gestures?",
+        "answer": "B. The sign language interpreter (a woman with short hair)",
+        "options": [
+            "A. The person in the purple shirt",
+            "B. The sign language interpreter (a woman with short hair)",
+            "C. The referee",
+            "D. The older man on the far right of the couch"
+        ]
+    },
+    {
+        "id": "--UgPWRVt8A",
+        "category": "Group-context based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which interviewee is sitting in stadium seats (02:03)?",
+        "answer": "A. The older, bald man with glasses in a black polo shirt",
+        "options": [
+            "A. The older, bald man with glasses in a black polo shirt",
+            "B. The person in the purple shirt",
+            "C. The defeated boxer",
+            "D. The person in the black sleeveless shirt"
+        ]
+    },
+    {
+        "id": "--UgPWRVt8A",
+        "category": "Environment-linked",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "The man wearing a 'Pirates 17' jersey is seen in what type of environment?",
+        "answer": "C. A baseball stadium",
+        "options": [
+            "A. Pitching a baseball / warming up on a football field",
+            "B. The younger person in the blue/grey shirt",
+            "C. A baseball stadium",
+            "D. The person in the purple shirt"
+        ]
+    },
+    {
+        "id": "--UgPWRVt8A",
+        "category": "Comparative",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Between the man in the orange polo shirt (01:19) and the man in the black fedora (01:40), who is wearing glasses?",
+        "answer": "A. The man in the orange polo shirt",
+        "options": [
+            "A. The man in the orange polo shirt",
+            "B. The man in the black fedora (01:40)",
+            "C. The older interviewee (02:03)",
+            "D. None of the above"
+        ]
+    },
+    {
+        "id": "--UgPWRVt8A",
+        "category": "Cross-modal",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person is seen wiping away tears (00:54) while speaking?",
+        "answer": "A. The first interviewee (the older, bald man in the black jacket)",
+        "options": [
+            "A. The first interviewee (the older, bald man in the black jacket)",
+            "B. The person in the purple shirt",
+            "C. The younger person in the blue/grey shirt",
+            "D. The person in the black sleeveless shirt"
+        ]
+    },
+    {
+        "id": "--uyzf7X_0c",
+        "category": "Appearance-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person entering the room at 00:03 is wearing a full suit with fur trimming, a large belt, and a hat?",
+        "answer": "D. The man with the white beard",
+        "options": [
+            "A. The man with glasses in the dark suit",
+            "B. A background extra",
+            "C. The younger person in the blue/grey shirt",
+            "D. The man with the white beard"
+        ]
+    },
+    {
+        "id": "--uyzf7X_0c",
+        "category": "Activity-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person approaches the seated child and leans down to speak with her at 00:38?",
+        "answer": "D. The man in the Santa suit",
+        "options": [
+            "A. The manager/boss",
+            "B. A cleaner",
+            "C. The defeated boxer",
+            "D. The man in the Santa suit"
+        ]
+    },
+    {
+        "id": "--uyzf7X_0c",
+        "category": "Interaction-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person hands the woman at the desk an employment card at 01:12?",
+        "answer": "D. The other woman (her secretary) who enters from the outer office",
+        "options": [
+            "A. The older man on the far right of the couch",
+            "B. The younger person in the blue/grey shirt",
+            "C. The defeated boxer",
+            "D. The other woman (her secretary) who enters from the outer office"
+        ]
+    },
+    {
+        "id": "--uyzf7X_0c",
+        "category": "Group-context based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which individual enters the room where the woman and the young girl are already present?",
+        "answer": "D. The man in the Santa suit",
+        "options": [
+            "A. The defeated boxer",
+            "B. The older man on the far right of the couch",
+            "C. The younger person in the blue/grey shirt",
+            "D. The man in the Santa suit"
+        ]
+    },
+    {
+        "id": "--uyzf7X_0c",
+        "category": "Environment-linked",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "The woman at the desk reads a document at 01:15. What 'Place' of birth is listed on it?",
+        "answer": "B. North Pole",
+        "options": [
+            "A. Near the window",
+            "B. North Pole",
+            "C. In the hallway outside the room",
+            "D. Backstage in the dressing room"
+        ]
+    },
+    {
+        "id": "--uyzf7X_0c",
+        "category": "Comparative",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Between the man in the Santa suit and the woman at the desk, who is the first to speak to the child?",
+        "answer": "B. The man in the Santa suit (at 00:38)",
+        "options": [
+            "A. The woman at the desk (at 00:30)",
+            "B. The man in the Santa suit (at 00:38)",
+            "C. The secretary (at 01:12)",
+            "D. The child herself (at 00:38)"
+        ]
+    },
+    {
+        "id": "--uyzf7X_0c",
+        "category": "Cross-modal",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which person says the line, 'I'm sorry to disagree with you... but not only is there such a person, but here I am to prove it'?",
+        "answer": "B. The man in the Santa suit",
+        "options": [
+            "A. A background extra",
+            "B. The man in the Santa suit",
+            "C. The defeated boxer",
+            "D. The person in the purple shirt"
+        ]
+    },
+    {
+        "id": "-0f67QE-HP8",
+        "category": "Appearance-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which character is a large sea mammal with dark spots, a long snout, and sharp teeth?",
+        "answer": "A. The leopard seal",
+        "options": [
+            "A. The leopard seal",
+            "B. A seal pup",
+            "C. A skua bird",
+            "D. A different dog"
+        ]
+    },
+    {
+        "id": "-0f67QE-HP8",
+        "category": "Activity-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which penguin is seen tap-dancing on the ice at 02:25?",
+        "answer": "B. The fluffy young emperor penguin",
+        "options": [
+            "A. A different dog",
+            "B. The fluffy young emperor penguin",
+            "C. A whale",
+            "D. An Adelie penguin"
+        ]
+    },
+    {
+        "id": "-0f67QE-HP8",
+        "category": "Interaction-based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which animal chases the fluffy penguin into a group of five smaller penguins at 01:43?",
+        "answer": "C. The leopard seal",
+        "options": [
+            "A. A seal pup",
+            "B. A different dog",
+            "C. The leopard seal",
+            "D. A skua bird"
+        ]
+    },
+    {
+        "id": "-0f67QE-HP8",
+        "category": "Group-context based",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which character is standing in the middle of the five smaller (Adelie) penguins at 02:11?",
+        "answer": "D. The fluffy emperor penguin",
+        "options": [
+            "A. The leopard seal",
+            "B. A whale",
+            "C. A skua bird",
+            "D. The fluffy emperor penguin"
+        ]
+    },
+    {
+        "id": "-0f67QE-HP8",
+        "category": "Environment-linked",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "The main fluffy penguin escapes the leopard seal at 01:42 by landing on what type of surface?",
+        "answer": "D. A large sheet of ice (an ice floe)",
+        "options": [
+            "A. Near the window",
+            "B. Backstage in the dressing room",
+            "C. In a small fishing boat",
+            "D. A large sheet of ice (an ice floe)"
+        ]
+    },
+    {
+        "id": "-0f67QE-HP8",
+        "category": "Comparative",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Between the adult penguin singing at 00:00 and the fluffy young penguin at 00:06, which one is chased by the leopard seal?",
+        "answer": "C. The fluffy young penguin at 00:06",
+        "options": [
+            "A. An Adelie penguin",
+            "B. The leopard seal",
+            "C. The fluffy young penguin at 00:06",
+            "D. A whale"
+        ]
+    },
+    {
+        "id": "-0f67QE-HP8",
+        "category": "Cross-modal",
+        "question_type": "Multiple Choice Question (MCQ)",
+        "question": "Which penguin is seen singing (his 'Heartsong') at the very beginning of the clip (00:00)?",
+        "answer": "A. The adult emperor penguin",
+        "options": [
+            "A. The adult emperor penguin",
+            "B. A whale",
+            "C. A skua bird",
+            "D. A seal pup"
+        ]
+    }
+]
