@@ -231,39 +231,156 @@ class TransformersQwenStrict(QwenBackend):
             self.processor = AutoProcessor.from_pretrained(self.model_id, trust_remote_code=True)
         except Exception as e:
             raise RuntimeError(f"Failed to load AutoProcessor for {self.model_id}: {e}")
+    
+    
+    def _build_chat(self, question: str, question_type: str, num_images: int):
+        
+        
+        """
+        Build chat messages for Qwen given a question and its type.
 
-        if not hasattr(self.model, "generate"):
-            raise AttributeError(
-                f"{type(self.model).__name__} loaded but has no .generate(). Upgrade transformers."
+        The model MUST answer with a single JSON object:
+        {
+            "answer": "...",
+            "answer_type": "..."
+        }
+
+        where answer_type is one of: "yes_no", "mcq_option", "timestamp", "free_text".
+        """
+
+        qtype = (question_type or "").strip()
+
+        # -------------------------------
+        # 1. Map question_type -> answer_type + guide
+        # -------------------------------
+        # default: free-text descriptive
+        answer_type = "free_text"
+        type_specific_guide = (
+            'Set "answer_type" to "free_text". '
+            'Set "answer" to a short phrase or a single short sentence that directly answers the question. '
+            'Do not explain your reasoning and do not restate the question.'
+        )
+
+        # Yes/No style (identity confirmation etc.)
+        if qtype in {
+            "Yes/No",
+            "Identity Confirmation",
+            "Identity Confirmation (Validation)",
+            "Identity Confirmation (Validation, Yes/No)",
+            "Clothing-change tracking",
+            "Temporal continuity",
+            "Cross-view matching",
+            "Temporal-appearance drift",
+        }:
+            answer_type = "yes_no"
+            type_specific_guide = (
+                'Set "answer_type" to "yes_no". '
+                'Set "answer" to exactly "Yes" or "No" (capitalized, no period, no extra words).'
             )
 
-        if self.debug:
-            print("[DEBUG] Loaded class:", type(self.model).__name__)
-            print("[DEBUG] has_generate:", hasattr(self.model, "generate"))
+        # Explicit True/False
+        if qtype == "True/False":
+            answer_type = "yes_no"
+            type_specific_guide = (
+                'Set "answer_type" to "yes_no". '
+                'Set "answer" to exactly "True" or "False" (capitalized, no period, no extra words).'
+            )
 
-    def _build_chat(self, question: str, question_type: str, num_images: int) -> List[dict]:
-        guide = {
-            "Yes/No": "Answer strictly with Yes or No. If unsure, guess the most likely.",
-            "True/False": "Answer strictly with True or False. If unsure, guess the most likely.",
-            "Timestamp": "Answer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS."
-        }.get(question_type, "Answer concisely.")
+        # Timestamp questions
+        if qtype == "Timestamp":
+            answer_type = "timestamp"
+            type_specific_guide = (
+                'Set "answer_type" to "timestamp". '
+                'Set "answer" to a timestamp string like "MM:SS" or "HH:MM:SS" with zero-padded fields, '
+                'for example "00:32" or "01:05". Do not include any other text.'
+            )
 
-        sys_prompt = (
-            "You are a precise video QA assistant. You see key frames extracted from a video. "
-            "Use only visible evidence; be consistent with identities across frames. "
-            "If the question mentions timestamps, assume frames come from around those times.\n"
-            f"{guide} Then add one short sentence rationale starting with 'Because'."
+        # Multiple Choice Question (MCQ)
+        # e.g. "Multiple Choice Question (MCQ)"
+        if "Multiple Choice Question" in qtype or "MCQ" in qtype:
+            answer_type = "mcq_option"
+            type_specific_guide = (
+                'Set "answer_type" to "mcq_option". '
+                'You will see options like "A. ...", "B. ...", etc. '
+                'Choose the single best option, and set "answer" to the option LETTER only '
+                '(for example "A", "B", "C", or "D"). Do NOT repeat the full option text.'
+            )
+
+        # Descriptive / activity / interaction / etc. → keep free_text but clarify
+        if qtype in {
+            "Descriptive Identification",
+            "Activity-based",
+            "Interaction-based",
+            "Group-context based",
+            "Environment-linked",
+            "Comparative",
+            "Hypothetical",
+            "Cross-modal",
+        }:
+            answer_type = "free_text"
+            type_specific_guide = (
+                'Set "answer_type" to "free_text". '
+                'Set "answer" to a short phrase or a single short sentence that directly answers the question. '
+                'Do not explain your reasoning and do not add extra commentary.'
+            )
+
+        # -------------------------------
+        # 2. System prompt: global rules + JSON format + type-specific rules
+        # -------------------------------
+        sys_prompt = f"""
+    You are a precise video QA assistant for a video re-identification benchmark.
+    You see key frames extracted from a video and a question about people/objects across time and views.
+    Use only visible evidence from the video frames and maintain consistent identities across frames.
+    If the question mentions timestamps, assume the frames come from around those times.
+
+    You MUST answer every question by outputting exactly ONE JSON object in plain text
+    (with no surrounding markdown, no extra commentary), of the form:
+
+    {{
+    "answer": "...",
+    "answer_type": "..."
+    }}
+
+    The allowed values of "answer_type" are:
+    - "yes_no"      → answers like "Yes" or "No" (or "True"/"False" when requested)
+    - "mcq_option"  → answers that are a single option letter like "A", "B", "C", ...
+    - "timestamp"   → answers that are timestamps like "MM:SS" or "HH:MM:SS"
+    - "free_text"   → short descriptive answers
+
+    For this question, you MUST:
+    - Set "answer_type" to "{answer_type}".
+    - Follow these rules for the content of "answer":
+        {type_specific_guide}
+
+    Do NOT include any other keys in the JSON.
+    Do NOT output explanations or rationales.
+    Do NOT add a sentence starting with "Because".
+    Do NOT wrap the JSON in markdown.
+    """.strip()
+
+        # -------------------------------
+        # 3. User content: question text + image placeholders
+        # -------------------------------
+        text_block = (
+            f"Question type: {question_type}\n"
+            f"Number of key frames provided: {num_images}\n\n"
+            f"Question: {question}\n\n"
+            "Answer based only on the video frames you see, following the JSON rules in the system message."
         )
-        content = [{"type": "text", "text": question}]
+
+        # First user content element: text, then num_images image placeholders
+        content = [{"type": "text", "text": text_block}]
         for _ in range(num_images):
             content.append({"type": "image"})
 
         messages = [
             {"role": "system", "content": [{"type": "text", "text": sys_prompt}]},
-            {"role": "user",   "content": content}
+            {"role": "user",   "content": content},
         ]
         return messages
-
+    
+    
+    
     def answer(self, question: str, images: List[Path], question_type: str):
         from PIL import Image
 
@@ -506,8 +623,8 @@ def run(
 # ---------------- CLI ----------------
 
 def main():
-    parser = argparse.ArgumentParser(description="Run Qwen over Template.json and Template Videos/ to create Template_qwen_answers.json")
-    parser.add_argument("--qa-json", default="Template.json", type=Path)
+    parser = argparse.ArgumentParser(description="Run Qwen over iteration2.json and Template Videos/ to create Template_qwen_answers.json")
+    parser.add_argument("--qa-json", default="iteration2.json", type=Path)
     parser.add_argument("--videos-dir", default=Path("Template Videos"), type=Path)
     parser.add_argument("--out-json", default="Template_qwen_answers.json", type=Path)
     parser.add_argument("--backend", choices=["transformers","openai"], default="transformers")

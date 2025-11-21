@@ -237,12 +237,30 @@ class TransformersOvisStrict(VisionChatBackend):
             raise RuntimeError(f"Model {self.model_id} missing .text_tokenizer (Ovis API expected).")
 
     def _format_instructions(self, question_type: str) -> str:
-        return {
-            "Yes/No": "Answer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.",
-            "True/False": "Answer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'.",
-            "Timestamp": "Answer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'."
-        }.get(question_type, "Answer concisely. Then add one short sentence rationale starting with 'Because'.")
+        # Define the standard instruction formats
+        yes_no_instruction = "Answer strictly with Yes or No. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'."
+        true_false_instruction = "Answer strictly with True or False. If unsure, guess the most likely. Then add one short sentence rationale starting with 'Because'."
+        timestamp_instruction = "Answer strictly with a timestamp in HH:MM:SS. If no clear answer, return the most plausible timestamp in HH:MM:SS. Then add one short sentence rationale starting with 'Because'."
+        mcq_instruction = "Answer strictly with the letter of the correct option (e.g., A, B, C, or D). Then add one short sentence rationale starting with 'Because'."
+        default_instruction = "Answer concisely. Then add one short sentence rationale starting with 'Because'."
 
+        # Map the question types (from JSON and originals) to their instructions
+        instruction_map = {
+            # --- Types from JSON ---
+            "Multiple Choice Question (MCQ)": mcq_instruction,
+            "Identity Confirmation (Validation)": yes_no_instruction,
+            "Identity Confirmation": yes_no_instruction,
+            "Hypothetical": yes_no_instruction,
+            
+            # --- Original Types (retained for robustness) ---
+            "Yes/No": yes_no_instruction,
+            "True/False": true_false_instruction,
+            "Timestamp": timestamp_instruction
+        }
+        
+        # Get the specific instruction, or use the default if not found
+        return instruction_map.get(question_type, default_instruction)
+    
     def _split_rationale(self, text: str):
         import re
         m = re.search(r"(Because .+)$", text, flags=re.IGNORECASE | re.DOTALL)
@@ -461,8 +479,8 @@ def run(
 # ---------------- CLI ----------------
 
 def main():
-    parser = argparse.ArgumentParser(description="Run Ovis 2.5 over Template.json and Template Videos/ to create *_ovis_answers.json")
-    parser.add_argument("--qa-json", default="Template.json", type=Path)
+    parser = argparse.ArgumentParser(description="Run Ovis 2.5 over Iteration2.json and Template Videos/ to create *_ovis_answers.json")
+    parser.add_argument("--qa-json", default="Iteration2.json", type=Path)
     parser.add_argument("--videos-dir", default=Path("Template Videos"), type=Path)
     parser.add_argument("--out-json", default="Template_ovis_answers.json", type=Path)
     parser.add_argument("--model-id", default="AIDC-AI/Ovis2.5-2B")
