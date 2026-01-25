@@ -8,16 +8,18 @@ metrics and visualizations for analysis.
 
 Supported Models:
 1. Qwen2-VL (Alibaba)
-2. Ovis (AIDC-AI)
-3. LLaVA-NeXT-Video (Microsoft/LLaVA)
-4. InternVL2 (OpenGVLab)
-5. Video-LLaVA (PKU)
+2. Qwen2.5-VL / Qwen3-VL (Alibaba)
+3. Ovis (AIDC-AI)
+4. Ovis2.5 (AIDC-AI)
+5. LLaVA-NeXT-Video (Microsoft/LLaVA)
+6. InternVL2 (OpenGVLab)
+7. Video-LLaVA (PKU)
 
 Usage:
     python evaluate_vlm_benchmark.py \
         --benchmark benchmark_questions.json \
         --video_dir /path/to/videos \
-        --models qwen2-vl ovis \
+        --models qwen2-vl ovis ovis2.5 qwen3-vl \
         --output_dir results
 """
 
@@ -192,9 +194,75 @@ class Qwen2VL(BaseVLM):
 
         return self.extract_answer(response)
 
+class Qwen3VL(BaseVLM):
+    """Qwen2.5-VL model implementation (also referred to as Qwen3-VL)."""
+
+    def __init__(self, model_size: str = "7B", device: str = "cuda"):
+        super().__init__(f"Qwen2.5-VL-{model_size}", device)
+        self.model_size = model_size
+        # Model ID pattern for Qwen2.5-VL
+        # Available sizes: 3B, 7B, 72B
+        self.model_id = f"Qwen/Qwen2.5-VL-{model_size}-Instruct"
+
+    def load_model(self):
+        try:
+            # Qwen2.5-VL uses Qwen2_5_VLForConditionalGeneration
+            from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor
+            from qwen_vl_utils import process_vision_info
+
+            self.model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
+                self.model_id,
+                torch_dtype="auto",
+                device_map="auto"
+            )
+            self.processor = AutoProcessor.from_pretrained(self.model_id)
+            self.process_vision_info = process_vision_info
+            print(f"Loaded {self.model_name}")
+        except ImportError as e:
+            print(f"Error loading {self.model_name}: {e}")
+            print("Install with: pip install transformers qwen-vl-utils")
+            raise
+
+    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
+        # Matches Qwen2-VL usage
+        prompt = self.format_mcq_prompt(question, options)
+
+        messages = [
+            {
+                "role": "user",
+                "content": [
+                    {"type": "video", "video": video_path, "max_pixels": 360*420, "fps": 1.0},
+                    {"type": "text", "text": prompt}
+                ]
+            }
+        ]
+
+        text = self.processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        image_inputs, video_inputs = self.process_vision_info(messages)
+
+        inputs = self.processor(
+            text=[text],
+            images=image_inputs,
+            videos=video_inputs,
+            padding=True,
+            return_tensors="pt"
+        ).to(self.device)
+
+        generated_ids = self.model.generate(**inputs, max_new_tokens=128)
+        generated_ids_trimmed = [
+            out_ids[len(in_ids):]
+            for in_ids, out_ids in zip(inputs.input_ids, generated_ids)
+        ]
+        response = self.processor.batch_decode(
+            generated_ids_trimmed,
+            skip_special_tokens=True,
+            clean_up_tokenization_spaces=False
+        )[0]
+
+        return self.extract_answer(response)
 
 class OvisVLM(BaseVLM):
-    """Ovis model implementation."""
+    """Ovis/Gemma model implementation (Ovis 1.6)."""
 
     def __init__(self, model_size: str = "1.6", device: str = "cuda"):
         super().__init__(f"Ovis-{model_size}", device)
@@ -205,13 +273,9 @@ class OvisVLM(BaseVLM):
         # Disable on main model
         if hasattr(model, 'generation_config') and model.generation_config is not None:
             model.generation_config.compile_config = None
-        
-        # Disable on LLM if present
         if hasattr(model, 'llm') and model.llm is not None:
             if hasattr(model.llm, 'generation_config') and model.llm.generation_config is not None:
                 model.llm.generation_config.compile_config = None
-        
-        # Disable on get_llm() if method exists
         if hasattr(model, 'get_llm'):
             try:
                 llm = model.get_llm()
@@ -234,10 +298,7 @@ class OvisVLM(BaseVLM):
             ).to(self.device)
             self.text_tokenizer = self.model.get_text_tokenizer()
             self.visual_tokenizer = self.model.get_visual_tokenizer()
-            
-            # Disable torch.compile for Python 3.14+ compatibility
             self._disable_torch_compile(self.model)
-            
             print(f"Loaded {self.model_name}")
         except ImportError as e:
             print(f"Error loading {self.model_name}: {e}")
@@ -249,11 +310,7 @@ class OvisVLM(BaseVLM):
         import cv2
 
         prompt = self.format_mcq_prompt(question, options)
-
-        # Extract frames from video
         frames = self._extract_frames(video_path, num_frames=8)
-
-        # Format conversation with images
         query = "<image>\n" * len(frames) + prompt
 
         prompt_text, input_ids, pixel_values = self.model.preprocess_inputs(
@@ -262,7 +319,6 @@ class OvisVLM(BaseVLM):
         attention_mask = torch.ne(input_ids, self.text_tokenizer.pad_token_id)
         input_ids = input_ids.unsqueeze(0).to(self.device)
         attention_mask = attention_mask.unsqueeze(0).to(self.device)
-        # pixel_values is already a concatenated tensor from preprocess_inputs, wrap in list for generate
         if pixel_values is not None:
             pixel_values = [pixel_values.to(dtype=self.visual_tokenizer.dtype, device=self.device)]
 
@@ -286,16 +342,13 @@ class OvisVLM(BaseVLM):
     def _extract_frames(self, video_path: str, num_frames: int = 8) -> List:
         from PIL import Image
         import cv2
-
         cap = cv2.VideoCapture(video_path)
         if not cap.isOpened():
             raise ValueError(f"Cannot open video: {video_path}")
-        
         total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         if total_frames <= 0:
             cap.release()
             raise ValueError(f"Video has no frames: {video_path}")
-        
         indices = np.linspace(0, total_frames - 1, num_frames, dtype=int)
 
         frames = []
@@ -306,12 +359,121 @@ class OvisVLM(BaseVLM):
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 frames.append(Image.fromarray(frame))
         cap.release()
-        
         if len(frames) == 0:
             raise ValueError(f"Could not extract any frames from: {video_path}")
-        
         return frames
 
+class Ovis25VLM(BaseVLM):
+    """Ovis2.5-2B model implementation."""
+
+    def __init__(self, model_size: str = "2B", device: str = "cuda"):
+        super().__init__(f"Ovis2.5-{model_size}", device)
+        self.model_id = "AIDC-AI/Ovis2.5-2B"
+
+    def _disable_torch_compile(self, model):
+        # Same disabling approach as in OvisVLM
+        if hasattr(model, 'generation_config') and model.generation_config is not None:
+            model.generation_config.compile_config = None
+        if hasattr(model, 'llm') and model.llm is not None:
+            if hasattr(model.llm, 'generation_config') and model.llm.generation_config is not None:
+                model.llm.generation_config.compile_config = None
+        if hasattr(model, 'get_llm'):
+            try:
+                llm = model.get_llm()
+                if hasattr(llm, 'generation_config') and llm.generation_config is not None:
+                    llm.generation_config.compile_config = None
+            except:
+                pass
+
+    def load_model(self):
+        try:
+            import torch
+            from transformers import AutoModelForCausalLM, AutoTokenizer
+
+            self.model = AutoModelForCausalLM.from_pretrained(
+                self.model_id,
+                torch_dtype=torch.bfloat16,
+                trust_remote_code=True,
+                attn_implementation="eager"
+            ).to(self.device)
+            self.tokenizer = AutoTokenizer.from_pretrained(
+                self.model_id,
+                trust_remote_code=True
+            )
+            self._disable_torch_compile(self.model)
+            print(f"Loaded {self.model_name}")
+        except ImportError as e:
+            print(f"Error loading {self.model_name}: {e}")
+            raise
+        except OSError as e:
+            print(f"Error loading {self.model_name}: {e}")
+            print("This may be a gated/private model. Try: huggingface-cli login")
+            raise
+
+    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
+        import torch
+        from PIL import Image
+        import cv2
+
+        prompt = self.format_mcq_prompt(question, options)
+        frames = self._extract_frames(video_path, num_frames=8)
+
+        # Build content with image objects and text
+        content = []
+        for frame in frames:
+            content.append({"type": "image", "image": frame})
+        content.append({"type": "text", "text": prompt})
+
+        # Build conversation format for Ovis 2.5
+        messages = [
+            {"role": "user", "content": content}
+        ]
+
+        # preprocess_inputs returns (input_ids, pixel_values, grid_thws)
+        input_ids, pixel_values, grid_thws = self.model.preprocess_inputs(messages)
+
+        input_ids = input_ids.to(self.device)
+        if pixel_values is not None:
+            pixel_values = pixel_values.to(dtype=self.model.dtype, device=self.device)
+        if grid_thws is not None:
+            grid_thws = grid_thws.to(self.device)
+
+        with torch.inference_mode():
+            output_ids = self.model.generate(
+                input_ids,
+                pixel_values=pixel_values,
+                grid_thws=grid_thws,
+                max_new_tokens=128,
+                do_sample=False,
+                pad_token_id=self.tokenizer.pad_token_id,
+                eos_token_id=self.tokenizer.eos_token_id,
+            )[0]
+
+        response = self.tokenizer.decode(output_ids, skip_special_tokens=True)
+        return self.extract_answer(response)
+
+    def _extract_frames(self, video_path: str, num_frames: int = 8) -> List:
+        from PIL import Image
+        import cv2
+        cap = cv2.VideoCapture(video_path)
+        if not cap.isOpened():
+            raise ValueError(f"Cannot open video: {video_path}")
+        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        if total_frames <= 0:
+            cap.release()
+            raise ValueError(f"Video has no frames: {video_path}")
+        indices = np.linspace(0, total_frames - 1, num_frames, dtype=int)
+        frames = []
+        for idx in indices:
+            cap.set(cv2.CAP_PROP_POS_FRAMES, idx)
+            ret, frame = cap.read()
+            if ret:
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                frames.append(Image.fromarray(frame))
+        cap.release()
+        if len(frames) == 0:
+            raise ValueError(f"Could not extract any frames from: {video_path}")
+        return frames
 
 class LLaVANeXTVideo(BaseVLM):
     """LLaVA-NeXT-Video model implementation."""
@@ -589,7 +751,20 @@ def get_model(model_name: str, device: str = "cuda", mock: bool = False) -> Base
         "qwen2-vl": lambda: Qwen2VL("7B", device),
         "qwen2-vl-2b": lambda: Qwen2VL("2B", device),
         "qwen2-vl-72b": lambda: Qwen2VL("72B", device),
+        # Qwen2.5-VL (also known as Qwen3-VL)
+        "qwen3-vl": lambda: Qwen3VL("7B", device),    # Default to 7B
+        "qwen3-vl-3b": lambda: Qwen3VL("3B", device),
+        "qwen3-vl-7b": lambda: Qwen3VL("7B", device),
+        "qwen3-vl-72b": lambda: Qwen3VL("72B", device),
+        "qwen2.5-vl": lambda: Qwen3VL("7B", device),
+        "qwen2.5-vl-3b": lambda: Qwen3VL("3B", device),
+        "qwen2.5-vl-7b": lambda: Qwen3VL("7B", device),
+        "qwen2.5-vl-72b": lambda: Qwen3VL("72B", device),
+        # Ovis
         "ovis": lambda: OvisVLM("1.6", device),
+        "ovis1.6": lambda: OvisVLM("1.6", device),
+        "ovis2.5": lambda: Ovis25VLM("2B", device),
+        # LLaVA, InternVL2 unchanged
         "llava-next-video": lambda: LLaVANeXTVideo("7B", device),
         "llava-next-video-34b": lambda: LLaVANeXTVideo("34B", device),
         "internvl2": lambda: InternVL2("8B", device),
@@ -811,8 +986,12 @@ class BenchmarkEvaluator:
     def run_evaluation(self, models: List[BaseVLM]) -> Dict:
         """Run evaluation on multiple models."""
         for model in models:
-            results = self.evaluate_model(model)
-            self.results[model.model_name] = results
+            try:
+                results = self.evaluate_model(model)
+                self.results[model.model_name] = results
+            except Exception as e:
+                print(f"\n[SKIPPED] {model.model_name}: Failed to load - {e}")
+                continue
 
         # Save raw results
         results_path = self.output_dir / "raw_results.json"
@@ -883,6 +1062,7 @@ class BenchmarkEvaluator:
 # =============================================================================
 # Visualization Functions
 # =============================================================================
+# ... (No change below here: all visualizations and report generator remain the same) ...
 
 class BenchmarkVisualizer:
     """Creates visualizations for benchmark results."""
@@ -1428,20 +1608,25 @@ Examples:
     python evaluate_vlm_benchmark.py \\
         --benchmark benchmark_questions.json \\
         --video_dir /path/to/videos \\
-        --models qwen2-vl ovis \\
+        --models qwen2-vl ovis ovis2.5 qwen3-vl \\
         --mock
 
     # Run actual evaluation
     python evaluate_vlm_benchmark.py \\
         --benchmark benchmark_questions.json \\
         --video_dir /path/to/videos \\
-        --models qwen2-vl ovis llava-next-video internvl2 video-llava
+        --models qwen2-vl ovis ovis2.5 qwen3-vl llava-next-video internvl2 video-llava
 
 Available Models:
     - qwen2-vl (Qwen2-VL-7B-Instruct)
     - qwen2-vl-2b (Qwen2-VL-2B-Instruct)
     - qwen2-vl-72b (Qwen2-VL-72B-Instruct)
+    - qwen3-vl / qwen2.5-vl (Qwen2.5-VL-7B-Instruct)
+    - qwen3-vl-3b / qwen2.5-vl-3b (Qwen2.5-VL-3B-Instruct)
+    - qwen3-vl-7b / qwen2.5-vl-7b (Qwen2.5-VL-7B-Instruct)
+    - qwen3-vl-72b / qwen2.5-vl-72b (Qwen2.5-VL-72B-Instruct)
     - ovis (Ovis1.6-Gemma2-9B)
+    - ovis2.5 (Ovis2.5-Gemma2-9B)
     - llava-next-video (LLaVA-NeXT-Video-7B)
     - llava-next-video-34b (LLaVA-NeXT-Video-34B)
     - internvl2 (InternVL2-8B)
@@ -1467,8 +1652,8 @@ Available Models:
     parser.add_argument(
         "--models",
         nargs="+",
-        default=["qwen2-vl", "ovis", "llava-next-video", "internvl2", "video-llava"],
-        help="List of models to evaluate"
+        default=["qwen2-vl"],
+        help="List of models to evaluate (e.g., qwen2-vl ovis ovis2.5 qwen3-vl)"
     )
 
     parser.add_argument(
