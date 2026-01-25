@@ -1,0 +1,312 @@
+{
+  "benchmark_name": "Video Person Re-Identification (Re-ID) Benchmark",
+  "version": "1.0",
+  "videos": [
+    {
+      "video_id": "10",
+      "source_document": "reid_benchmark_4.pdf",
+      "questions": [
+        {
+          "question_id": "1.1",
+          "capability": "Activity",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Scene transition to Netherfield breakfast room",
+          "question_text": "The young gentleman with red hair who is seen dancing and smiling frequently in the crowded ballroom scene is later seen in a quiet dining room. What action does he take immediately upon seeing a guest enter the room?",
+          "options": {
+            "A": "He remains seated and points to a chair.",
+            "B": "He stands up to greet the guest.",
+            "C": "He pours a glass of wine.",
+            "D": "He picks up a newspaper to hide his face."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.2",
+          "capability": "Location",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Visual transition to kitchen/sausage making",
+          "question_text": "During the breakfast scene at the long table, the older woman in the floral dress reads a letter aloud. After the scene changes to a kitchen area where meat is being prepared, where is this same woman standing?",
+          "options": {
+            "A": "Seated on a stool in the corner.",
+            "B": "Standing by the window looking out.",
+            "C": "Standing at the worktable engaging with the other women.",
+            "D": "Leaning against the doorframe observing."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.3",
+          "capability": "Interaction",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "Scene transition to dark bedroom",
+          "question_text": "The dark-haired young woman who is seen dancing and debating with a tall gentleman in a black coat during the ball is later seen in a bedroom. Who is she interacting with under the bedcovers?",
+          "options": {
+            "A": "Her mother.",
+            "B": "The blonde sister she was seen with earlier.",
+            "C": "A servant bringing tea.",
+            "D": "She is alone."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.4",
+          "capability": "Appearance",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "Scene transition to Longbourn dining table",
+          "question_text": "The dark-haired woman who is seen whispering to another woman while under white bedsheets is later seen seated at a crowded breakfast table. What is she wearing in this dining scene?",
+          "options": {
+            "A": "A white nightgown.",
+            "B": "A green ballgown with gloves.",
+            "C": "A brown patterned dress with a high neck.",
+            "D": "A black heavy coat."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.5",
+          "capability": "Object State",
+          "referral_strategy": "Location Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Action sequence at the dining table",
+          "question_text": "A letter is handed to the blonde woman at the breakfast table. After she opens it, who physically takes the letter from her hand to read it?",
+          "options": {
+            "A": "The red-haired man.",
+            "B": "The older woman sitting next to her.",
+            "C": "The dark-haired sister sitting across from her.",
+            "D": "The older man at the head of the table."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.6",
+          "capability": "Activity",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "Entry into the hallway",
+          "question_text": "The woman who is seen walking quickly through hanging wet laundry in the rain enters a large house. What does she do immediately after the door is closed behind her?",
+          "options": {
+            "A": "She shakes her umbrella.",
+            "B": "She wipes her muddy hands on her skirt.",
+            "C": "She takes off a hat.",
+            "D": "She collapses on the floor."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.7",
+          "capability": "Location",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "Appearance of the father in the kitchen scene",
+          "question_text": "The older man with long white hair who stands on the sidelines observing the dancers at the ball is later seen during the kitchen scene. Where is he located relative to the women making food?",
+          "options": {
+            "A": "He is working at the table with them.",
+            "B": "He is standing in the doorway looking in.",
+            "C": "He is sitting by the fireplace.",
+            "D": "He is walking past the window outside."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.8",
+          "capability": "Interaction",
+          "referral_strategy": "Mixed Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Arrival of the mail at the table",
+          "question_text": "The blonde woman who dances with the red-haired gentleman at the ball is later seen at a family breakfast. Who hands her a letter?",
+          "options": {
+            "A": "Her father.",
+            "B": "Her dark-haired sister.",
+            "C": "A female servant.",
+            "D": "The postman."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.9",
+          "capability": "Appearance",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "Scene transition to Longbourn breakfast",
+          "question_text": "The blonde woman who smiles broadly while dancing in the crowded ballroom is later seated at a dining table with her family. What is distinctive about her appearance in the dining scene compared to the other women present?",
+          "options": {
+            "A": "She is wearing a bright red dress.",
+            "B": "She is wearing a white dress with a blue ribbon sash.",
+            "C": "She is wearing a heavy black traveling coat.",
+            "D": "She is wearing a floral apron."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.10",
+          "capability": "Object State",
+          "referral_strategy": "Environment Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Close-up on the garment",
+          "question_text": "In the hallway scene, the woman who just arrived from the rain looks down at her clothing. What is visible on the hem of her petticoat?",
+          "options": {
+            "A": "A tear in the fabric.",
+            "B": "Heavy mud/dirt stains.",
+            "C": "A pattern of embroidered flowers.",
+            "D": "Nothing, it is pristine."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.11",
+          "capability": "Activity",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Scene transition to Netherfield breakfast",
+          "question_text": "The tall dark-haired man who stares silently at the dancers during the ball is later seen in a breakfast room with a woman in a red dress. What is he doing before the guest enters the room?",
+          "options": {
+            "A": "Eating eggs.",
+            "B": "Looking out the window.",
+            "C": "Reading a newspaper.",
+            "D": "Playing cards."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.12",
+          "capability": "Location",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "Wide shot of Netherfield dining table",
+          "question_text": "In the breakfast scene at the large house (Netherfield), where is the red-haired man seated relative to the woman in the red dress?",
+          "options": {
+            "A": "He is sitting directly next to her.",
+            "B": "He is sitting at the head of the table, perpendicular to her.",
+            "C": "He is standing behind her chair.",
+            "D": "He is not present in the room."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.13",
+          "capability": "Interaction",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Kitchen scene",
+          "question_text": "The older woman who excitedly reads a letter at the breakfast table is later seen in a kitchen. Who is she primarily instructing or working alongside?",
+          "options": {
+            "A": "Her husband.",
+            "B": "Her daughters and servants.",
+            "C": "The red-haired gentleman.",
+            "D": "She is working alone."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.14",
+          "capability": "Appearance",
+          "referral_strategy": "Mixed Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "Scene transition to Netherfield breakfast",
+          "question_text": "The woman who walks through the hanging laundry in the rain wearing a black coat is subsequently seen dining with the residents of the large house. What is she wearing on her upper body in this dining scene?",
+          "options": {
+            "A": "The same muddy black coat.",
+            "B": "A brownish-grey dress with a white fichu/collar.",
+            "C": "A bright red dress with short sleeves.",
+            "D": "A white nightgown."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.15",
+          "capability": "Object State",
+          "referral_strategy": "Environment Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "Outdoor rain scene",
+          "question_text": "During the outdoor scene, a woman walks through hanging laundry. What is the physical state of the sheets she walks past?",
+          "options": {
+            "A": "They are dry and still.",
+            "B": "They are wet and blowing in the wind.",
+            "C": "They are folded in baskets.",
+            "D": "They are lying on the grass."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.16",
+          "capability": "Activity",
+          "referral_strategy": "Interaction Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Bedroom scene",
+          "question_text": "The blonde woman who dances with the red-haired man at the ball is later seen in a bed at night. What is she doing?",
+          "options": {
+            "A": "Reading a book by candlelight.",
+            "B": "Sleeping or lying still while listening.",
+            "C": "Crying into her pillow.",
+            "D": "Sitting up and brushing her hair."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.17",
+          "capability": "Location",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "Netherfield breakfast table layout",
+          "question_text": "The woman in the red dress seen briefly at the ball is later seated at the breakfast table in the large house (Netherfield). Who is sitting directly across from her?",
+          "options": {
+            "A": "The red-haired man.",
+            "B": "The dark-haired man reading a newspaper.",
+            "C": "The woman who arrived from the rain.",
+            "D": "No one is sitting across from her."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.18",
+          "capability": "Interaction",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Arrival at Netherfield",
+          "question_text": "The dark-haired woman who walks through the rain arrives at a large door. Who interacts with her to open it?",
+          "options": {
+            "A": "The red-haired gentleman.",
+            "B": "The dark-haired gentleman.",
+            "C": "A servant/butler.",
+            "D": "She opens it herself."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.19",
+          "capability": "Appearance",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "Netherfield breakfast scene",
+          "question_text": "In the final scene at the breakfast table, a dark-haired man stands up when the guest enters. What is the color of the coat he is wearing?",
+          "options": {
+            "A": "Bright red.",
+            "B": "Dark blue or black.",
+            "C": "Light grey.",
+            "D": "Brown tweed."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.20",
+          "capability": "Activity",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "Rain walk scene",
+          "question_text": "In the scene where the dark-haired woman is walking outdoors, she navigates through several obstacles. What are these obstacles?",
+          "options": {
+            "A": "Parked carriages.",
+            "B": "Lines of hanging laundry.",
+            "C": "Groups of soldiers.",
+            "D": "Thick bushes and hedges."
+          },
+          "correct_answer": "B"
+        }
+      ]
+    }
+  ]
+}
