@@ -1,0 +1,596 @@
+{
+  "benchmark_name": "Video Person Re-Identification (Re-ID) Benchmark - Hard Questions",
+  "version": "1.0",
+  "videos": [
+    {
+      "video_id": "-2KG4lLGEl0",
+      "questions": [
+        {
+          "question_id": "manual_1",
+          "capability": "Activity",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Interview Scene",
+          "question_text": "Man sitting on the couch with rolled up sleeve, keeping his hand on his forehead, before he takes a sip from his drink by sitting on table. Where does the man in the beige suit looks?",
+          "options": {
+            "A": "Left.",
+            "B": "Right.",
+            "C": "Up.",
+            "D": "Straight."
+          },
+          "correct_answer": "A"
+        },
+        {
+          "question_id": "manual_2",
+          "capability": "Activity",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Interview Scene",
+          "question_text": "Man holding a cigarette in his hand in the start of the video, he gets up and walk towards table to refill his drink. What is his orientation when he has a bottle in his hand  ?",
+          "options": {
+            "A": "Standing with a back towards the three men on couch.",
+            "B": "Facing towards couch.",
+            "C": "Standing sideways with chair in the back.",
+            "D": "Standing behind the table."
+          },
+          "correct_answer": "C"
+        }
+      ]
+    },
+    {
+      "video_id": "--UgPWRVt8A",
+      "questions": [
+        {
+          "question_id": "1.1",
+          "capability": "Activity",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Scene change to walking off mound",
+          "question_text": "In the vintage baseball footage, a pitcher wearing a number 17 jersey is seen winding up on the mound. Later, in the final seconds of the video as he walks off the mound toward the dugout, what specific action does he perform with his right arm?",
+          "options": {
+            "A": "He tips his cap to the crowd.",
+            "B": "He wipes his face/nose with his sleeve.",
+            "C": "He throws the ball into the stands.",
+            "D": "He high-fives a teammate."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.10",
+          "capability": "Appearance",
+          "referral_strategy": "Location Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "During outdoor interview",
+          "question_text": "In the scene with the man wearing a black baseball cap and glasses sitting in front of a chain-link fence, what is the color of the shirt he is wearing?",
+          "options": {
+            "A": "Orange.",
+            "B": "Black.",
+            "C": "White.",
+            "D": "Yellow."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.11",
+          "capability": "Activity",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "When wiping tears",
+          "question_text": "When the older bald man with a mustache crying in the garden wipes his eyes, does he use one hand or both hands?",
+          "options": {
+            "A": "Only his right hand.",
+            "B": "Only his left hand.",
+            "C": "Both hands simultaneously.",
+            "D": "He uses his sleeve, not his hands."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.12",
+          "capability": "Location",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "During stadium interview",
+          "question_text": "In the stadium seating scene, an older man with glasses and a black polo shirt is speaking. What is located directly behind him?",
+          "options": {
+            "A": "A brick wall.",
+            "B": "Rows of empty green stadium seats.",
+            "C": "A crowd of cheering fans.",
+            "D": "A blue locker."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.17",
+          "capability": "Object State",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "Walking off mound",
+          "question_text": "As the pitcher in the vintage footage walks off the field at the end of the video, is he holding his baseball glove?",
+          "options": {
+            "A": "No, he threw it down.",
+            "B": "Yes, it is on his left hand.",
+            "C": "Yes, it is tucked under his right arm.",
+            "D": "No, he is holding a bat."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.18",
+          "capability": "Activity",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "Throughout his segment",
+          "question_text": "Does the large man in the black t-shirt being interviewed outdoors with green leaves in the background stand up at any point during his clip?",
+          "options": {
+            "A": "Yes, he stands up to leave.",
+            "B": "No, he remains seated throughout the clip.",
+            "C": "Yes, he paces back and forth.",
+            "D": "No, he is lying down."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.19",
+          "capability": "Activity",
+          "referral_strategy": "Location Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Before speaker breaks down",
+          "question_text": "Before the woman standing next to the speaker at the podium moves to comfort him, what is she doing with her hands?",
+          "options": {
+            "A": "She is holding a microphone.",
+            "B": "She is taking notes.",
+            "C": "She is signing.",
+            "D": "She is clapping."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.5",
+          "capability": "Appearance",
+          "referral_strategy": "Environment Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "During locker room interview",
+          "question_text": "In the locker room setting with blue lockers in the background, a man is wearing a black cap with yellow text. As he gestures with his hands, what number is visible on the front of his cap?",
+          "options": {
+            "A": "17",
+            "B": "42",
+            "C": "8",
+            "D": "1"
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.7",
+          "capability": "Location",
+          "referral_strategy": "Location Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "When speaker breaks down",
+          "question_text": "A woman is standing to the left of the podium during the speech. When the speaker begins to break down and lean on the podium, how does her location change?",
+          "options": {
+            "A": "She walks off stage to the left.",
+            "B": "She stays in the exact same spot.",
+            "C": "She moves closer to the speaker/podium.",
+            "D": "She steps down into the audience."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.8",
+          "capability": "Location",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "During his interview segment",
+          "question_text": "In the interview clip featuring a man wearing a black fedora hat and a black shirt, where is he located?",
+          "options": {
+            "A": "Inside a locker room with blue lockers.",
+            "B": "Outdoors with greenery/foliage in the background.",
+            "C": "In a stadium with empty seats behind him.",
+            "D": "In a dark room with a window grid."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "manual_1",
+          "capability": "Activity",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Interview Scene",
+          "question_text": "In the interview scene, what are the expressions of a with bald head and having a patch of beard and mustache?",
+          "options": {
+            "A": "Laughing.",
+            "B": "Crying.",
+            "C": "Sad.",
+            "D": "Talking."
+          },
+          "correct_answer": "B"
+        }
+      ]
+    },
+    {
+      "video_id": "--oCWVOBuvA",
+      "questions": [
+        {
+          "question_id": "1.1",
+          "capability": "Activity",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "When woman opens car door",
+          "question_text": "In the dimly lit garage scene, a man is initially seen kneeling near the front tire of a vintage car. As the woman walks around the hood and opens the driver's side door, what action does this specific man take?",
+          "options": {
+            "A": "He remains kneeling and examines the tire.",
+            "B": "He stands up and walks toward the car door.",
+            "C": "He sits on the bumper of the car.",
+            "D": "He walks away to the back of the room immediately."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.11",
+          "capability": "Appearance",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Standing near hanging hoses",
+          "question_text": "A person exits the car to follow the man toward the back of the garage. As they stand talking near the hanging hoses, describe the clothing on their lower body.",
+          "options": {
+            "A": "Dark trousers.",
+            "B": "A light-colored skirt.",
+            "C": "Blue denim jeans.",
+            "D": "Shorts."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.13",
+          "capability": "Interaction",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "Standing near hoses",
+          "question_text": "A man in a dark t-shirt moves from the car to the area with the hanging hoses. Once he is there, how does the woman interact with him physically?",
+          "options": {
+            "A": "She slaps him on the face.",
+            "B": "She grabs/touches his hand or arm.",
+            "C": "She pushes him away against the wall.",
+            "D": "She hugs him immediately."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.14",
+          "capability": "Activity",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "When they stop walking",
+          "question_text": "A woman in a dark skirt gets out of the car and follows the man toward the back of the room. When they stop walking near the equipment, what is her primary orientation?",
+          "options": {
+            "A": "She is facing away from the man, looking at the door.",
+            "B": "She is facing the man directly.",
+            "C": "She is looking at the floor with her back to him.",
+            "D": "She is facing the car."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.19",
+          "capability": "Activity",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "Close up conversation near hoses",
+          "question_text": "In the close-up shot where the man and woman are talking near the hoses, does the man in the dark shirt sit down or remain standing?",
+          "options": {
+            "A": "He sits on a crate.",
+            "B": "He remains standing.",
+            "C": "He kneels on the floor.",
+            "D": "He leans back into a chair."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.2",
+          "capability": "Object State",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "Scene where man leans on window",
+          "question_text": "In the garage scene, a woman wearing a button-up shirt enters the car and sits in the driver's seat. While she is seated and the man is leaning on the window frame talking to her, what is the state of the driver's side car door?",
+          "options": {
+            "A": "It is wide open.",
+            "B": "It is closed.",
+            "C": "It is slightly ajar.",
+            "D": "It is being held open by the man."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.20",
+          "capability": "Appearance",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "Final close-up conversation",
+          "question_text": "An individual opens the car door and sits in the driver's seat. After tracking this person to the final close-up conversation in the dark corner, what is the neckline of their clothing?",
+          "options": {
+            "A": "A high turtleneck collar.",
+            "B": "A t-shirt crew neck.",
+            "C": "An open collar of a button-up shirt.",
+            "D": "A strapless dress."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.6",
+          "capability": "Appearance",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Scene change to back wall with hoses",
+          "question_text": "A person walks away from the car and leans against a wooden post or wall with hanging hoses in the garage. When the woman joins him there, what is this person wearing on his upper body?",
+          "options": {
+            "A": "A light-colored dress shirt with a tie.",
+            "B": "A dark, short-sleeved t-shirt.",
+            "C": "A heavy leather jacket.",
+            "D": "A mechanic's jumpsuit."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.7",
+          "capability": "Interaction",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "When man holds up small object",
+          "question_text": "At the start of the scene, a man is kneeling by a car tire. Later, when he is seen standing by the car window showing a small object in his hands, who is the recipient of this gesture?",
+          "options": {
+            "A": "The woman sitting in the driver's seat.",
+            "B": "A man standing by the garage entrance.",
+            "C": "The woman standing by the workbench.",
+            "D": "He is looking at the object alone."
+          },
+          "correct_answer": "A"
+        },
+        {
+          "question_id": "1.8",
+          "capability": "Location",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "Scene near wall/hoses",
+          "question_text": "A woman with a ponytail is initially standing by the car in the garage. After the scene transitions to the man fiddling with a metal tool near a wall with hanging equipment, where is this woman located?",
+          "options": {
+            "A": "She is still sitting inside the car.",
+            "B": "She is standing right next to the man.",
+            "C": "She is walking out of the garage door.",
+            "D": "She is leaning on the hood of the car."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "manual_1",
+          "capability": "Activity",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "Scene where man reads a paper",
+          "question_text": "A man in a dark t-shirt move towards the car and sits near the car and reads something, before that from where does he gets that paper ?",
+          "options": {
+            "A": "From the car.",
+            "B": "From his shirt pocket.",
+            "C": "From the front right pant pocket.",
+            "D": "From the back right pant pocket."
+          },
+          "correct_answer": "D"
+        },
+        {
+          "question_id": "manual_2",
+          "capability": "Activity",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "Scene where man reads a paper",
+          "question_text": "What is the facial expression of the man, when he is having a conversation with the girl near the hoses and keeps his hand on this face?",
+          "options": {
+            "A": "Crying.",
+            "B": "Smiling.",
+            "C": "Laughing.",
+            "D": "Sad."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "manual_3",
+          "capability": "Activity",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "Scene where man reads a paper",
+          "question_text": "A man and woman standing near the car starts walking away from car towards near the hoses by starts pulling a cart and faces away from car, what are there orientation ?",
+          "options": {
+            "A": "Facing in the opposite direction.",
+            "B": "Women looking at man and man looking below.",
+            "C": "Both looking down.",
+            "D": "Facing in the same direction."
+          },
+          "correct_answer": "B"
+        }
+      ]
+    },
+    {
+      "video_id": "-2KG4lLGEl0",
+      "questions": [
+        {
+          "question_id": "1.1",
+          "capability": "Activity",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": null,
+          "question_text": "In the dimly lit lounge scene where three men are sitting on a curved sofa, a man wearing a light blue dress shirt is initially reclining on a separate chair. Five seconds after he stands up and walks to the back of the room, what specific action does he perform at the small table?",
+          "options": {
+            "A": "He lights a new cigarette.",
+            "B": "He pours a drink from a crystal decanter.",
+            "C": "He picks up a telephone.",
+            "D": "He opens a window."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.10",
+          "capability": "Appearance",
+          "referral_strategy": "Location Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": null,
+          "question_text": "Identify the older man sitting on the far right of the sofa with grey hair. When the man in the blue shirt points at the group and yells while gesturing forcefully, what is this older man wearing?",
+          "options": {
+            "A": "A blue shirt and no jacket.",
+            "B": "A dark grey suit jacket and tie.",
+            "C": "A beige blazer with a patterned shirt.",
+            "D": "A black tuxedo."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.11",
+          "capability": "Object State",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": null,
+          "question_text": "In the lounge scene, identifying the man in the blue shirt who pours a drink. After pouring the liquid from the crystal decanter, what happens to the stopper of the decanter?",
+          "options": {
+            "A": "He holds it in his other hand.",
+            "B": "He places it back on the decanter immediately.",
+            "C": "It is placed on the silver tray/table.",
+            "D": "He puts it in his pocket."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.13",
+          "capability": "Appearance",
+          "referral_strategy": "Location Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": null,
+          "question_text": "In the group on the sofa, the man on the far left is wearing a beige suit. During the scene where the man in the blue shirt is sitting on the table edge and gesturing with his cigarette, what color is the tie worn by the man in the beige suit?",
+          "options": {
+            "A": "Bright red.",
+            "B": "Dark/Black with a pattern.",
+            "C": "He is not wearing a tie.",
+            "D": "Blue and white striped."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.16",
+          "capability": "Appearance",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": null,
+          "question_text": "Identify the man in the blue shirt by his action of pacing the room. When he sits on the table edge and points his finger forward, what is on his wrist?",
+          "options": {
+            "A": "A silver bracelet.",
+            "B": "A dark-strapped watch.",
+            "C": "A medical bandage.",
+            "D": "Nothing is visible on his wrists."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.17",
+          "capability": "Location",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": null,
+          "question_text": "In the initial shot, identifying the man in the blue shirt lying down. Later, when he is sitting on the table edge and smoking, which direction is his body facing?",
+          "options": {
+            "A": "His back is to the camera.",
+            "B": "He is facing the three men on the sofa.",
+            "C": "He is facing directly into the camera lens.",
+            "D": "He is facing the wall behind him."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.19",
+          "capability": "Activity",
+          "referral_strategy": "Object State",
+          "difficulty": "Hard",
+          "temporal_anchor": null,
+          "question_text": "Focusing on the man in the blue shirt who is holding a cigarette. At the very end of the clip, after he takes a sip of his drink, where does he look?",
+          "options": {
+            "A": "He looks down at his shoes.",
+            "B": "He looks straight at the man in the beige suit.",
+            "C": "He looks off to the side, away from the group.",
+            "D": "He closes his eyes."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.20",
+          "capability": "Activity",
+          "referral_strategy": "Location Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": null,
+          "question_text": "Identify the man in the middle of the sofa wearing glasses. When the man in the blue shirt stands up and walks behind the sofa area, does the man in the middle turn his head to follow him?",
+          "options": {
+            "A": "No, he keeps staring forward.",
+            "B": "Yes, he turns his head to watch him.",
+            "C": "No, he looks at the floor.",
+            "D": "Yes, he stands up to follow him."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.3",
+          "capability": "Location",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": null,
+          "question_text": "In the scene with the three men on the sofa, the man in the middle is wearing glasses. When the camera cuts to a close-up of the man in the beige suit speaking, where is the man with glasses positioned relative to the speaker?",
+          "options": {
+            "A": "He is to the speaker's right (viewer's right).",
+            "B": "He has moved to the opposite chair.",
+            "C": "He is standing behind the speaker.",
+            "D": "He is to the speaker's left (viewer's left)."
+          },
+          "correct_answer": "A"
+        },
+        {
+          "question_id": "1.4",
+          "capability": "Interaction",
+          "referral_strategy": "Mixed Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": null,
+          "question_text": "During the initial laughter at the start of the clip, identify the man wearing a beige suit sitting on the left of the sofa. Later, when he leans forward with a serious expression and gestures with his hands, who is he primarily looking at?",
+          "options": {
+            "A": "The man in the blue shirt.",
+            "B": "The man with glasses next to him.",
+            "C": "The older man sitting on the far right.",
+            "D": "The person standing in the background shadows."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.8",
+          "capability": "Location",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": null,
+          "question_text": "In the scene where the three men are seated on the sofa, identify the man wearing the beige/tan suit. When the scene cuts to a medium shot of the man in the blue shirt sitting on the table edge, is the man in the beige suit visible?",
+          "options": {
+            "A": "Yes, he is standing next to the blue shirt man.",
+            "B": "No, the camera is focused only on the blue shirt man.",
+            "C": "Yes, he is visible in the background.",
+            "D": "No, he has left the room."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.9",
+          "capability": "Activity",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": null,
+          "question_text": "Watch the man in the blue shirt who is the primary speaker. When he pauses his movement to take a drink from his glass near the end of the clip, which hand does he use to hold the glass?",
+          "options": {
+            "A": "His left hand.",
+            "B": "His right hand.",
+            "C": "Both hands.",
+            "D": "He uses a straw."
+          },
+          "correct_answer": "A"
+        }
+      ]
+    }
+  ]
+}
