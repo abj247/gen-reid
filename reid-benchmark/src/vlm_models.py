@@ -1393,6 +1393,78 @@ class Gemma3VL(BaseVLM):
         return out
 
 
+class VideoChatFlash(BaseVLM):
+    """OpenGVLab VideoChat-Flash (Qwen2.5 backbone, 2B or 7B at res448).
+
+    API note: model.chat() expects a video PATH (it decodes internally with
+    decord). Our prepare_video therefore returns the path as the cache; no
+    pre-decoding on our side. For text-only mode we point chat() at a small
+    pre-generated black MP4 (data/dummy_black.mp4)."""
+
+    DEFAULT_DUMMY_MP4 = "/home/ab260989/gen-reid/data/dummy_black.mp4"
+
+    def __init__(self, model_size: str = "2B", device: str = "cuda",
+                 num_frames: int = 8, max_pixels: Tuple[int, int] = (448, 448),
+                 quantize_4bit: bool = False):
+        super().__init__(f"VideoChat-Flash-{model_size}", device, num_frames, max_pixels, quantize_4bit)
+        self.model_size = model_size
+        # HF family naming is non-uniform: 2B uses Qwen2.5 backbone, 7B uses Qwen2.
+        if model_size.upper() == "2B":
+            self.model_id = "OpenGVLab/VideoChat-Flash-Qwen2_5-2B_res448"
+        elif model_size.upper() == "7B":
+            self.model_id = "OpenGVLab/VideoChat-Flash-Qwen2-7B_res448"
+        else:
+            self.model_id = f"OpenGVLab/VideoChat-Flash-Qwen2-{model_size}_res448"
+
+    def load_model(self):
+        # NOTE: VideoChat-Flash custom modeling code is pinned to transformers ~4.40
+        # cache APIs. Run this class in the `videochat-flash` conda env
+        # (transformers==4.40.1, with a stub flash_attn package), not in `reid`.
+        from transformers import AutoModel, AutoTokenizer
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_id, trust_remote_code=True)
+        load_kwargs = dict(trust_remote_code=True)
+        if self.quant_config:
+            load_kwargs["quantization_config"] = self.quant_config
+        self.model = AutoModel.from_pretrained(self.model_id, **load_kwargs)
+        self.model = self.model.to(torch.bfloat16).to(self.device)
+        self.model.eval()
+        print(f"Loaded {self.model_name} (dtype=bf16, 4bit={self.quantize_4bit})")
+        get_gpu_memory_info()
+
+    def prepare_video(self, video_path: str) -> Any:
+        # VideoChat-Flash decodes the mp4 itself; we pass the path through.
+        return video_path
+
+    def _chat(self, video_path: str, prompt: str) -> str:
+        with torch.no_grad():
+            out = self.model.chat(
+                video_path=video_path,
+                tokenizer=self.tokenizer,
+                user_prompt=prompt,
+                return_history=False,
+                max_num_frames=self.num_frames,
+                generation_config=dict(
+                    do_sample=False, max_new_tokens=8, num_beams=1,
+                ),
+            )
+        return out if isinstance(out, str) else out[0]
+
+    def inference_with_cache(self, video_cache: Any, question: str, options) -> str:
+        prompt = self.format_mcq_prompt(question, options)
+        response = self._chat(video_cache, prompt)
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
+
+    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
+        return self.inference_with_cache(video_path, question, options)
+
+    def inference_text_only(self, question: str, options) -> str:
+        prompt = self.format_mcq_prompt(question, options)
+        response = self._chat(self.DEFAULT_DUMMY_MP4, prompt)
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
+
+
 # =============================================================================
 # Model Registry
 # =============================================================================
@@ -1425,6 +1497,8 @@ def create_model(model_name, device="cuda", num_frames=8,
         "gemma3-4b": lambda: Gemma3VL("4b", device, num_frames, max_pixels, quantize_4bit),
         "gemma3-12b": lambda: Gemma3VL("12b", device, num_frames, max_pixels, quantize_4bit),
         "video-llava": lambda: VideoLLaVA(device, num_frames, max_pixels, quantize_4bit),
+        "videochat-flash-2b": lambda: VideoChatFlash("2B", device, num_frames, max_pixels, quantize_4bit),
+        "videochat-flash-7b": lambda: VideoChatFlash("7B", device, num_frames, max_pixels, quantize_4bit),
     }
     key = model_name.lower().strip()
     if key not in model_map:

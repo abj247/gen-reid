@@ -33,6 +33,8 @@ mpl.rcParams.update({
 FAMILY_COLORS = {
     "Qwen2.5-VL": "#0072B2", "Qwen3-VL": "#009E73", "InternVL3": "#D55E00",
     "Ovis2.5": "#CC79A7", "Gemma3": "#E69F00", "Video-LLaVA": "#56B4E9",
+    # Held-out LVU families:
+    "VideoChat-Flash": "#F0E442", "LongVU": "#882255", "MA-LMM": "#117733",
 }
 MODELS = {
     "ovis2.5-2b": ("Ovis2.5-2B", 2.0, "Ovis2.5"),
@@ -48,6 +50,11 @@ MODELS = {
     "video-llava": ("Video-LLaVA-7B", 7.0, "Video-LLaVA"),
     "gemma3-12b": ("Gemma3-12B", 12.0, "Gemma3"),
     "internvl3-14b": ("InternVL3-14B", 14.0, "InternVL3"),
+    # Held-out LVU models (added after the original committee was set):
+    "videochat-flash-2b": ("VideoChat-Flash-2B", 2.0, "VideoChat-Flash"),
+    "videochat-flash-7b": ("VideoChat-Flash-7B", 7.0, "VideoChat-Flash"),
+    "longvu-qwen2-7b":    ("LongVU-Qwen2-7B", 7.0, "LongVU"),
+    "ma-lmm-vicuna7b":    ("MA-LMM-Vicuna-7B", 7.0, "MA-LMM"),
 }
 N_OPT = 8
 BASE = 100.0 / N_OPT

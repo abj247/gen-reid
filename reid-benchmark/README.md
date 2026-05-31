@@ -225,8 +225,8 @@ python analysis/analyze_failures.py \
 
 ## Model matrix
 
-Thirteen checkpoints across four scale tiers and six families. Family and size
-are read from the model key.
+Thirteen in-committee checkpoints across four scale tiers and six families.
+Family and size are read from the model key.
 
 | Tier   | Models |
 |--------|--------|
@@ -237,6 +237,30 @@ are read from the model key.
 
 Add or change models in the model_map inside src/vlm_models.py. The two
 evaluation drivers read model keys from that factory.
+
+### Held-out long-video (LVU) models
+
+Four additional long-video models were evaluated AFTER the committee filter was
+fixed, so they were never used to construct the benchmark. They serve as a
+held-out generalization check: if the debiasing transfers, these unseen
+architectures should also be near the 12.5 percent text-only baseline. They
+are. The four are VideoChat-Flash (2B and 7B), LongVU-Qwen2-7B, and
+MA-LMM-Vicuna-7B.
+
+Each pins to an older transformers version and so runs in its own conda env,
+via standalone wrappers in lvu_models/ that emit the same predictions.jsonl
+schema as the main drivers:
+
+| Model | Conda env | transformers | Wrapper | Notes |
+|-------|-----------|--------------|---------|-------|
+| VideoChat-Flash 2B/7B | videochat-flash | 4.40.1 (+ stub flash_attn) | src/vlm_models.py VideoChatFlash class | model.chat() takes an mp4 path; text-only uses data/dummy_black.mp4 |
+| LongVU-Qwen2-7B | longvu | 4.42.4 | lvu_models/eval_longvu_*.py | requires the cloned LongVU repo on PYTHONPATH |
+| MA-LMM-Vicuna-7B | ma-lmm | 4.33.3 (LAVIS) | lvu_models/eval_malmm_*.py | native 20-frame + 10-slot memory bank; Vicuna-v1.5 substituted for the unavailable v1.1 |
+
+SLURM wrappers for all four are in slurm/run_{text_only,video_text}_{videochat_flash,longvu,malmm}.slurm.
+The LVU video evaluators use each model's recommended frame count (8 for
+VideoChat-Flash and LongVU; 20 plus memory bank for MA-LMM), not a forced common
+count, so each architecture runs in its intended configuration.
 
 ## Output formats
 

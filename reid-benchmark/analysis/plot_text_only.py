@@ -57,14 +57,17 @@ mpl.rcParams.update({
     "ps.fonttype": 42,
 })
 
-# Colorblind-safe palette (Wong 2011)
+# Colorblind-safe palette (Wong 2011 + extensions for held-out LVU models)
 FAMILY_COLORS = {
-    "Qwen2.5-VL":  "#0072B2",   # blue
-    "Qwen3-VL":    "#009E73",   # green
-    "InternVL3":   "#D55E00",   # vermillion
-    "Ovis2.5":     "#CC79A7",   # pink-magenta
-    "Gemma3":      "#E69F00",   # orange
-    "Video-LLaVA": "#56B4E9",   # sky blue
+    "Qwen2.5-VL":     "#0072B2",   # blue
+    "Qwen3-VL":       "#009E73",   # green
+    "InternVL3":      "#D55E00",   # vermillion
+    "Ovis2.5":        "#CC79A7",   # pink-magenta
+    "Gemma3":         "#E69F00",   # orange
+    "Video-LLaVA":    "#56B4E9",   # sky blue
+    "VideoChat-Flash":"#F0E442",   # yellow (held-out)
+    "LongVU":         "#882255",   # wine (held-out)
+    "MA-LMM":         "#117733",   # dark green (held-out)
 }
 
 
@@ -86,6 +89,11 @@ MODEL_META = {
     "Gemma3-4B":       (4.0,  "Gemma3",      "gemma3-4b"),
     "Gemma3-12B":      (12.0, "Gemma3",      "gemma3-12b"),
     "Video-LLaVA-7B":  (7.0,  "Video-LLaVA", "video-llava"),
+    # ---- Held-out LVU models (not in the committee filter) ----
+    "VideoChat-Flash-2B":(2.0, "VideoChat-Flash","videochat-flash-2b"),
+    "VideoChat-Flash-7B":(7.0, "VideoChat-Flash","videochat-flash-7b"),
+    "LongVU-Qwen2-7B": (7.0,  "LongVU",        "longvu-qwen2-7b"),
+    "MA-LMM-Vicuna-7B":(7.0,  "MA-LMM",        "ma-lmm-vicuna7b"),
 }
 
 
