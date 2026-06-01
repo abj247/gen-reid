@@ -1,14 +1,23 @@
-# Core
-torch>=2.4
-transformers>=4.50
-accelerate
-bitsandbytes
-decord
-pillow
-numpy
-# Qwen-VL helper (Qwen2.5-VL / Qwen3-VL video token packing)
-qwen-vl-utils
-# Analysis and plotting
-pandas
-matplotlib
-seaborn
+# =============================================================================
+# This project uses FOUR conda environments because the long-video models
+# (VideoChat-Flash, LongVU, MA-LMM) pin incompatible transformers versions.
+# Do NOT try to install everything into one environment.
+#
+# Environment-specific requirement files live in requirements/:
+#   requirements/reid.txt             main env: all HF-native models + analysis
+#   requirements/videochat-flash.txt  VideoChat-Flash 2B/7B (transformers 4.40)
+#   requirements/longvu.txt           LongVU (transformers 4.42, + cloned repo)
+#   requirements/ma-lmm.txt           MA-LMM (transformers 4.33, LAVIS, + cloned repo)
+#
+# Exact pip freezes (every transitive package) for byte-for-byte reproduction:
+#   requirements/<env>-freeze.txt
+#
+# See the README "Environment setup" and "Troubleshooting" sections for the
+# per-env install commands and the known dependency fixes.
+#
+# Most users only need the main env. Quick start:
+#   conda create -n reid python=3.11 -y && conda activate reid
+#   pip install -r requirements/reid.txt
+# =============================================================================
+
+-r requirements/reid.txt
