@@ -25,6 +25,8 @@ Usage:
         --max_pixels 256 256
 """
 
+import os as _os
+from pathlib import Path as _Path
 import argparse
 import gc
 import json
@@ -1437,7 +1439,8 @@ class VideoChatFlash(BaseVLM):
     pre-decoding on our side. For text-only mode we point chat() at a small
     pre-generated black MP4 (data/dummy_black.mp4)."""
 
-    DEFAULT_DUMMY_MP4 = "/home/ab260989/gen-reid/data/dummy_black.mp4"
+    DEFAULT_DUMMY_MP4 = _os.environ.get("PERSISTQA_DUMMY_MP4") or str(
+        _Path(__file__).resolve().parent / "assets" / "dummy_black.mp4")
 
     def __init__(self, model_size: str = "2B", device: str = "cuda",
                  num_frames: int = 8, max_pixels: Tuple[int, int] = (448, 448),

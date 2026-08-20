@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: If you use PersistQA, please cite the paper below.
+title: "PersistQA: Benchmarking Identity Grounded Question Answering in Long Videos"
+authors:
+  - family-names: TODO
+    given-names: TODO
+    affiliation: TODO
+preferred-citation:
+  type: conference-paper
+  title: "PersistQA: Benchmarking Identity Grounded Question Answering in Long Videos"
+  year: 2026
+  collection-title: International Conference on Learning Representations (ICLR)
+  authors:
+    - family-names: TODO
+      given-names: TODO
