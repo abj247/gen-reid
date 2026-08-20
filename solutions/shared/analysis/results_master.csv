@@ -1,0 +1,29 @@
+path,backbone,arm,n,frames_or_tokens,accuracy,delta_vs_baseline,p_vs_baseline,n_pair_baseline,delta_vs_random_control,p_vs_random_control,n_pair_random,MDE,MDE_vs_random,note
+frame,internvl3-14b,kf_uniform8,3233,8 frames,24.62,,,,0.15,0.8337,3233,1.65,1.65,"BASELINE (uniform-8, identical mp4 pipeline)"
+frame,internvl3-14b,kf_random,3233,8 frames,24.47,-0.15,0.8337,3233,,,,1.65,,"CONTROL (random 8 from same 64-pool, per-q seeded)"
+frame,internvl3-14b,kf_referent,3233,8 frames,27.37,2.75,1.928e-05,3233,2.91,9.025e-06,3233,1.79,1.82,keyframe: top-8 of 64 by CLIP(question+temporal_anchor)
+frame,internvl3-14b,kf_question,3233,8 frames,26.42,1.79,0.005134,3233,1.95,0.002717,3233,1.77,1.79,keyframe: top-8 of 64 by CLIP(question only)
+chunk,internvl3-14b,kf_chunk,3233,8 frames,26.94,2.32,0.0002355,3233,2.47,9.869e-05,3233,1.75,1.76,"chunk: 8 chunks, max-sim, top-2, even inside"
+frame,internvl3-14b,kf_q_t16,3233,16 frames,27.84,3.22,1.665e-06,3233,3.37,3.873e-07,3233,1.87,1.85,NOT budget-matched to the 8-frame arms
+frame,internvl3-14b,kf_q_t32,3059,32 frames,28.96,5.23,1.548e-14,3059,5.26,9.768e-15,3059,1.92,1.91,NOT budget-matched to the 8-frame arms
+frame,qwen2.5-vl-7b,kf_uniform8,3233,8 frames,17.14,,,,-0.46,0.4744,3233,1.70,1.70,"BASELINE (uniform-8, identical mp4 pipeline)"
+frame,qwen2.5-vl-7b,kf_random,3233,8 frames,17.60,0.46,0.4744,3233,,,,1.70,,"CONTROL (random 8 from same 64-pool, per-q seeded)"
+frame,qwen2.5-vl-7b,kf_referent,3233,8 frames,19.27,2.13,0.00106,3233,1.67,0.01015,3233,1.80,1.79,keyframe: top-8 of 64 by CLIP(question+temporal_anchor)
+frame,qwen2.5-vl-7b,kf_question,3233,8 frames,19.12,1.98,0.001644,3233,1.52,0.01807,3233,1.74,1.76,keyframe: top-8 of 64 by CLIP(question only)
+chunk,qwen2.5-vl-7b,kf_chunk,3233,8 frames,17.94,0.80,0.2147,3233,0.34,0.6193,3233,1.75,1.74,"chunk: 8 chunks, max-sim, top-2, even inside"
+frame,ovis2.5-9b,kf_uniform8,3233,8 frames,22.86,,,,0.12,0.8918,3233,1.91,1.91,"BASELINE (uniform-8, identical mp4 pipeline)"
+frame,ovis2.5-9b,kf_random,3233,8 frames,22.73,-0.12,0.8918,3233,,,,1.91,,"CONTROL (random 8 from same 64-pool, per-q seeded)"
+frame,ovis2.5-9b,kf_referent,3233,8 frames,25.36,2.51,0.0004347,3233,2.63,0.0003205,3233,1.97,2.03,keyframe: top-8 of 64 by CLIP(question+temporal_anchor)
+frame,ovis2.5-9b,kf_question,3233,8 frames,25.36,2.51,0.0004575,3233,2.63,0.0003371,3233,1.98,2.03,keyframe: top-8 of 64 by CLIP(question only)
+chunk,ovis2.5-9b,kf_chunk,3233,8 frames,24.56,1.70,0.01725,3233,1.82,0.01037,3233,1.97,1.96,"chunk: 8 chunks, max-sim, top-2, even inside"
+frame,videochat-flash-7b,kf_uniform8,2341,8 frames,19.52,,,,0.26,0.7736,2313,2.10,2.10,"BASELINE (uniform-8, identical mp4 pipeline)"
+frame,videochat-flash-7b,kf_random,2313,8 frames,19.33,-0.26,0.7736,2313,,,,2.10,,"CONTROL (random 8 from same 64-pool, per-q seeded)"
+frame,videochat-flash-7b,kf_referent,3233,8 frames,23.01,3.12,0.0001004,2341,3.37,6.180e-05,2313,2.22,2.34,keyframe: top-8 of 64 by CLIP(question+temporal_anchor)
+frame,videochat-flash-7b,kf_question,3233,8 frames,22.33,1.96,0.01543,2341,2.25,0.007106,2313,2.23,2.30,keyframe: top-8 of 64 by CLIP(question only)
+chunk,videochat-flash-7b,kf_chunk,2242,8 frames,20.29,1.03,0.2151,2242,1.16,0.17,2242,2.22,2.28,"chunk: 8 chunks, max-sim, top-2, even inside"
+membank,internvl3-14b,mb_uniform32,759,8192 visual tokens (32f x 256tok),30.96,,,,,,,,,BASELINE (uniform 32 frames spliced from the bank)
+membank,internvl3-14b,mb_rand1,759,8192 visual tokens (32f x 256tok),28.46,-2.50,0.1042,759,,,,4.09,,CONTROL (1 random chunk)
+membank,internvl3-14b,mb_rand2,759,8192 visual tokens (32f x 256tok),28.46,-2.50,0.08422,759,,,,3.85,,CONTROL (2 random chunks)
+membank,internvl3-14b,mb_top1,759,8192 visual tokens (32f x 256tok),30.04,-0.92,0.5856,759,1.58,0.3347,759,4.06,4.21,memory bank: top-1 chunk by max CLIP sim
+membank,internvl3-14b,mb_top2,759,8192 visual tokens (32f x 256tok),32.28,1.32,0.3533,759,3.82,0.009341,759,3.58,3.99,memory bank: top-2 chunks by max CLIP sim
+membank,internvl3-14b,mb_oracle,759,8192 visual tokens (32f x 256tok),35.05,4.08,0.003529,759,6.59,3.865e-06,759,3.82,3.98,"CEILING -- uses the oracle evidence chunk; answer-informed, NEVER a method"

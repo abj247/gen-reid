@@ -1,0 +1,128 @@
+{
+ "n_keys": 2962,
+ "breadth_depth": {
+  "referent": {
+   "hit_rate": 57.73,
+   "mean_depth_given_hit": 2.002,
+   "mean_depth": 1.156,
+   "mean_spread": 0.5759,
+   "mean_distinct_chunks": 4.113
+  },
+  "chunk": {
+   "hit_rate": 51.76,
+   "mean_depth_given_hit": 1.862,
+   "mean_depth": 0.964,
+   "mean_spread": 0.4049,
+   "mean_distinct_chunks": 2.0
+  },
+  "random": {
+   "hit_rate": 41.39,
+   "mean_depth_given_hit": 1.433,
+   "mean_depth": 0.593,
+   "mean_spread": 0.8008,
+   "mean_distinct_chunks": 5.448
+  },
+  "uniform": {
+   "hit_rate": 42.51,
+   "mean_depth_given_hit": 1.189,
+   "mean_depth": 0.505,
+   "mean_spread": 1.0,
+   "mean_distinct_chunks": 8.0
+  }
+ },
+ "depth_curve": {
+  "1": {
+   "acc": 24.25,
+   "n": 11118,
+   "ci95": [
+    23.46,
+    25.05
+   ]
+  },
+  "2": {
+   "acc": 27.92,
+   "n": 3378,
+   "ci95": [
+    26.43,
+    29.45
+   ]
+  },
+  "3": {
+   "acc": 30.69,
+   "n": 1323,
+   "ci95": [
+    28.26,
+    33.23
+   ]
+  },
+  "4+": {
+   "acc": 27.69,
+   "n": 1365,
+   "ci95": [
+    25.38,
+    30.13
+   ]
+  }
+ },
+ "marginal_value": {
+  "first_frame_in_window": 5.564,
+  "each_additional_frame": 1.897,
+  "each_additional_frame_mode_stratified": 1.525,
+  "p_additional_beyond_first": 0.0001,
+  "estimator_for_p": "mode-balanced stratified on (deep_mode, shallow_mode), key-clustered bootstrap",
+  "additional_beyond_first_pts": 4.57,
+  "additional_beyond_first_mde_pts": 2.69,
+  "saturates": false,
+  "saturation_verdict": "extra in-window frames DO pay"
+ },
+ "gap_decomposition": {
+  "internvl3-14b": {
+   "chunk_minus_keyframe": -0.304,
+   "breadth_term": -0.424,
+   "depth_term": -0.244,
+   "residual": 0.364
+  },
+  "qwen2.5-vl-7b": {
+   "chunk_minus_keyframe": -1.215,
+   "breadth_term": -0.255,
+   "depth_term": -0.244,
+   "residual": -0.716
+  },
+  "ovis2.5-9b": {
+   "chunk_minus_keyframe": -0.574,
+   "breadth_term": -0.519,
+   "depth_term": -0.308,
+   "residual": 0.253
+  }
+ },
+ "membank": {
+  "chunk_hit_top2": 48.62,
+  "chunk_hit_rand2": 25.56,
+  "acc_given_chunk_hit": 36.23,
+  "acc_given_chunk_miss": 26.91,
+  "n": 1518
+ },
+ "spread_vs_acc": {
+  "bins": [
+   "0.0-0.2",
+   "0.2-0.4",
+   "0.4-0.6",
+   "0.6-0.8",
+   "0.8-1.0"
+  ],
+  "acc": [
+   29.26,
+   24.35,
+   21.4,
+   21.97,
+   21.57
+  ],
+  "n": [
+   393,
+   7227,
+   4458,
+   7971,
+   15495
+  ]
+ }
+}

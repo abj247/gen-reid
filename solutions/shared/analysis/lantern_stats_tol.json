@@ -1,0 +1,809 @@
+{
+  "n_keys": 3233,
+  "n_with_window": 2962,
+  "coverage": {
+    "n_videos": 405,
+    "n_videos_total": 449,
+    "frac": 0.9020044543429844,
+    "complete": false,
+    "questions_total": 3233
+  },
+  "hit_rate": {
+    "referent": {
+      "rate": 0.5773126266036462,
+      "n": 2962,
+      "ci95": [
+        0.5594339451151928,
+        0.5949910322003897
+      ]
+    },
+    "chunk": {
+      "rate": 0.5175557056043214,
+      "n": 2962,
+      "ci95": [
+        0.499549367862213,
+        0.5355165658513691
+      ]
+    },
+    "random": {
+      "rate": 0.4139095205941931,
+      "n": 2962,
+      "ci95": [
+        0.39629474161962336,
+        0.4317473142080031
+      ]
+    },
+    "uniform": {
+      "rate": 0.425050641458474,
+      "n": 2962,
+      "ci95": [
+        0.40735608896830133,
+        0.44293934786986755
+      ]
+    }
+  },
+  "hit_rate_delta": {
+    "referent_minus_random": {
+      "delta": 0.16340310600945307,
+      "p": 1.509955931585771e-38,
+      "n": 2962,
+      "b": 948,
+      "c": 464,
+      "mde80_points": 3.5511864200513257,
+      "p_method": "exact_mcnemar",
+      "deff": 1.0,
+      "n_clusters": 2962,
+      "ci95_delta": [
+        0.13943281566509116,
+        0.187373396353815
+      ]
+    },
+    "referent_minus_uniform": {
+      "delta": 0.15226198514517217,
+      "p": 1.2911536263146318e-35,
+      "n": 2962,
+      "b": 891,
+      "c": 440,
+      "mde80_points": 3.4476492591039043,
+      "p_method": "exact_mcnemar",
+      "deff": 1.0,
+      "n_clusters": 2962,
+      "ci95_delta": [
+        0.12862930452397028,
+        0.17489027683997288
+      ]
+    }
+  },
+  "acc_by_hit": {
+    "internvl3-14b": {
+      "referent": {
+        "hit": {
+          "acc": 0.3116959064327485,
+          "n": 1710
+        },
+        "miss": {
+          "acc": 0.21725239616613418,
+          "n": 1252
+        }
+      },
+      "chunk": {
+        "hit": {
+          "acc": 0.31441617742987604,
+          "n": 1533
+        },
+        "miss": {
+          "acc": 0.21973407977606718,
+          "n": 1429
+        }
+      },
+      "random": {
+        "hit": {
+          "acc": 0.266721044045677,
+          "n": 1226
+        },
+        "miss": {
+          "acc": 0.22407834101382487,
+          "n": 1736
+        }
+      },
+      "uniform": {
+        "hit": {
+          "acc": 0.2676727561556791,
+          "n": 1259
+        },
+        "miss": {
+          "acc": 0.22607163828537874,
+          "n": 1703
+        }
+      }
+    },
+    "internvl3-8b": {
+      "referent": {
+        "hit": {
+          "acc": 0.2838847385272145,
+          "n": 937
+        },
+        "miss": {
+          "acc": 0.18970588235294117,
+          "n": 680
+        }
+      },
+      "chunk": {
+        "hit": {
+          "acc": 0.28486293206197855,
+          "n": 839
+        },
+        "miss": {
+          "acc": 0.17517241379310344,
+          "n": 725
+        }
+      },
+      "random": {
+        "hit": {
+          "acc": 0.24175824175824176,
+          "n": 637
+        },
+        "miss": {
+          "acc": 0.1892450879007239,
+          "n": 967
+        }
+      },
+      "uniform": {
+        "hit": {
+          "acc": null,
+          "n": 0
+        },
+        "miss": {
+          "acc": null,
+          "n": 0
+        }
+      }
+    },
+    "ovis2.5-9b": {
+      "referent": {
+        "hit": {
+          "acc": 0.2935672514619883,
+          "n": 1710
+        },
+        "miss": {
+          "acc": 0.18610223642172524,
+          "n": 1252
+        }
+      },
+      "chunk": {
+        "hit": {
+          "acc": 0.29354207436399216,
+          "n": 1533
+        },
+        "miss": {
+          "acc": 0.18754373687893633,
+          "n": 1429
+        }
+      },
+      "random": {
+        "hit": {
+          "acc": 0.2561174551386623,
+          "n": 1226
+        },
+        "miss": {
+          "acc": 0.19988479262672812,
+          "n": 1736
+        }
+      },
+      "uniform": {
+        "hit": {
+          "acc": 0.2637013502779984,
+          "n": 1259
+        },
+        "miss": {
+          "acc": 0.19260129183793306,
+          "n": 1703
+        }
+      }
+    },
+    "qwen2.5-vl-7b": {
+      "referent": {
+        "hit": {
+          "acc": 0.21403508771929824,
+          "n": 1710
+        },
+        "miss": {
+          "acc": 0.1597444089456869,
+          "n": 1252
+        }
+      },
+      "chunk": {
+        "hit": {
+          "acc": 0.2126549249836921,
+          "n": 1533
+        },
+        "miss": {
+          "acc": 0.14275717284814557,
+          "n": 1429
+        }
+      },
+      "random": {
+        "hit": {
+          "acc": 0.18923327895595432,
+          "n": 1226
+        },
+        "miss": {
+          "acc": 0.16129032258064516,
+          "n": 1736
+        }
+      },
+      "uniform": {
+        "hit": {
+          "acc": 0.17633042096902304,
+          "n": 1259
+        },
+        "miss": {
+          "acc": 0.1638285378743394,
+          "n": 1703
+        }
+      }
+    },
+    "videochat-flash-7b": {
+      "referent": {
+        "hit": {
+          "acc": 0.26432748538011697,
+          "n": 1710
+        },
+        "miss": {
+          "acc": 0.17412140575079874,
+          "n": 1252
+        }
+      },
+      "chunk": {
+        "hit": {
+          "acc": 0.25440313111545987,
+          "n": 1533
+        },
+        "miss": {
+          "acc": 0.15745276417074877,
+          "n": 1429
+        }
+      },
+      "random": {
+        "hit": {
+          "acc": 0.22512234910277323,
+          "n": 1226
+        },
+        "miss": {
+          "acc": 0.18029953917050692,
+          "n": 1736
+        }
+      },
+      "uniform": {
+        "hit": {
+          "acc": 0.2390786338363781,
+          "n": 1259
+        },
+        "miss": {
+          "acc": 0.16676453317674692,
+          "n": 1703
+        }
+      }
+    }
+  },
+  "dose_pooled": {
+    "0": {
+      "acc": 0.18538656338447787,
+      "n": 26852,
+      "ci95": [
+        0.18078358860579635,
+        0.19007954275773142
+      ]
+    },
+    "1": {
+      "acc": 0.24377803723959934,
+      "n": 16273,
+      "ci95": [
+        0.2372421649613203,
+        0.2504348501956372
+      ]
+    },
+    "2": {
+      "acc": 0.27332274712187377,
+      "n": 5038,
+      "ci95": [
+        0.26119262768856794,
+        0.2857982845297952
+      ]
+    },
+    "3+": {
+      "acc": 0.28824115595416044,
+      "n": 4014,
+      "ci95": [
+        0.2744367356941428,
+        0.3024505015392101
+      ]
+    }
+  },
+  "dose_by_backbone": {
+    "internvl3-14b": {
+      "0": {
+        "acc": 0.2222222222222222,
+        "n": 6120
+      },
+      "1": {
+        "acc": 0.27792768483540203,
+        "n": 3706
+      },
+      "2": {
+        "acc": 0.3197158081705151,
+        "n": 1126
+      },
+      "3+": {
+        "acc": 0.32254464285714285,
+        "n": 896
+      }
+    },
+    "internvl3-8b": {
+      "0": {
+        "acc": 0.18507588532883643,
+        "n": 2372
+      },
+      "1": {
+        "acc": 0.2712215320910973,
+        "n": 1449
+      },
+      "2": {
+        "acc": 0.28277153558052437,
+        "n": 534
+      },
+      "3+": {
+        "acc": 0.26744186046511625,
+        "n": 430
+      }
+    },
+    "ovis2.5-9b": {
+      "0": {
+        "acc": 0.19215686274509805,
+        "n": 6120
+      },
+      "1": {
+        "acc": 0.26281705342687534,
+        "n": 3706
+      },
+      "2": {
+        "acc": 0.29928952042628776,
+        "n": 1126
+      },
+      "3+": {
+        "acc": 0.3203125,
+        "n": 896
+      }
+    },
+    "qwen2.5-vl-7b": {
+      "0": {
+        "acc": 0.15735294117647058,
+        "n": 6120
+      },
+      "1": {
+        "acc": 0.1867242309767944,
+        "n": 3706
+      },
+      "2": {
+        "acc": 0.21847246891651864,
+        "n": 1126
+      },
+      "3+": {
+        "acc": 0.23214285714285715,
+        "n": 896
+      }
+    },
+    "videochat-flash-7b": {
+      "0": {
+        "acc": 0.16993464052287582,
+        "n": 6120
+      },
+      "1": {
+        "acc": 0.23691311386940098,
+        "n": 3706
+      },
+      "2": {
+        "acc": 0.25133214920071045,
+        "n": 1126
+      },
+      "3+": {
+        "acc": 0.28794642857142855,
+        "n": 896
+      }
+    }
+  },
+  "mediation": {
+    "internvl3-14b": {
+      "total_gain": 0.030047265361242415,
+      "explained_by_hitrate": 0.011200156522021911,
+      "explained_by_cond_acc": 0.018847108839220503,
+      "pct_mediated": 37.27512766093134,
+      "acc_hit_referent": 0.3116959064327485,
+      "acc_hit_random": 0.266721044045677,
+      "p_acchit_diff": 0.008508756269520707,
+      "p_acchit_paired": 0.049450065253179916,
+      "p_acchit_perm": 0.04839516048395161,
+      "acchit_overlap": {
+        "n_referent_hit": 1710,
+        "n_random_hit": 1226,
+        "n_overlap": 762,
+        "frac_of_referent_stratum": 0.4456140350877193,
+        "frac_of_random_stratum": 0.6215334420880914
+      },
+      "acchit_primary_test": "paired_exact_mcnemar_on_both_hit",
+      "p_acchit_diff_note": "SECONDARY/FOOTNOTE ONLY -- Fisher exact, unpaired. The two hit strata overlap by 762 questions = 44.6% of the referent stratum and 62.2% of the random stratum, so the independence assumption is violated and this p is uncalibrated. Read the verdict off p_acchit_paired.",
+      "p_acchit_perm_note": "within-question permutation, 10000 seeded draws (seed=20260819); labels swapped only within the 762 questions reaching BOTH hit strata (94 of them informative). Corroborates p_acchit_paired by construction.",
+      "pct_mediated_ci95": [
+        21.394802822675363,
+        70.61103941751557
+      ],
+      "pct_mediated_note": null,
+      "total_gain_ci95": [
+        0.016542876434841314,
+        0.04321404456448347
+      ],
+      "explained_by_hitrate_ci95": [
+        0.007268269626136457,
+        0.015479739296249975
+      ],
+      "explained_by_cond_acc_ci95": [
+        0.004968399343785029,
+        0.03247130037226189
+      ],
+      "bootstrap": {
+        "n_boot": 10000,
+        "seed": 20260819,
+        "clusters": "question key",
+        "n_clusters": 2962
+      },
+      "residual": 0.0,
+      "n": 2962,
+      "p_hit_referent": 0.5773126266036462,
+      "p_hit_random": 0.4139095205941931,
+      "acc_miss_referent": 0.21725239616613418,
+      "acc_miss_random": 0.22407834101382487,
+      "acc_referent": 0.27177582714382176,
+      "acc_random": 0.24172856178257934,
+      "n_hit_referent": 1710,
+      "n_hit_random": 1226,
+      "mde80_acchit_points": 4.7713955545402875,
+      "mde80_acchit_paired_points": 3.5200935957972983,
+      "p_total_gain_mcnemar": 1.1369296338407733e-05,
+      "mde80_total_points": 1.8979356001341077,
+      "paired_bothhit": {
+        "n": 762,
+        "delta": 0.026246719160104987,
+        "p": 0.049450065253179916,
+        "mde80_points": 3.5200935957972983,
+        "p_method": "exact_mcnemar",
+        "deff": 1.0,
+        "ci95_delta": [
+          0.0013123359580052493,
+          0.051181102362204724
+        ]
+      }
+    },
+    "internvl3-8b": {
+      "total_gain": 0.031795511221945155,
+      "explained_by_hitrate": 0.013241124541684553,
+      "explained_by_cond_acc": 0.01855438668026057,
+      "pct_mediated": 41.64463483306277,
+      "acc_hit_referent": 0.2815533980582524,
+      "acc_hit_random": 0.24175824175824176,
+      "p_acchit_diff": 0.08077000425407224,
+      "p_acchit_paired": 0.3222363203575469,
+      "p_acchit_perm": 0.3213678632136786,
+      "acchit_overlap": {
+        "n_referent_hit": 927,
+        "n_random_hit": 637,
+        "n_overlap": 392,
+        "frac_of_referent_stratum": 0.4228694714131607,
+        "frac_of_random_stratum": 0.6153846153846154
+      },
+      "acchit_primary_test": "paired_exact_mcnemar_on_both_hit",
+      "p_acchit_diff_note": "SECONDARY/FOOTNOTE ONLY -- Fisher exact, unpaired. The two hit strata overlap by 392 questions = 42.3% of the referent stratum and 61.5% of the random stratum, so the independence assumption is violated and this p is uncalibrated. Read the verdict off p_acchit_paired.",
+      "p_acchit_perm_note": "within-question permutation, 10000 seeded draws (seed=20260819); labels swapped only within the 392 questions reaching BOTH hit strata (50 of them informative). Corroborates p_acchit_paired by construction.",
+      "pct_mediated_ci95": [
+        20.811646082871235,
+        110.00012781385188
+      ],
+      "pct_mediated_note": null,
+      "total_gain_ci95": [
+        0.012468827930174564,
+        0.051122194513715746
+      ],
+      "explained_by_hitrate_ci95": [
+        0.007532454355249871,
+        0.019749353570353657
+      ],
+      "explained_by_cond_acc_ci95": [
+        -0.0014902130054637456,
+        0.03817947968527078
+      ],
+      "bootstrap": {
+        "n_boot": 10000,
+        "seed": 20260819,
+        "clusters": "question key",
+        "n_clusters": 1604
+      },
+      "residual": 3.469446951953614e-17,
+      "n": 1604,
+      "p_hit_referent": 0.577930174563591,
+      "p_hit_random": 0.39713216957605985,
+      "acc_miss_referent": 0.18759231905465287,
+      "acc_miss_random": 0.1892450879007239,
+      "acc_referent": 0.24189526184538654,
+      "acc_random": 0.21009975062344138,
+      "n_hit_referent": 927,
+      "n_hit_random": 637,
+      "mde80_acchit_points": 6.365901909298935,
+      "mde80_acchit_paired_points": 4.935369956025873,
+      "p_total_gain_mcnemar": 0.0018356179281482717,
+      "mde80_total_points": 2.7981500335813587,
+      "paired_bothhit": {
+        "n": 392,
+        "delta": 0.02040816326530612,
+        "p": 0.3222363203575469,
+        "mde80_points": 4.935369956025873,
+        "p_method": "exact_mcnemar",
+        "deff": 1.0,
+        "ci95_delta": [
+          -0.015306122448979591,
+          0.05612244897959184
+        ]
+      }
+    },
+    "ovis2.5-9b": {
+      "total_gain": 0.024983119513841995,
+      "explained_by_hitrate": 0.013374354479281479,
+      "explained_by_cond_acc": 0.011608765034560528,
+      "pct_mediated": 53.53356482112398,
+      "acc_hit_referent": 0.2935672514619883,
+      "acc_hit_random": 0.2561174551386623,
+      "p_acchit_diff": 0.026841027992181243,
+      "p_acchit_paired": 0.6991749840078744,
+      "p_acchit_perm": 0.6421357864213578,
+      "acchit_overlap": {
+        "n_referent_hit": 1710,
+        "n_random_hit": 1226,
+        "n_overlap": 762,
+        "frac_of_referent_stratum": 0.4456140350877193,
+        "frac_of_random_stratum": 0.6215334420880914
+      },
+      "acchit_primary_test": "paired_exact_mcnemar_on_both_hit",
+      "p_acchit_diff_note": "SECONDARY/FOOTNOTE ONLY -- Fisher exact, unpaired. The two hit strata overlap by 762 questions = 44.6% of the referent stratum and 62.2% of the random stratum, so the independence assumption is violated and this p is uncalibrated. Read the verdict off p_acchit_paired.",
+      "p_acchit_perm_note": "within-question permutation, 10000 seeded draws (seed=20260819); labels swapped only within the 762 questions reaching BOTH hit strata (107 of them informative). Corroborates p_acchit_paired by construction.",
+      "pct_mediated_ci95": [
+        30.350456594876476,
+        134.7671741824111
+      ],
+      "pct_mediated_note": null,
+      "total_gain_ci95": [
+        0.009790681971640791,
+        0.0401755570560432
+      ],
+      "explained_by_hitrate_ci95": [
+        0.00927732329749194,
+        0.017632742787603222
+      ],
+      "explained_by_cond_acc_ci95": [
+        -0.00368743891112452,
+        0.02673019511501294
+      ],
+      "bootstrap": {
+        "n_boot": 10000,
+        "seed": 20260819,
+        "clusters": "question key",
+        "n_clusters": 2962
+      },
+      "residual": -1.3877787807814457e-17,
+      "n": 2962,
+      "p_hit_referent": 0.5773126266036462,
+      "p_hit_random": 0.4139095205941931,
+      "acc_miss_referent": 0.18610223642172524,
+      "acc_miss_random": 0.19988479262672812,
+      "acc_referent": 0.24814314652261985,
+      "acc_random": 0.22316002700877785,
+      "n_hit_referent": 1710,
+      "n_hit_random": 1226,
+      "mde80_acchit_points": 4.696729313583195,
+      "mde80_acchit_paired_points": 3.7613752384511603,
+      "p_total_gain_mcnemar": 0.0010508013910618032,
+      "mde80_total_points": 2.1057408739159227,
+      "paired_bothhit": {
+        "n": 762,
+        "delta": 0.006561679790026247,
+        "p": 0.6991749840078744,
+        "mde80_points": 3.7613752384511603,
+        "p_method": "exact_mcnemar",
+        "deff": 1.0,
+        "ci95_delta": [
+          -0.01968503937007874,
+          0.03412073490813648
+        ]
+      }
+    },
+    "qwen2.5-vl-7b": {
+      "total_gain": 0.018230925050641444,
+      "explained_by_hitrate": 0.006718615700890875,
+      "explained_by_cond_acc": 0.011512309349750586,
+      "pct_mediated": 36.852851307479234,
+      "acc_hit_referent": 0.21403508771929824,
+      "acc_hit_random": 0.18923327895595432,
+      "p_acchit_diff": 0.10399604533110961,
+      "p_acchit_paired": 0.624143515844679,
+      "p_acchit_perm": 0.5693430656934306,
+      "acchit_overlap": {
+        "n_referent_hit": 1710,
+        "n_random_hit": 1226,
+        "n_overlap": 762,
+        "frac_of_referent_stratum": 0.4456140350877193,
+        "frac_of_random_stratum": 0.6215334420880914
+      },
+      "acchit_primary_test": "paired_exact_mcnemar_on_both_hit",
+      "p_acchit_diff_note": "SECONDARY/FOOTNOTE ONLY -- Fisher exact, unpaired. The two hit strata overlap by 762 questions = 44.6% of the referent stratum and 62.2% of the random stratum, so the independence assumption is violated and this p is uncalibrated. Read the verdict off p_acchit_paired.",
+      "p_acchit_perm_note": "within-question permutation, 10000 seeded draws (seed=20260819); labels swapped only within the 762 questions reaching BOTH hit strata (104 of them informative). Corroborates p_acchit_paired by construction.",
+      "pct_mediated_ci95": [
+        15.247404416552609,
+        131.2648851393564
+      ],
+      "pct_mediated_note": null,
+      "total_gain_ci95": [
+        0.005064145847400392,
+        0.0313977042538825
+      ],
+      "explained_by_hitrate_ci95": [
+        0.0033813398879732654,
+        0.010264917812113543
+      ],
+      "explained_by_cond_acc_ci95": [
+        -0.0022329645583212252,
+        0.02491688433315002
+      ],
+      "bootstrap": {
+        "n_boot": 10000,
+        "seed": 20260819,
+        "clusters": "question key",
+        "n_clusters": 2962
+      },
+      "residual": -1.734723475976807e-17,
+      "n": 2962,
+      "p_hit_referent": 0.5773126266036462,
+      "p_hit_random": 0.4139095205941931,
+      "acc_miss_referent": 0.1597444089456869,
+      "acc_miss_random": 0.16129032258064516,
+      "acc_referent": 0.19108710330857528,
+      "acc_random": 0.17285617825793384,
+      "n_hit_referent": 1710,
+      "n_hit_random": 1226,
+      "mde80_acchit_points": 4.2223610513011245,
+      "mde80_acchit_paired_points": 3.707087814726199,
+      "p_total_gain_mcnemar": 0.007504528992659618,
+      "mde80_total_points": 1.871831456267619,
+      "paired_bothhit": {
+        "n": 762,
+        "delta": 0.007874015748031496,
+        "p": 0.624143515844679,
+        "mde80_points": 3.707087814726199,
+        "p_method": "exact_mcnemar",
+        "deff": 1.0,
+        "ci95_delta": [
+          -0.01837270341207349,
+          0.03412073490813648
+        ]
+      }
+    },
+    "videochat-flash-7b": {
+      "total_gain": 0.027346387575962194,
+      "explained_by_hitrate": 0.01103206997768517,
+      "explained_by_cond_acc": 0.01631431759827703,
+      "pct_mediated": 40.34196453568328,
+      "acc_hit_referent": 0.26432748538011697,
+      "acc_hit_random": 0.22512234910277323,
+      "p_acchit_diff": 0.015291559178775853,
+      "p_acchit_paired": 0.7185088365549671,
+      "p_acchit_perm": 0.6559344065593441,
+      "acchit_overlap": {
+        "n_referent_hit": 1710,
+        "n_random_hit": 1226,
+        "n_overlap": 762,
+        "frac_of_referent_stratum": 0.4456140350877193,
+        "frac_of_random_stratum": 0.6215334420880914
+      },
+      "acchit_primary_test": "paired_exact_mcnemar_on_both_hit",
+      "p_acchit_diff_note": "SECONDARY/FOOTNOTE ONLY -- Fisher exact, unpaired. The two hit strata overlap by 762 questions = 44.6% of the referent stratum and 62.2% of the random stratum, so the independence assumption is violated and this p is uncalibrated. Read the verdict off p_acchit_paired.",
+      "p_acchit_perm_note": "within-question permutation, 10000 seeded draws (seed=20260819); labels swapped only within the 762 questions reaching BOTH hit strata (123 of them informative). Corroborates p_acchit_paired by construction.",
+      "pct_mediated_ci95": [
+        22.91557847017113,
+        88.07023072799556
+      ],
+      "pct_mediated_note": null,
+      "total_gain_ci95": [
+        0.012829169480081032,
+        0.04187204591492223
+      ],
+      "explained_by_hitrate_ci95": [
+        0.007353403479790544,
+        0.014972979890198522
+      ],
+      "explained_by_cond_acc_ci95": [
+        0.0016027791812014333,
+        0.031046217839123962
+      ],
+      "bootstrap": {
+        "n_boot": 10000,
+        "seed": 20260819,
+        "clusters": "question key",
+        "n_clusters": 2962
+      },
+      "residual": -6.938893903907228e-18,
+      "n": 2962,
+      "p_hit_referent": 0.5773126266036462,
+      "p_hit_random": 0.4139095205941931,
+      "acc_miss_referent": 0.17412140575079874,
+      "acc_miss_random": 0.18029953917050692,
+      "acc_referent": 0.2261985145172181,
+      "acc_random": 0.1988521269412559,
+      "n_hit_referent": 1710,
+      "n_hit_random": 1226,
+      "mde80_acchit_points": 4.527388314522026,
+      "mde80_acchit_paired_points": 4.038610780133486,
+      "p_total_gain_mcnemar": 0.0002723199352513278,
+      "mde80_total_points": 2.0779425926786295,
+      "paired_bothhit": {
+        "n": 762,
+        "delta": 0.006561679790026247,
+        "p": 0.7185088365549671,
+        "mde80_points": 4.038610780133486,
+        "p_method": "exact_mcnemar",
+        "deff": 1.0,
+        "ci95_delta": [
+          -0.02230971128608924,
+          0.03543307086614173
+        ]
+      }
+    }
+  },
+  "nearest_s": {
+    "referent": {
+      "median": 4.0565,
+      "p25": 1.251,
+      "p75": 11.04225,
+      "miss_only": {
+        "median": 12.137,
+        "p25": 6.75625,
+        "p75": 23.50275
+      }
+    },
+    "chunk": {
+      "median": 5.589,
+      "p25": 1.606,
+      "p75": 24.441,
+      "miss_only": {
+        "median": 25.254,
+        "p25": 11.593,
+        "p75": 48.3
+      }
+    },
+    "random": {
+      "median": 7.4345,
+      "p25": 2.857,
+      "p75": 14.969750000000001,
+      "miss_only": {
+        "median": 12.6875,
+        "p25": 7.508,
+        "p75": 22.11025
+      }
+    },
+    "uniform": {
+      "median": 6.24,
+      "p25": 3.044,
+      "p75": 10.333499999999999,
+      "miss_only": {
+        "median": 8.884,
+        "p25": 6.048,
+        "p75": 12.554
+      }
+    }
+  }
+}
