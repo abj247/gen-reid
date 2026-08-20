@@ -1,17 +1,36 @@
-# core HF + runtime
-transformers>=4.44
-accelerate>=0.34
-safetensors>=0.4
-huggingface_hub>=0.24
-tokenizers>=0.19
+# Core environment for the benchmark harness and both solutions.
+#
+# These versions are the ones every number in the paper was produced with. The
+# harness itself is version tolerant; the pins matter for the model backbones,
+# whose loading code changes between transformers releases.
+#
+# Some backbones evaluated in the paper ship their own incompatible
+# dependencies and cannot share this environment. Those are listed in
+# docs/ENVIRONMENTS.md together with the environment each one needs.
 
-# vision / media
-pillow>=10.4
-opencv-python-headless>=4.10
-imageio>=2.34
-imageio-ffmpeg>=0.5
-decord>=0.6.0
+# Deep learning runtime
+torch==2.9.0
+torchvision==0.24.0
+transformers==4.57.1
+accelerate==1.11.0
+bitsandbytes==0.49.2          # 4-bit loading for the largest backbones only
+timm==1.0.24
+einops==0.8.1
+sentencepiece==0.2.1
+huggingface-hub==0.36.0
 
-# utils
-numpy>=1.26
-tqdm>=4.66
+# Retrieval signal shared by both solutions
+open_clip_torch==3.3.0
+
+# Video and image decoding
+decord==0.6.0
+av==16.1.0
+opencv-python==4.13.0.92
+pillow==12.0.0
+
+# Analysis and figures
+numpy==2.2.6
+scipy==1.17.0
+matplotlib==3.10.7
+pandas==2.3.3
+tqdm==4.67.1
