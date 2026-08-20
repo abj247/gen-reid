@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Video Re-ID Benchmark Evaluation Script for VLMs
+Video Re-ID Benchmark Evaluation Script for VLMs (Memory-Optimized)
 
-This script evaluates open-source Vision-Language Models on the Video Person
-Re-Identification benchmark. It supports multiple VLMs and provides comprehensive
-metrics and visualizations for analysis.
+Evaluates open-source Vision-Language Models on the Video Person
+Re-Identification benchmark with aggressive memory optimization.
+Processes the entire benchmark in a single job - no batching needed.
 
 Supported Models:
 1. Qwen2-VL (Alibaba)
@@ -16,18 +16,22 @@ Supported Models:
 7. Video-LLaVA (PKU)
 
 Usage:
-    python evaluate_vlm_benchmark.py \
+    python evaluate_vlm_bm.py \
         --benchmark benchmark_questions.json \
         --video_dir /path/to/videos \
-        --models qwen2-vl ovis ovis2.5 qwen3-vl \
-        --output_dir results
+        --models qwen2-vl \
+        --output_dir results \
+        --num_frames 8 \
+        --max_pixels 256 256
 """
 
 import argparse
+import gc
 import json
 import os
 import re
 import sys
+import time
 from abc import ABC, abstractmethod
 from collections import defaultdict
 from datetime import datetime
@@ -39,10 +43,12 @@ if sys.version_info >= (3, 14):
     import torch
     _original_compile = torch.compile
     def _no_compile(model, *args, **kwargs):
-        """No-op replacement for torch.compile on Python 3.14+"""
         return model
     torch.compile = _no_compile
 
+import torch
+import matplotlib
+matplotlib.use('Agg')  # Non-interactive backend for SLURM
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -50,9 +56,47 @@ import seaborn as sns
 from matplotlib.patches import Patch
 from scipy import stats
 
-# Set style for plots
 plt.style.use('seaborn-v0_8-whitegrid')
 sns.set_palette("husl")
+
+
+# =============================================================================
+# Memory Utilities
+# =============================================================================
+
+def clear_gpu_memory():
+    """Aggressively free GPU memory."""
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        torch.cuda.synchronize()
+
+
+def get_gpu_memory_info():
+    """Print current GPU memory usage."""
+    if torch.cuda.is_available():
+        allocated = torch.cuda.memory_allocated() / 1024**3
+        reserved = torch.cuda.memory_reserved() / 1024**3
+        total = torch.cuda.get_device_properties(0).total_memory / 1024**3
+        print(f"  GPU Memory: {allocated:.1f}GB allocated, {reserved:.1f}GB reserved, {total:.1f}GB total")
+
+
+def get_quantization_config(quantize_4bit: bool = False):
+    """Return BitsAndBytes quantization config if requested."""
+    if not quantize_4bit:
+        return None
+    try:
+        from transformers import BitsAndBytesConfig
+        return BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_compute_dtype=torch.bfloat16,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_use_double_quant=True,
+        )
+    except ImportError:
+        print("WARNING: bitsandbytes not installed. Skipping 4-bit quantization.")
+        print("Install with: pip install bitsandbytes")
+        return None
 
 
 # =============================================================================
@@ -62,56 +106,87 @@ sns.set_palette("husl")
 class BaseVLM(ABC):
     """Abstract base class for Video Language Models."""
 
-    def __init__(self, model_name: str, device: str = "cuda"):
+    def __init__(self, model_name: str, device: str = "cuda",
+                 num_frames: int = 8, max_pixels: Tuple[int, int] = (256, 256),
+                 quantize_4bit: bool = False):
         self.model_name = model_name
         self.device = device
         self.model = None
         self.processor = None
+        self.num_frames = num_frames
+        self.max_pixels = max_pixels[0] * max_pixels[1]
+        self.max_pixels_h = max_pixels[0]
+        self.max_pixels_w = max_pixels[1]
+        self.quantize_4bit = quantize_4bit
+        self.quant_config = get_quantization_config(quantize_4bit)
 
     @abstractmethod
     def load_model(self):
-        """Load the model and processor."""
         pass
 
     @abstractmethod
     def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
-        """
-        Run inference on a video with a question.
-
-        Args:
-            video_path: Path to the video file
-            question: The question text
-            options: Dictionary of options (A, B, C, D)
-
-        Returns:
-            The predicted answer (A, B, C, or D)
-        """
         pass
 
-    def format_mcq_prompt(self, question: str, options: Dict[str, str]) -> str:
-        """Format the MCQ prompt for the model."""
+    def prepare_video(self, video_path: str) -> Any:
+        return video_path
+
+    def inference_with_cache(self, video_cache: Any, question: str, options) -> str:
+        return self.inference(video_cache, question, options)
+
+    def cleanup_inference(self):
+        clear_gpu_memory()
+
+    def inference_text_only(self, question: str, options) -> str:
+        """Run inference with only the question text, no video/image input.
+        Subclasses should override for model-specific text-only chat."""
+        raise NotImplementedError(
+            f"{self.model_name} does not implement text-only inference"
+        )
+
+    def batch_inference_text_only(self, questions, options_list):
+        """Default implementation: loop over inference_text_only.
+        Subclasses should override with a real batched path where safe
+        (Qwen2-VL, Qwen2.5-VL, Qwen3-VL, Gemma3 — set padding_side='left').
+        Models with single-sample-only APIs (Ovis, InternVL3) should keep the loop."""
+        return [self.inference_text_only(q, o) for q, o in zip(questions, options_list)]
+
+    def describe_images(self, pil_images, prompt: str, max_new_tokens: int = 256) -> str:
+        """Free-text description of a list of images + a prompt (NOT an MCQ letter).
+        Overridden by VLM classes used in the dossier pipeline (e.g. InternVL3)."""
+        raise NotImplementedError(
+            f"{self.model_name} does not implement describe_images")
+
+    def format_mcq_prompt(self, question: str, options) -> str:
+        if isinstance(options, list):
+            letters = [chr(ord('A') + i) for i in range(len(options))]
+            options = dict(zip(letters, options))
+
         prompt = f"{question}\n\nOptions:\n"
-        for key, value in sorted(options.items()):
-            prompt += f"{key}. {value}\n"
-        prompt += "\nAnswer with only the letter (A, B, C, or D) of the correct option."
+        sorted_keys = sorted(options.keys())
+        for key in sorted_keys:
+            prompt += f"{key}. {options[key]}\n"
+        letter_list = ", ".join(sorted_keys[:-1]) + f", or {sorted_keys[-1]}"
+        prompt += f"\nAnswer with only the letter ({letter_list}) of the correct option."
         return prompt
 
-    def extract_answer(self, response: str) -> str:
-        """Extract the answer letter from model response."""
+    def extract_answer(self, response: str, num_options: int = 5) -> str:
         response = response.strip().upper()
 
-        # Direct match
-        if response in ['A', 'B', 'C', 'D']:
+        max_letter = chr(ord('A') + num_options - 1)
+        letter_range = f"A-{max_letter}"
+        valid_letters = [chr(ord('A') + i) for i in range(num_options)]
+
+        if response in valid_letters:
             return response
 
-        # Look for patterns like "A.", "A)", "(A)", "Answer: A"
         patterns = [
-            r'^([ABCD])\.',
-            r'^([ABCD])\)',
-            r'^\(([ABCD])\)',
-            r'^answer[:\s]*([ABCD])',
-            r'^the answer is[:\s]*([ABCD])',
-            r'^([ABCD])\s*[-:]',
+            rf'^([{letter_range}])\.',
+            rf'^([{letter_range}])\)',
+            rf'^\(([{letter_range}])\)',
+            rf'^answer[:\s]*([{letter_range}])',
+            rf'^the answer is[:\s]*([{letter_range}])',
+            rf'^([{letter_range}])\s*[-:]',
         ]
 
         for pattern in patterns:
@@ -119,8 +194,7 @@ class BaseVLM(ABC):
             if match:
                 return match.group(1).upper()
 
-        # Search anywhere in response
-        match = re.search(r'\b([ABCD])\b', response)
+        match = re.search(rf'\b([{letter_range}])\b', response)
         if match:
             return match.group(1).upper()
 
@@ -128,14 +202,16 @@ class BaseVLM(ABC):
 
 
 # =============================================================================
-# VLM Implementations
+# VLM Implementations (Memory-Optimized)
 # =============================================================================
 
 class Qwen2VL(BaseVLM):
     """Qwen2-VL model implementation."""
 
-    def __init__(self, model_size: str = "7B", device: str = "cuda"):
-        super().__init__(f"Qwen2-VL-{model_size}", device)
+    def __init__(self, model_size: str = "7B", device: str = "cuda",
+                 num_frames: int = 8, max_pixels: Tuple[int, int] = (256, 256),
+                 quantize_4bit: bool = False):
+        super().__init__(f"Qwen2-VL-{model_size}", device, num_frames, max_pixels, quantize_4bit)
         self.model_size = model_size
         self.model_id = f"Qwen/Qwen2-VL-{model_size}-Instruct"
 
@@ -144,34 +220,92 @@ class Qwen2VL(BaseVLM):
             from transformers import Qwen2VLForConditionalGeneration, AutoProcessor
             from qwen_vl_utils import process_vision_info
 
-            self.model = Qwen2VLForConditionalGeneration.from_pretrained(
-                self.model_id,
-                torch_dtype="auto",
-                device_map="auto"
+            load_kwargs = dict(
+                dtype=torch.bfloat16,
+                device_map="auto",
+                low_cpu_mem_usage=True,
             )
-            self.processor = AutoProcessor.from_pretrained(self.model_id)
+
+            try:
+                import flash_attn
+                load_kwargs["attn_implementation"] = "flash_attention_2"
+                print(f"  Using flash_attention_2")
+            except ImportError:
+                print(f"  flash_attention_2 not available, using default")
+
+            if self.quant_config:
+                load_kwargs["quantization_config"] = self.quant_config
+
+            self.model = Qwen2VLForConditionalGeneration.from_pretrained(
+                self.model_id, **load_kwargs
+            )
+            self.model.eval()
+
+            self.processor = AutoProcessor.from_pretrained(
+                self.model_id,
+                max_pixels=self.max_pixels,
+                min_pixels=28 * 28
+            )
             self.process_vision_info = process_vision_info
-            print(f"Loaded {self.model_name}")
+            print(f"Loaded {self.model_name} (dtype=bf16, frames={self.num_frames}, "
+                  f"max_px={self.max_pixels_h}x{self.max_pixels_w}, "
+                  f"4bit={self.quantize_4bit})")
+            get_gpu_memory_info()
         except ImportError as e:
             print(f"Error loading {self.model_name}: {e}")
             print("Install with: pip install transformers qwen-vl-utils")
             raise
 
-    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
-        prompt = self.format_mcq_prompt(question, options)
+    def prepare_video(self, video_path: str) -> Any:
+        from PIL import Image
+        import decord
+        vr = decord.VideoReader(video_path)
+        total_frames = len(vr)
+        indices = np.linspace(0, total_frames - 1, self.num_frames, dtype=int)
+        frames = vr.get_batch(indices).asnumpy()
+        pil_frames = [Image.fromarray(f) for f in frames]
+        del vr, frames
 
         messages = [
             {
                 "role": "user",
                 "content": [
-                    {"type": "video", "video": video_path, "max_pixels": 360*420, "fps": 1.0},
+                    {
+                        "type": "video",
+                        "video": pil_frames,
+                        "max_pixels": self.max_pixels,
+                        "min_pixels": 28 * 28,
+                        "nframes": self.num_frames,
+                    },
+                    {"type": "text", "text": "placeholder"}
+                ]
+            }
+        ]
+        image_inputs, video_inputs = self.process_vision_info(messages)
+        return (image_inputs, video_inputs)
+
+    def inference_with_cache(self, video_cache: Any, question: str, options) -> str:
+        prompt = self.format_mcq_prompt(question, options)
+        image_inputs, video_inputs = video_cache
+
+        messages = [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "video",
+                        "video": "cached",
+                        "max_pixels": self.max_pixels,
+                        "nframes": self.num_frames,
+                    },
                     {"type": "text", "text": prompt}
                 ]
             }
         ]
 
-        text = self.processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        image_inputs, video_inputs = self.process_vision_info(messages)
+        text = self.processor.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
 
         inputs = self.processor(
             text=[text],
@@ -181,7 +315,9 @@ class Qwen2VL(BaseVLM):
             return_tensors="pt"
         ).to(self.device)
 
-        generated_ids = self.model.generate(**inputs, max_new_tokens=128)
+        with torch.no_grad():
+            generated_ids = self.model.generate(**inputs, max_new_tokens=128)
+
         generated_ids_trimmed = [
             out_ids[len(in_ids):]
             for in_ids, out_ids in zip(inputs.input_ids, generated_ids)
@@ -192,53 +328,171 @@ class Qwen2VL(BaseVLM):
             clean_up_tokenization_spaces=False
         )[0]
 
-        return self.extract_answer(response)
+        del inputs, generated_ids, generated_ids_trimmed
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
+
+    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
+        video_cache = self.prepare_video(video_path)
+        result = self.inference_with_cache(video_cache, question, options)
+        del video_cache
+        self.cleanup_inference()
+        return result
+
+    def inference_text_only(self, question: str, options) -> str:
+        prompt = self.format_mcq_prompt(question, options)
+        messages = [{"role": "user", "content": [{"type": "text", "text": prompt}]}]
+        text = self.processor.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
+        inputs = self.processor(
+            text=[text], padding=True, return_tensors="pt"
+        ).to(self.device)
+        with torch.no_grad():
+            generated_ids = self.model.generate(
+                **inputs, max_new_tokens=8, do_sample=False
+            )
+        generated_ids_trimmed = [
+            out_ids[len(in_ids):]
+            for in_ids, out_ids in zip(inputs.input_ids, generated_ids)
+        ]
+        response = self.processor.batch_decode(
+            generated_ids_trimmed, skip_special_tokens=True,
+            clean_up_tokenization_spaces=False
+        )[0]
+        del inputs, generated_ids, generated_ids_trimmed
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
+
+    def batch_inference_text_only(self, questions, options_list):
+        # Qwen tokenizer must be left-padded for batched generate, or shorter
+        # sequences get garbled outputs.
+        self.processor.tokenizer.padding_side = "left"
+        prompts = [self.format_mcq_prompt(q, o) for q, o in zip(questions, options_list)]
+        texts = [
+            self.processor.apply_chat_template(
+                [{"role": "user", "content": [{"type": "text", "text": p}]}],
+                tokenize=False, add_generation_prompt=True,
+            )
+            for p in prompts
+        ]
+        inputs = self.processor(text=texts, padding=True, return_tensors="pt").to(self.device)
+        with torch.no_grad():
+            generated_ids = self.model.generate(
+                **inputs, max_new_tokens=8, do_sample=False
+            )
+        prompt_lens = inputs.input_ids.shape[1]
+        trimmed = generated_ids[:, prompt_lens:]
+        responses = self.processor.batch_decode(
+            trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False
+        )
+        out = [self.extract_answer(r, num_options=len(o)) for r, o in zip(responses, options_list)]
+        del inputs, generated_ids, trimmed
+        self.cleanup_inference()
+        return out
+
 
 class Qwen3VL(BaseVLM):
     """Qwen2.5-VL model implementation (also referred to as Qwen3-VL)."""
 
-    def __init__(self, model_size: str = "7B", device: str = "cuda"):
-        super().__init__(f"Qwen2.5-VL-{model_size}", device)
+    def __init__(self, model_size: str = "7B", device: str = "cuda",
+                 num_frames: int = 8, max_pixels: Tuple[int, int] = (256, 256),
+                 quantize_4bit: bool = False):
+        super().__init__(f"Qwen2.5-VL-{model_size}", device, num_frames, max_pixels, quantize_4bit)
         self.model_size = model_size
-        # Model ID pattern for Qwen2.5-VL
-        # Available sizes: 3B, 7B, 72B
         self.model_id = f"Qwen/Qwen2.5-VL-{model_size}-Instruct"
 
     def load_model(self):
         try:
-            # Qwen2.5-VL uses Qwen2_5_VLForConditionalGeneration
             from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor
             from qwen_vl_utils import process_vision_info
 
-            self.model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
-                self.model_id,
-                torch_dtype="auto",
-                device_map="auto"
+            load_kwargs = dict(
+                dtype=torch.bfloat16,
+                device_map="auto",
+                low_cpu_mem_usage=True,
             )
-            self.processor = AutoProcessor.from_pretrained(self.model_id)
+
+            try:
+                import flash_attn
+                load_kwargs["attn_implementation"] = "flash_attention_2"
+                print(f"  Using flash_attention_2")
+            except ImportError:
+                print(f"  flash_attention_2 not available, using default")
+
+            if self.quant_config:
+                load_kwargs["quantization_config"] = self.quant_config
+
+            self.model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
+                self.model_id, **load_kwargs
+            )
+            self.model.eval()
+
+            self.processor = AutoProcessor.from_pretrained(
+                self.model_id,
+                max_pixels=self.max_pixels,
+                min_pixels=28 * 28
+            )
             self.process_vision_info = process_vision_info
-            print(f"Loaded {self.model_name}")
+            print(f"Loaded {self.model_name} (dtype=bf16, frames={self.num_frames}, "
+                  f"max_px={self.max_pixels_h}x{self.max_pixels_w}, "
+                  f"4bit={self.quantize_4bit})")
+            get_gpu_memory_info()
         except ImportError as e:
             print(f"Error loading {self.model_name}: {e}")
             print("Install with: pip install transformers qwen-vl-utils")
             raise
 
-    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
-        # Matches Qwen2-VL usage
-        prompt = self.format_mcq_prompt(question, options)
+    def prepare_video(self, video_path: str) -> Any:
+        from PIL import Image
+        import decord
+        vr = decord.VideoReader(video_path)
+        total_frames = len(vr)
+        indices = np.linspace(0, total_frames - 1, self.num_frames, dtype=int)
+        frames = vr.get_batch(indices).asnumpy()
+        pil_frames = [Image.fromarray(f) for f in frames]
+        del vr, frames
 
         messages = [
             {
                 "role": "user",
                 "content": [
-                    {"type": "video", "video": video_path, "max_pixels": 360*420, "fps": 1.0},
+                    {
+                        "type": "video",
+                        "video": pil_frames,
+                        "max_pixels": self.max_pixels,
+                        "min_pixels": 28 * 28,
+                        "nframes": self.num_frames,
+                    },
+                    {"type": "text", "text": "placeholder"}
+                ]
+            }
+        ]
+        image_inputs, video_inputs = self.process_vision_info(messages)
+        return (image_inputs, video_inputs)
+
+    def inference_with_cache(self, video_cache: Any, question: str, options) -> str:
+        prompt = self.format_mcq_prompt(question, options)
+        image_inputs, video_inputs = video_cache
+
+        messages = [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "video",
+                        "video": "cached",
+                        "max_pixels": self.max_pixels,
+                        "nframes": self.num_frames,
+                    },
                     {"type": "text", "text": prompt}
                 ]
             }
         ]
 
-        text = self.processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        image_inputs, video_inputs = self.process_vision_info(messages)
+        text = self.processor.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
 
         inputs = self.processor(
             text=[text],
@@ -248,7 +502,9 @@ class Qwen3VL(BaseVLM):
             return_tensors="pt"
         ).to(self.device)
 
-        generated_ids = self.model.generate(**inputs, max_new_tokens=128)
+        with torch.no_grad():
+            generated_ids = self.model.generate(**inputs, max_new_tokens=128)
+
         generated_ids_trimmed = [
             out_ids[len(in_ids):]
             for in_ids, out_ids in zip(inputs.input_ids, generated_ids)
@@ -259,1499 +515,1317 @@ class Qwen3VL(BaseVLM):
             clean_up_tokenization_spaces=False
         )[0]
 
-        return self.extract_answer(response)
+        del inputs, generated_ids, generated_ids_trimmed
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
 
-class OvisVLM(BaseVLM):
-    """Ovis/Gemma model implementation (Ovis 1.6)."""
+    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
+        video_cache = self.prepare_video(video_path)
+        result = self.inference_with_cache(video_cache, question, options)
+        del video_cache
+        self.cleanup_inference()
+        return result
 
-    def __init__(self, model_size: str = "1.6", device: str = "cuda"):
-        super().__init__(f"Ovis-{model_size}", device)
-        self.model_id = f"AIDC-AI/Ovis{model_size}-Gemma2-9B"
+    def inference_text_only(self, question: str, options) -> str:
+        prompt = self.format_mcq_prompt(question, options)
+        messages = [{"role": "user", "content": [{"type": "text", "text": prompt}]}]
+        text = self.processor.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
+        inputs = self.processor(
+            text=[text], padding=True, return_tensors="pt"
+        ).to(self.device)
+        with torch.no_grad():
+            generated_ids = self.model.generate(
+                **inputs, max_new_tokens=8, do_sample=False
+            )
+        generated_ids_trimmed = [
+            out_ids[len(in_ids):]
+            for in_ids, out_ids in zip(inputs.input_ids, generated_ids)
+        ]
+        response = self.processor.batch_decode(
+            generated_ids_trimmed, skip_special_tokens=True,
+            clean_up_tokenization_spaces=False
+        )[0]
+        del inputs, generated_ids, generated_ids_trimmed
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
 
-    def _disable_torch_compile(self, model):
-        """Recursively disable torch.compile on all submodules for Python 3.14+ compatibility."""
-        # Disable on main model
-        if hasattr(model, 'generation_config') and model.generation_config is not None:
-            model.generation_config.compile_config = None
-        if hasattr(model, 'llm') and model.llm is not None:
-            if hasattr(model.llm, 'generation_config') and model.llm.generation_config is not None:
-                model.llm.generation_config.compile_config = None
-        if hasattr(model, 'get_llm'):
-            try:
-                llm = model.get_llm()
-                if hasattr(llm, 'generation_config') and llm.generation_config is not None:
-                    llm.generation_config.compile_config = None
-            except:
-                pass
+    def batch_inference_text_only(self, questions, options_list):
+        self.processor.tokenizer.padding_side = "left"
+        prompts = [self.format_mcq_prompt(q, o) for q, o in zip(questions, options_list)]
+        texts = [
+            self.processor.apply_chat_template(
+                [{"role": "user", "content": [{"type": "text", "text": p}]}],
+                tokenize=False, add_generation_prompt=True,
+            )
+            for p in prompts
+        ]
+        inputs = self.processor(text=texts, padding=True, return_tensors="pt").to(self.device)
+        with torch.no_grad():
+            generated_ids = self.model.generate(
+                **inputs, max_new_tokens=8, do_sample=False
+            )
+        prompt_lens = inputs.input_ids.shape[1]
+        trimmed = generated_ids[:, prompt_lens:]
+        responses = self.processor.batch_decode(
+            trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False
+        )
+        out = [self.extract_answer(r, num_options=len(o)) for r, o in zip(responses, options_list)]
+        del inputs, generated_ids, trimmed
+        self.cleanup_inference()
+        return out
+
+
+class Ovis(BaseVLM):
+    """Ovis model implementation."""
+
+    def __init__(self, model_version: str = "1.6", model_name_full: str = "Ovis1.6-Gemma2-9B",
+                 device: str = "cuda", num_frames: int = 8,
+                 max_pixels: Tuple[int, int] = (256, 256),
+                 quantize_4bit: bool = False):
+        super().__init__(f"Ovis-{model_version}", device, num_frames, max_pixels, quantize_4bit)
+        self.model_version = model_version
+        self.model_id = f"AIDC-AI/{model_name_full}"
 
     def load_model(self):
         try:
-            import torch
             from transformers import AutoModelForCausalLM
 
-            self.model = AutoModelForCausalLM.from_pretrained(
-                self.model_id,
-                torch_dtype=torch.bfloat16,
+            load_kwargs = dict(
+                dtype=torch.bfloat16,
+                device_map="auto",
                 multimodal_max_length=8192,
                 trust_remote_code=True,
-                attn_implementation="eager"
-            ).to(self.device)
-            self.text_tokenizer = self.model.get_text_tokenizer()
-            self.visual_tokenizer = self.model.get_visual_tokenizer()
-            self._disable_torch_compile(self.model)
-            print(f"Loaded {self.model_name}")
+                low_cpu_mem_usage=True,
+            )
+
+            if self.quant_config:
+                load_kwargs["quantization_config"] = self.quant_config
+
+            self.model = AutoModelForCausalLM.from_pretrained(
+                self.model_id, **load_kwargs
+            )
+            self.model.eval()
+
+            self.text_tokenizer = getattr(self.model, 'text_tokenizer', None) or self.model.get_text_tokenizer()
+            self.visual_tokenizer = getattr(self.model, 'visual_tokenizer', None) or self.model.get_visual_tokenizer()
+            print(f"Loaded {self.model_name} (dtype=bf16, 4bit={self.quantize_4bit})")
+            get_gpu_memory_info()
         except ImportError as e:
             print(f"Error loading {self.model_name}: {e}")
             raise
 
-    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
-        import torch
+    def prepare_video(self, video_path: str) -> Any:
         from PIL import Image
-        import cv2
+        import decord
+        vr = decord.VideoReader(video_path)
+        total_frames = len(vr)
+        indices = np.linspace(0, total_frames - 1, self.num_frames, dtype=int)
+        frames = vr.get_batch(indices).asnumpy()
+        images = [Image.fromarray(f) for f in frames]
+        del vr, frames
+        return images
 
+    def inference_with_cache(self, video_cache: Any, question: str, options) -> str:
         prompt = self.format_mcq_prompt(question, options)
-        frames = self._extract_frames(video_path, num_frames=8)
-        query = "<image>\n" * len(frames) + prompt
+        images = video_cache
+        image_placeholders = "".join(["<image>\n"] * len(images))
+        query = f"{image_placeholders}{prompt}"
 
-        prompt_text, input_ids, pixel_values = self.model.preprocess_inputs(
-            query, frames
-        )
+        # Ovis1.6 API: preprocess_inputs returns (prompt, input_ids, pixel_values)
+        _, input_ids, pixel_values = self.model.preprocess_inputs(query, images)
         attention_mask = torch.ne(input_ids, self.text_tokenizer.pad_token_id)
-        input_ids = input_ids.unsqueeze(0).to(self.device)
-        attention_mask = attention_mask.unsqueeze(0).to(self.device)
-        if pixel_values is not None:
-            pixel_values = [pixel_values.to(dtype=self.visual_tokenizer.dtype, device=self.device)]
+        input_ids = input_ids.unsqueeze(0).to(device=self.model.device)
+        attention_mask = attention_mask.unsqueeze(0).to(device=self.model.device)
+        pixel_values = [pixel_values.to(
+            dtype=self.visual_tokenizer.dtype,
+            device=self.visual_tokenizer.device
+        )]
 
-        with torch.inference_mode():
-            gen_kwargs = {
-                "max_new_tokens": 128,
-                "do_sample": False,
-                "pad_token_id": self.text_tokenizer.pad_token_id,
-                "eos_token_id": self.text_tokenizer.eos_token_id,
-            }
+        with torch.no_grad():
             output_ids = self.model.generate(
                 input_ids,
                 pixel_values=pixel_values,
                 attention_mask=attention_mask,
-                **gen_kwargs
+                max_new_tokens=128,
+                do_sample=False,
+                eos_token_id=self.model.generation_config.eos_token_id,
+                pad_token_id=self.text_tokenizer.pad_token_id,
+                use_cache=True,
             )[0]
 
         response = self.text_tokenizer.decode(output_ids, skip_special_tokens=True)
-        return self.extract_answer(response)
-
-    def _extract_frames(self, video_path: str, num_frames: int = 8) -> List:
-        from PIL import Image
-        import cv2
-        cap = cv2.VideoCapture(video_path)
-        if not cap.isOpened():
-            raise ValueError(f"Cannot open video: {video_path}")
-        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        if total_frames <= 0:
-            cap.release()
-            raise ValueError(f"Video has no frames: {video_path}")
-        indices = np.linspace(0, total_frames - 1, num_frames, dtype=int)
-
-        frames = []
-        for idx in indices:
-            cap.set(cv2.CAP_PROP_POS_FRAMES, idx)
-            ret, frame = cap.read()
-            if ret:
-                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                frames.append(Image.fromarray(frame))
-        cap.release()
-        if len(frames) == 0:
-            raise ValueError(f"Could not extract any frames from: {video_path}")
-        return frames
-
-class Ovis25VLM(BaseVLM):
-    """Ovis2.5-2B model implementation."""
-
-    def __init__(self, model_size: str = "2B", device: str = "cuda"):
-        super().__init__(f"Ovis2.5-{model_size}", device)
-        self.model_id = "AIDC-AI/Ovis2.5-2B"
-
-    def _disable_torch_compile(self, model):
-        # Same disabling approach as in OvisVLM
-        if hasattr(model, 'generation_config') and model.generation_config is not None:
-            model.generation_config.compile_config = None
-        if hasattr(model, 'llm') and model.llm is not None:
-            if hasattr(model.llm, 'generation_config') and model.llm.generation_config is not None:
-                model.llm.generation_config.compile_config = None
-        if hasattr(model, 'get_llm'):
-            try:
-                llm = model.get_llm()
-                if hasattr(llm, 'generation_config') and llm.generation_config is not None:
-                    llm.generation_config.compile_config = None
-            except:
-                pass
-
-    def load_model(self):
-        try:
-            import torch
-            from transformers import AutoModelForCausalLM, AutoTokenizer
-
-            self.model = AutoModelForCausalLM.from_pretrained(
-                self.model_id,
-                torch_dtype=torch.bfloat16,
-                trust_remote_code=True,
-                attn_implementation="eager"
-            ).to(self.device)
-            self.tokenizer = AutoTokenizer.from_pretrained(
-                self.model_id,
-                trust_remote_code=True
-            )
-            self._disable_torch_compile(self.model)
-            print(f"Loaded {self.model_name}")
-        except ImportError as e:
-            print(f"Error loading {self.model_name}: {e}")
-            raise
-        except OSError as e:
-            print(f"Error loading {self.model_name}: {e}")
-            print("This may be a gated/private model. Try: huggingface-cli login")
-            raise
+        del input_ids, attention_mask, pixel_values, output_ids
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
 
     def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
-        import torch
-        from PIL import Image
-        import cv2
+        video_cache = self.prepare_video(video_path)
+        result = self.inference_with_cache(video_cache, question, options)
+        del video_cache
+        self.cleanup_inference()
+        return result
 
+    def inference_text_only(self, question: str, options) -> str:
         prompt = self.format_mcq_prompt(question, options)
-        frames = self._extract_frames(video_path, num_frames=8)
-
-        # Build content with image objects and text
-        content = []
-        for frame in frames:
-            content.append({"type": "image", "image": frame})
-        content.append({"type": "text", "text": prompt})
-
-        # Build conversation format for Ovis 2.5
-        messages = [
-            {"role": "user", "content": content}
-        ]
-
-        # preprocess_inputs returns (input_ids, pixel_values, grid_thws)
-        input_ids, pixel_values, grid_thws = self.model.preprocess_inputs(messages)
-
-        input_ids = input_ids.to(self.device)
+        # No image placeholders, no images — text-only query
+        _, input_ids, pixel_values = self.model.preprocess_inputs(prompt, [])
+        attention_mask = torch.ne(input_ids, self.text_tokenizer.pad_token_id)
+        input_ids = input_ids.unsqueeze(0).to(device=self.model.device)
+        attention_mask = attention_mask.unsqueeze(0).to(device=self.model.device)
+        # pixel_values may be None or empty for text-only; wrap in list for generate API
         if pixel_values is not None:
-            pixel_values = pixel_values.to(dtype=self.model.dtype, device=self.device)
-        if grid_thws is not None:
-            grid_thws = grid_thws.to(self.device)
+            pixel_values = [pixel_values.to(
+                dtype=self.visual_tokenizer.dtype,
+                device=self.visual_tokenizer.device
+            )]
+        else:
+            pixel_values = [torch.zeros(0, dtype=self.visual_tokenizer.dtype,
+                                        device=self.visual_tokenizer.device)]
 
-        with torch.inference_mode():
+        with torch.no_grad():
             output_ids = self.model.generate(
                 input_ids,
                 pixel_values=pixel_values,
-                grid_thws=grid_thws,
-                max_new_tokens=128,
+                attention_mask=attention_mask,
+                max_new_tokens=8,
                 do_sample=False,
-                pad_token_id=self.tokenizer.pad_token_id,
-                eos_token_id=self.tokenizer.eos_token_id,
+                eos_token_id=self.model.generation_config.eos_token_id,
+                pad_token_id=self.text_tokenizer.pad_token_id,
+                use_cache=True,
             )[0]
 
-        response = self.tokenizer.decode(output_ids, skip_special_tokens=True)
-        return self.extract_answer(response)
+        response = self.text_tokenizer.decode(output_ids, skip_special_tokens=True)
+        del input_ids, attention_mask, pixel_values, output_ids
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
 
-    def _extract_frames(self, video_path: str, num_frames: int = 8) -> List:
+
+class Ovis25(BaseVLM):
+    """Ovis2.5 model implementation."""
+
+    def __init__(self, model_name_full: str = "Ovis2.5-14B",
+                 device: str = "cuda", num_frames: int = 8,
+                 max_pixels: Tuple[int, int] = (256, 256),
+                 quantize_4bit: bool = False):
+        super().__init__("Ovis2.5", device, num_frames, max_pixels, quantize_4bit)
+        self.model_id = f"AIDC-AI/{model_name_full}"
+
+    def load_model(self):
+        try:
+            from transformers import AutoModelForCausalLM
+            load_kwargs = dict(
+                dtype=torch.bfloat16, device_map="auto",
+                multimodal_max_length=8192, trust_remote_code=True,
+                low_cpu_mem_usage=True,
+            )
+            if self.quant_config:
+                load_kwargs["quantization_config"] = self.quant_config
+
+            self.model = AutoModelForCausalLM.from_pretrained(self.model_id, **load_kwargs)
+            self.model.eval()
+            self.text_tokenizer = getattr(self.model, 'text_tokenizer', None) or self.model.get_text_tokenizer()
+            self.visual_tokenizer = getattr(self.model, 'visual_tokenizer', None) or self.model.get_visual_tokenizer()
+            print(f"Loaded {self.model_name} (dtype=bf16, 4bit={self.quantize_4bit})")
+            get_gpu_memory_info()
+        except ImportError as e:
+            print(f"Error loading {self.model_name}: {e}")
+            raise
+
+    def prepare_video(self, video_path: str) -> Any:
         from PIL import Image
-        import cv2
-        cap = cv2.VideoCapture(video_path)
-        if not cap.isOpened():
-            raise ValueError(f"Cannot open video: {video_path}")
-        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        if total_frames <= 0:
-            cap.release()
-            raise ValueError(f"Video has no frames: {video_path}")
-        indices = np.linspace(0, total_frames - 1, num_frames, dtype=int)
-        frames = []
-        for idx in indices:
-            cap.set(cv2.CAP_PROP_POS_FRAMES, idx)
-            ret, frame = cap.read()
-            if ret:
-                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                frames.append(Image.fromarray(frame))
-        cap.release()
-        if len(frames) == 0:
-            raise ValueError(f"Could not extract any frames from: {video_path}")
-        return frames
+        import decord
+        vr = decord.VideoReader(video_path)
+        indices = np.linspace(0, len(vr) - 1, self.num_frames, dtype=int)
+        frames = vr.get_batch(indices).asnumpy()
+        images = [Image.fromarray(f) for f in frames]
+        # REID_IMG_SIZE (if set) downsizes frames so high frame counts fit memory;
+        # unset = native resolution (unchanged default behavior).
+        _sz = os.environ.get("REID_IMG_SIZE")
+        if _sz:
+            _sz = int(_sz)
+            images = [im.resize((_sz, _sz)) for im in images]
+        del vr, frames
+        return images
 
-class LLaVANeXTVideo(BaseVLM):
+    def inference_with_cache(self, video_cache: Any, question: str, options) -> str:
+        prompt = self.format_mcq_prompt(question, options)
+        images = video_cache
+
+        # Ovis2.5 new API: build messages list with image + text content
+        content = [{"type": "image", "image": img} for img in images]
+        content.append({"type": "text", "text": prompt})
+        messages = [{"role": "user", "content": content}]
+
+        input_ids, pixel_values, grid_thws = self.model.preprocess_inputs(
+            messages=messages,
+            add_generation_prompt=True,
+            enable_thinking=False,
+        )
+        input_ids = input_ids.to(self.device)
+        if pixel_values is not None:
+            pixel_values = pixel_values.to(self.device)
+        if grid_thws is not None:
+            grid_thws = grid_thws.to(self.device)
+
+        with torch.no_grad():
+            outputs = self.model.generate(
+                inputs=input_ids,
+                pixel_values=pixel_values,
+                grid_thws=grid_thws,
+                enable_thinking=False,
+                max_new_tokens=128,
+            )
+
+        response = self.text_tokenizer.decode(outputs[0], skip_special_tokens=True)
+        del outputs, input_ids, pixel_values, grid_thws
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
+
+    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
+        video_cache = self.prepare_video(video_path)
+        result = self.inference_with_cache(video_cache, question, options)
+        del video_cache
+        self.cleanup_inference()
+        return result
+
+    def inference_text_only(self, question: str, options) -> str:
+        prompt = self.format_mcq_prompt(question, options)
+        # Text-only: no image content in messages
+        messages = [{"role": "user", "content": [{"type": "text", "text": prompt}]}]
+
+        input_ids, pixel_values, grid_thws = self.model.preprocess_inputs(
+            messages=messages,
+            add_generation_prompt=True,
+            enable_thinking=False,
+        )
+        input_ids = input_ids.to(self.device)
+        if pixel_values is not None:
+            pixel_values = pixel_values.to(self.device)
+        if grid_thws is not None:
+            grid_thws = grid_thws.to(self.device)
+
+        with torch.no_grad():
+            outputs = self.model.generate(
+                inputs=input_ids,
+                pixel_values=pixel_values,
+                grid_thws=grid_thws,
+                enable_thinking=False,
+                max_new_tokens=8,
+                do_sample=False,
+            )
+
+        response = self.text_tokenizer.decode(outputs[0], skip_special_tokens=True)
+        del outputs, input_ids, pixel_values, grid_thws
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
+
+
+class LLaVANextVideo(BaseVLM):
     """LLaVA-NeXT-Video model implementation."""
 
-    def __init__(self, model_size: str = "7B", device: str = "cuda"):
-        super().__init__(f"LLaVA-NeXT-Video-{model_size}", device)
+    def __init__(self, model_size: str = "7B", device: str = "cuda",
+                 num_frames: int = 8, max_pixels: Tuple[int, int] = (256, 256),
+                 quantize_4bit: bool = False):
+        super().__init__(f"LLaVA-NeXT-Video-{model_size}", device, num_frames, max_pixels, quantize_4bit)
+        self.model_size = model_size
         self.model_id = f"llava-hf/LLaVA-NeXT-Video-{model_size}-hf"
 
     def load_model(self):
         try:
-            import torch
-            from transformers import LlavaNextVideoProcessor, LlavaNextVideoForConditionalGeneration
+            from transformers import LlavaNextVideoForConditionalGeneration, LlavaNextVideoProcessor
+            load_kwargs = dict(dtype=torch.bfloat16, device_map="auto", low_cpu_mem_usage=True)
+            try:
+                import flash_attn
+                load_kwargs["attn_implementation"] = "flash_attention_2"
+            except ImportError:
+                pass
+            if self.quant_config:
+                load_kwargs["quantization_config"] = self.quant_config
 
+            self.model = LlavaNextVideoForConditionalGeneration.from_pretrained(self.model_id, **load_kwargs)
+            self.model.eval()
             self.processor = LlavaNextVideoProcessor.from_pretrained(self.model_id)
-            self.model = LlavaNextVideoForConditionalGeneration.from_pretrained(
-                self.model_id,
-                torch_dtype=torch.float16,
-                device_map="auto"
-            )
-            print(f"Loaded {self.model_name}")
+            print(f"Loaded {self.model_name} (dtype=bf16, 4bit={self.quantize_4bit})")
+            get_gpu_memory_info()
         except ImportError as e:
             print(f"Error loading {self.model_name}: {e}")
-            print("Install with: pip install transformers")
             raise
 
-    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
-        import av
-        import numpy as np
+    def prepare_video(self, video_path: str) -> Any:
+        import decord
+        vr = decord.VideoReader(video_path)
+        indices = np.linspace(0, len(vr) - 1, self.num_frames, dtype=int)
+        frames = vr.get_batch(indices).asnumpy()
+        del vr
+        return frames
 
+    def inference_with_cache(self, video_cache: Any, question: str, options) -> str:
         prompt = self.format_mcq_prompt(question, options)
+        conversation = [{"role": "user", "content": [{"type": "video"}, {"type": "text", "text": prompt}]}]
+        text = self.processor.apply_chat_template(conversation, add_generation_prompt=True)
+        inputs = self.processor(text=text, videos=[video_cache], return_tensors="pt").to(self.device)
 
-        # Read video frames
-        container = av.open(video_path)
-        total_frames = container.streams.video[0].frames
-        indices = np.arange(0, total_frames, total_frames // 8).tolist()[:8]
+        with torch.no_grad():
+            generated_ids = self.model.generate(**inputs, max_new_tokens=128)
 
-        frames = []
-        container.seek(0)
-        for i, frame in enumerate(container.decode(video=0)):
-            if i in indices:
-                frames.append(frame.to_ndarray(format="rgb24"))
+        trimmed = generated_ids[:, inputs.input_ids.shape[1]:]
+        response = self.processor.batch_decode(trimmed, skip_special_tokens=True)[0]
+        del inputs, generated_ids, trimmed
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
 
-        video_array = np.stack(frames)
+    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
+        video_cache = self.prepare_video(video_path)
+        result = self.inference_with_cache(video_cache, question, options)
+        del video_cache
+        self.cleanup_inference()
+        return result
 
-        conversation = [
-            {
-                "role": "user",
-                "content": [
-                    {"type": "video"},
-                    {"type": "text", "text": prompt}
-                ]
-            }
-        ]
-
-        prompt_text = self.processor.apply_chat_template(conversation, add_generation_prompt=True)
-        inputs = self.processor(
-            text=prompt_text,
-            videos=video_array,
-            return_tensors="pt"
-        ).to(self.device)
-
-        output = self.model.generate(**inputs, max_new_tokens=128)
-        response = self.processor.decode(output[0][inputs['input_ids'].shape[1]:], skip_special_tokens=True)
-
-        return self.extract_answer(response)
+    def inference_text_only(self, question: str, options) -> str:
+        # Text-only via the standard multimodal pipeline using a single black frame.
+        # Bypassing the LM directly would lose chat-template formatting and
+        # artifactually depress accuracy (false-negative bias signal).
+        from PIL import Image
+        prompt = self.format_mcq_prompt(question, options)
+        dummy_frame = np.zeros((self.num_frames, 224, 224, 3), dtype=np.uint8)
+        conversation = [{"role": "user", "content": [{"type": "video"}, {"type": "text", "text": prompt}]}]
+        text = self.processor.apply_chat_template(conversation, add_generation_prompt=True)
+        inputs = self.processor(text=text, videos=[dummy_frame], return_tensors="pt").to(self.device)
+        with torch.no_grad():
+            generated_ids = self.model.generate(
+                **inputs, max_new_tokens=8, do_sample=False
+            )
+        trimmed = generated_ids[:, inputs.input_ids.shape[1]:]
+        response = self.processor.batch_decode(trimmed, skip_special_tokens=True)[0]
+        del inputs, generated_ids, trimmed
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
 
 
 class InternVL2(BaseVLM):
-    """InternVL2 model implementation.
-    
-    NOTE: InternVL2 has compatibility issues with transformers >= 4.45.
-    Consider using transformers 4.44.x or skipping this model.
-    """
+    """InternVL2 model implementation."""
 
-    def __init__(self, model_size: str = "8B", device: str = "cuda"):
-        super().__init__(f"InternVL2-{model_size}", device)
+    def __init__(self, model_size: str = "8B", device: str = "cuda",
+                 num_frames: int = 8, max_pixels: Tuple[int, int] = (256, 256),
+                 quantize_4bit: bool = False):
+        super().__init__(f"InternVL2-{model_size}", device, num_frames, max_pixels, quantize_4bit)
+        self.model_size = model_size
         self.model_id = f"OpenGVLab/InternVL2-{model_size}"
 
     def load_model(self):
         try:
-            import torch
             from transformers import AutoModel, AutoTokenizer
-            import transformers
-            
-            # Check transformers version for compatibility warning
-            version = transformers.__version__
-            major, minor = map(int, version.split('.')[:2])
-            if major >= 4 and minor >= 45:
-                print(f"WARNING: InternVL2 may have compatibility issues with transformers {version}")
-                print("         Consider downgrading to transformers 4.44.x or skipping this model.")
+            load_kwargs = dict(dtype=torch.bfloat16, device_map="auto",
+                             trust_remote_code=True, low_cpu_mem_usage=True)
+            try:
+                import flash_attn
+                load_kwargs["attn_implementation"] = "flash_attention_2"
+            except ImportError:
+                pass
+            if self.quant_config:
+                load_kwargs["quantization_config"] = self.quant_config
 
-            self.model = AutoModel.from_pretrained(
-                self.model_id,
-                torch_dtype=torch.bfloat16,
-                trust_remote_code=True,
-                device_map="auto"
-            ).eval()
-            self.tokenizer = AutoTokenizer.from_pretrained(
-                self.model_id,
-                trust_remote_code=True
-            )
-            print(f"Loaded {self.model_name}")
+            self.model = AutoModel.from_pretrained(self.model_id, **load_kwargs)
+            self.model.eval()
+            self.tokenizer = AutoTokenizer.from_pretrained(self.model_id, trust_remote_code=True)
+            print(f"Loaded {self.model_name} (dtype=bf16, 4bit={self.quantize_4bit})")
+            get_gpu_memory_info()
         except ImportError as e:
             print(f"Error loading {self.model_name}: {e}")
             raise
 
-    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
-        import torch
+    def prepare_video(self, video_path: str) -> Any:
         from PIL import Image
-        import cv2
+        import decord
+        vr = decord.VideoReader(video_path)
+        indices = np.linspace(0, len(vr) - 1, self.num_frames, dtype=int)
+        frames = vr.get_batch(indices).asnumpy()
+        images = [Image.fromarray(f) for f in frames]
+        del vr, frames
+        return images
 
+    def inference_with_cache(self, video_cache: Any, question: str, options) -> str:
         prompt = self.format_mcq_prompt(question, options)
+        images = video_cache
+        frame_ph = "".join([f"Frame {i+1}: <image>\n" for i in range(len(images))])
+        full_prompt = f"{frame_ph}\n{prompt}"
 
-        # Extract frames
-        frames = self._extract_frames(video_path, num_frames=8)
-        pixel_values = self._preprocess_frames(frames)
+        pixel_values = None
+        try:
+            from torchvision import transforms
+            transform = transforms.Compose([
+                transforms.Resize((448, 448)), transforms.ToTensor(),
+                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+            ])
+            pixel_values = torch.stack([transform(img) for img in images]).to(
+                dtype=torch.bfloat16, device=self.device)
+        except Exception:
+            pass
 
-        # Build query with frame placeholders
-        frame_placeholders = ''.join([f'Frame{i+1}: <image>\n' for i in range(len(frames))])
-        query = frame_placeholders + prompt
+        gen_config = dict(max_new_tokens=128, do_sample=False)
+        with torch.no_grad():
+            response = self.model.chat(self.tokenizer, pixel_values, full_prompt, gen_config)
 
-        generation_config = {
-            "max_new_tokens": 128,
-            "do_sample": False,
-            "use_cache": False,  # Disable caching to avoid compatibility issues with newer transformers
-        }
+        if pixel_values is not None:
+            del pixel_values
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
 
-        response = self.model.chat(
-            self.tokenizer,
-            pixel_values,
-            query,
-            generation_config
-        )
+    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
+        video_cache = self.prepare_video(video_path)
+        result = self.inference_with_cache(video_cache, question, options)
+        del video_cache
+        self.cleanup_inference()
+        return result
 
-        return self.extract_answer(response)
-
-    def _extract_frames(self, video_path: str, num_frames: int = 8) -> List:
+    def inference_text_only(self, question: str, options) -> str:
+        # Text-only via standard multimodal pipeline with a single black image,
+        # preserving chat template / <image> token formatting.
         from PIL import Image
-        import cv2
-
-        cap = cv2.VideoCapture(video_path)
-        if not cap.isOpened():
-            raise ValueError(f"Cannot open video: {video_path}")
-        
-        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        if total_frames <= 0:
-            cap.release()
-            raise ValueError(f"Video has no frames: {video_path}")
-        
-        indices = np.linspace(0, total_frames - 1, num_frames, dtype=int)
-
-        frames = []
-        for idx in indices:
-            cap.set(cv2.CAP_PROP_POS_FRAMES, idx)
-            ret, frame = cap.read()
-            if ret:
-                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                frames.append(Image.fromarray(frame))
-        cap.release()
-        
-        if len(frames) == 0:
-            raise ValueError(f"Could not extract any frames from: {video_path}")
-        
-        return frames
-
-    def _preprocess_frames(self, frames: List) -> Any:
-        import torch
-        import torchvision.transforms as T
-        from torchvision.transforms.functional import InterpolationMode
-
-        if not frames:
-            raise ValueError("No frames to preprocess")
-
-        IMAGENET_MEAN = (0.485, 0.456, 0.406)
-        IMAGENET_STD = (0.229, 0.224, 0.225)
-
-        transform = T.Compose([
-            T.Lambda(lambda img: img.convert('RGB') if img.mode != 'RGB' else img),
-            T.Resize((448, 448), interpolation=InterpolationMode.BICUBIC),
-            T.ToTensor(),
-            T.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD)
-        ])
-
-        pixel_values = [transform(frame) for frame in frames]
-        pixel_values = torch.stack(pixel_values).to(torch.bfloat16).to(self.device)
-        return pixel_values
+        prompt = self.format_mcq_prompt(question, options)
+        dummy_image = Image.new("RGB", (448, 448), color=(0, 0, 0))
+        try:
+            from torchvision import transforms
+            transform = transforms.Compose([
+                transforms.Resize((448, 448)), transforms.ToTensor(),
+                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+            ])
+            pixel_values = transform(dummy_image).unsqueeze(0).to(
+                dtype=torch.bfloat16, device=self.device
+            )
+        except Exception:
+            pixel_values = None
+        full_prompt = f"<image>\n{prompt}"
+        gen_config = dict(max_new_tokens=8, do_sample=False)
+        with torch.no_grad():
+            response = self.model.chat(self.tokenizer, pixel_values, full_prompt, gen_config)
+        if pixel_values is not None:
+            del pixel_values
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
 
 
 class VideoLLaVA(BaseVLM):
     """Video-LLaVA model implementation."""
 
-    def __init__(self, device: str = "cuda"):
-        super().__init__("Video-LLaVA", device)
+    def __init__(self, device: str = "cuda", num_frames: int = 8,
+                 max_pixels: Tuple[int, int] = (256, 256), quantize_4bit: bool = False):
+        super().__init__("Video-LLaVA", device, num_frames, max_pixels, quantize_4bit)
         self.model_id = "LanguageBind/Video-LLaVA-7B-hf"
 
     def load_model(self):
         try:
-            import torch
-            from transformers import VideoLlavaProcessor, VideoLlavaForConditionalGeneration
-
-            self.model = VideoLlavaForConditionalGeneration.from_pretrained(
-                self.model_id,
-                torch_dtype=torch.float16,
-                device_map="auto"
-            )
+            from transformers import VideoLlavaForConditionalGeneration, VideoLlavaProcessor
+            load_kwargs = dict(dtype=torch.bfloat16, device_map="auto", low_cpu_mem_usage=True)
+            if self.quant_config:
+                load_kwargs["quantization_config"] = self.quant_config
+            self.model = VideoLlavaForConditionalGeneration.from_pretrained(self.model_id, **load_kwargs)
+            self.model.eval()
             self.processor = VideoLlavaProcessor.from_pretrained(self.model_id)
-            print(f"Loaded {self.model_name}")
+            print(f"Loaded {self.model_name} (dtype=bf16, 4bit={self.quantize_4bit})")
+            get_gpu_memory_info()
         except ImportError as e:
             print(f"Error loading {self.model_name}: {e}")
             raise
 
-    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
-        import av
-        import numpy as np
+    def prepare_video(self, video_path: str) -> Any:
+        import decord
+        vr = decord.VideoReader(video_path)
+        indices = np.linspace(0, len(vr) - 1, min(self.num_frames, 8), dtype=int)
+        frames = vr.get_batch(indices).asnumpy()
+        del vr
+        return frames
 
+    def inference_with_cache(self, video_cache: Any, question: str, options) -> str:
         prompt = self.format_mcq_prompt(question, options)
-
-        # Read video
-        container = av.open(video_path)
-        total_frames = container.streams.video[0].frames
-        indices = np.arange(0, total_frames, total_frames // 8).tolist()[:8]
-
-        frames = []
-        container.seek(0)
-        for i, frame in enumerate(container.decode(video=0)):
-            if i in indices:
-                frames.append(frame.to_ndarray(format="rgb24"))
-
-        clip = np.stack(frames)
-
         full_prompt = f"USER: <video>\n{prompt}\nASSISTANT:"
+        inputs = self.processor(text=full_prompt, videos=[video_cache], return_tensors="pt").to(self.device)
 
-        inputs = self.processor(
-            text=full_prompt,
-            videos=clip,
-            return_tensors="pt"
-        ).to(self.device)
+        with torch.no_grad():
+            generated_ids = self.model.generate(**inputs, max_new_tokens=128)
 
-        output = self.model.generate(**inputs, max_new_tokens=128)
-        response = self.processor.decode(output[0][inputs['input_ids'].shape[1]:], skip_special_tokens=True)
+        trimmed = generated_ids[:, inputs.input_ids.shape[1]:]
+        response = self.processor.batch_decode(trimmed, skip_special_tokens=True)[0]
+        del inputs, generated_ids, trimmed
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
 
-        return self.extract_answer(response)
+    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
+        video_cache = self.prepare_video(video_path)
+        result = self.inference_with_cache(video_cache, question, options)
+        del video_cache
+        self.cleanup_inference()
+        return result
+
+    def inference_text_only(self, question: str, options) -> str:
+        # Video-LLaVA expects 8 frames; feed black ones to retain template format.
+        prompt = self.format_mcq_prompt(question, options)
+        dummy_frames = np.zeros((8, 224, 224, 3), dtype=np.uint8)
+        full_prompt = f"USER: <video>\n{prompt}\nASSISTANT:"
+        inputs = self.processor(text=full_prompt, videos=[dummy_frames], return_tensors="pt").to(self.device)
+        with torch.no_grad():
+            generated_ids = self.model.generate(
+                **inputs, max_new_tokens=8, do_sample=False
+            )
+        trimmed = generated_ids[:, inputs.input_ids.shape[1]:]
+        response = self.processor.batch_decode(trimmed, skip_special_tokens=True)[0]
+        del inputs, generated_ids, trimmed
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
 
 
-# =============================================================================
-# Mock VLM for Testing (returns random answers)
-# =============================================================================
+class Qwen3VLReal(BaseVLM):
+    """Real Qwen3-VL (not Qwen2.5-VL aliased). Requires transformers>=4.50."""
 
-class MockVLM(BaseVLM):
-    """Mock VLM for testing without actual models."""
-
-    def __init__(self, model_name: str = "MockVLM", device: str = "cpu"):
-        super().__init__(model_name, device)
+    def __init__(self, model_size: str = "8B", device: str = "cuda",
+                 num_frames: int = 8, max_pixels: Tuple[int, int] = (256, 256),
+                 quantize_4bit: bool = False):
+        super().__init__(f"Qwen3-VL-{model_size}", device, num_frames, max_pixels, quantize_4bit)
+        self.model_size = model_size
+        self.model_id = f"Qwen/Qwen3-VL-{model_size}-Instruct"
 
     def load_model(self):
-        print(f"Loaded {self.model_name} (Mock Mode)")
+        from transformers import AutoProcessor
+        load_kwargs = dict(dtype=torch.bfloat16, device_map="auto", low_cpu_mem_usage=True)
+        if self.quant_config:
+            load_kwargs["quantization_config"] = self.quant_config
+        try:
+            from transformers import Qwen3VLForConditionalGeneration
+            model_cls = Qwen3VLForConditionalGeneration
+        except ImportError:
+            from transformers import AutoModelForCausalLM
+            model_cls = AutoModelForCausalLM
+            load_kwargs["trust_remote_code"] = True
+        self.model = model_cls.from_pretrained(self.model_id, **load_kwargs)
+        self.model.eval()
+        try:
+            self.processor = AutoProcessor.from_pretrained(
+                self.model_id, max_pixels=self.max_pixels, min_pixels=28 * 28
+            )
+        except Exception:
+            self.processor = AutoProcessor.from_pretrained(self.model_id)
+        print(f"Loaded {self.model_name} (dtype=bf16, 4bit={self.quantize_4bit}, "
+              f"max_pixels={self.max_pixels})")
+        get_gpu_memory_info()
+
+    def prepare_video(self, video_path: str) -> Any:
+        from PIL import Image
+        import decord
+        vr = decord.VideoReader(video_path)
+        indices = np.linspace(0, len(vr) - 1, self.num_frames, dtype=int)
+        frames = vr.get_batch(indices).asnumpy()
+        # IMPORTANT: resize each frame down to the model's max_pixels budget
+        # before tokenization. Without this, default processor budget can blow
+        # up to >5000 visual tokens per frame and kill throughput.
+        target_h, target_w = self.max_pixels_h, self.max_pixels_w
+        pil_frames = [Image.fromarray(f).resize((target_w, target_h)) for f in frames]
+        del vr, frames
+        return pil_frames
+
+    def inference_with_cache(self, video_cache: Any, question: str, options) -> str:
+        prompt = self.format_mcq_prompt(question, options)
+        pil_frames = video_cache
+        # Build a proper VIDEO content block (not 8 separate images) so the
+        # Qwen3-VL processor treats this as a temporal sequence and uses the
+        # cheaper video token packing path.
+        messages = [{
+            "role": "user",
+            "content": [
+                {"type": "video", "video": pil_frames,
+                 "max_pixels": self.max_pixels, "nframes": self.num_frames},
+                {"type": "text", "text": prompt},
+            ],
+        }]
+        text = self.processor.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
+        # Try qwen_vl_utils if available - same path as Qwen2.5-VL
+        try:
+            from qwen_vl_utils import process_vision_info
+            image_inputs, video_inputs = process_vision_info(messages)
+            inputs = self.processor(
+                text=[text], images=image_inputs, videos=video_inputs,
+                padding=True, return_tensors="pt",
+            ).to(self.device)
+        except Exception:
+            # Fallback: pass frames directly as videos kwarg
+            inputs = self.processor(
+                text=[text], videos=[pil_frames],
+                padding=True, return_tensors="pt",
+            ).to(self.device)
+        with torch.no_grad():
+            generated_ids = self.model.generate(**inputs, max_new_tokens=8, do_sample=False)
+        trimmed = [g[len(i):] for i, g in zip(inputs.input_ids, generated_ids)]
+        response = self.processor.batch_decode(trimmed, skip_special_tokens=True,
+                                               clean_up_tokenization_spaces=False)[0]
+        del inputs, generated_ids, trimmed
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
 
     def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
-        import random
-        # Simulate some processing time
-        return random.choice(['A', 'B', 'C', 'D'])
+        video_cache = self.prepare_video(video_path)
+        result = self.inference_with_cache(video_cache, question, options)
+        del video_cache
+        self.cleanup_inference()
+        return result
+
+    def inference_text_only(self, question: str, options) -> str:
+        prompt = self.format_mcq_prompt(question, options)
+        messages = [{"role": "user", "content": [{"type": "text", "text": prompt}]}]
+        text = self.processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        inputs = self.processor(text=[text], padding=True, return_tensors="pt").to(self.device)
+        with torch.no_grad():
+            generated_ids = self.model.generate(**inputs, max_new_tokens=8, do_sample=False)
+        trimmed = [g[len(i):] for i, g in zip(inputs.input_ids, generated_ids)]
+        response = self.processor.batch_decode(trimmed, skip_special_tokens=True,
+                                               clean_up_tokenization_spaces=False)[0]
+        del inputs, generated_ids, trimmed
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
+
+    def batch_inference_text_only(self, questions, options_list):
+        self.processor.tokenizer.padding_side = "left"
+        prompts = [self.format_mcq_prompt(q, o) for q, o in zip(questions, options_list)]
+        texts = [
+            self.processor.apply_chat_template(
+                [{"role": "user", "content": [{"type": "text", "text": p}]}],
+                tokenize=False, add_generation_prompt=True,
+            )
+            for p in prompts
+        ]
+        inputs = self.processor(text=texts, padding=True, return_tensors="pt").to(self.device)
+        with torch.no_grad():
+            generated_ids = self.model.generate(**inputs, max_new_tokens=8, do_sample=False)
+        prompt_lens = inputs.input_ids.shape[1]
+        trimmed = generated_ids[:, prompt_lens:]
+        responses = self.processor.batch_decode(trimmed, skip_special_tokens=True,
+                                                clean_up_tokenization_spaces=False)
+        out = [self.extract_answer(r, num_options=len(o)) for r, o in zip(responses, options_list)]
+        del inputs, generated_ids, trimmed
+        self.cleanup_inference()
+        return out
+
+
+class InternVL3(BaseVLM):
+    """InternVL3 (2B / 8B / 14B). Text-only via standard multimodal pipeline with dummy image."""
+
+    def __init__(self, model_size: str = "8B", device: str = "cuda",
+                 num_frames: int = 8, max_pixels: Tuple[int, int] = (256, 256),
+                 quantize_4bit: bool = False):
+        super().__init__(f"InternVL3-{model_size}", device, num_frames, max_pixels, quantize_4bit)
+        self.model_size = model_size
+        self.model_id = f"OpenGVLab/InternVL3-{model_size}"
+
+    def load_model(self):
+        from transformers import AutoModel, AutoTokenizer
+        load_kwargs = dict(dtype=torch.bfloat16, device_map="auto",
+                           trust_remote_code=True, low_cpu_mem_usage=True)
+        if self.quant_config:
+            load_kwargs["quantization_config"] = self.quant_config
+        self.model = AutoModel.from_pretrained(self.model_id, **load_kwargs)
+        self.model.eval()
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_id, trust_remote_code=True)
+        print(f"Loaded {self.model_name} (dtype=bf16, 4bit={self.quantize_4bit})")
+        get_gpu_memory_info()
+
+    def prepare_video(self, video_path: str) -> Any:
+        from PIL import Image
+        import decord
+        vr = decord.VideoReader(video_path)
+        indices = np.linspace(0, len(vr) - 1, self.num_frames, dtype=int)
+        frames = vr.get_batch(indices).asnumpy()
+        images = [Image.fromarray(f) for f in frames]
+        del vr, frames
+        return images
+
+    def inference_with_cache(self, video_cache: Any, question: str, options) -> str:
+        prompt = self.format_mcq_prompt(question, options)
+        images = video_cache
+        frame_ph = "".join([f"Frame {i+1}: <image>\n" for i in range(len(images))])
+        full_prompt = f"{frame_ph}\n{prompt}"
+
+        pixel_values = None
+        try:
+            from torchvision import transforms
+            # REID_IMG_SIZE lets the frame-count ablation lower per-frame resolution
+            # at high frame counts to fit memory (default 448 = unchanged behavior).
+            _sz = int(os.environ.get("REID_IMG_SIZE", 448))
+            transform = transforms.Compose([
+                transforms.Resize((_sz, _sz)), transforms.ToTensor(),
+                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+            ])
+            pixel_values = torch.stack([transform(img) for img in images]).to(
+                dtype=torch.bfloat16, device=self.device
+            )
+        except Exception:
+            pass
+
+        gen_config = dict(max_new_tokens=8, do_sample=False)
+        with torch.no_grad():
+            response = self.model.chat(self.tokenizer, pixel_values, full_prompt, gen_config)
+        if pixel_values is not None:
+            del pixel_values
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
+
+    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
+        video_cache = self.prepare_video(video_path)
+        result = self.inference_with_cache(video_cache, question, options)
+        del video_cache
+        self.cleanup_inference()
+        return result
+
+    def describe_images(self, pil_images, prompt: str, max_new_tokens: int = 256) -> str:
+        """Free-text description of a LIST of images (e.g. one identity's crops) + prompt.
+        Returns the raw generated text (NOT an MCQ letter). Used by the dossier pipeline
+        to write one per-identity slot at a time."""
+        from torchvision import transforms
+        _sz = int(os.environ.get("REID_IMG_SIZE", 448))
+        transform = transforms.Compose([
+            transforms.Resize((_sz, _sz)), transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        ])
+        pixel_values = torch.stack([transform(img.convert("RGB")) for img in pil_images]).to(
+            dtype=torch.bfloat16, device=self.device)
+        ph = "".join([f"Image-{i+1}: <image>\n" for i in range(len(pil_images))])
+        full_prompt = f"{ph}\n{prompt}"
+        gen_config = dict(max_new_tokens=max_new_tokens, do_sample=False)
+        with torch.no_grad():
+            response = self.model.chat(self.tokenizer, pixel_values, full_prompt, gen_config)
+        del pixel_values
+        self.cleanup_inference()
+        return response.strip()
+
+    def inference_text_only(self, question: str, options) -> str:
+        from PIL import Image
+        prompt = self.format_mcq_prompt(question, options)
+        dummy_image = Image.new("RGB", (448, 448), color=(0, 0, 0))
+        try:
+            from torchvision import transforms
+            transform = transforms.Compose([
+                transforms.Resize((448, 448)), transforms.ToTensor(),
+                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+            ])
+            pixel_values = transform(dummy_image).unsqueeze(0).to(
+                dtype=torch.bfloat16, device=self.device
+            )
+        except Exception:
+            pixel_values = None
+        full_prompt = f"<image>\n{prompt}"
+        gen_config = dict(max_new_tokens=8, do_sample=False)
+        with torch.no_grad():
+            response = self.model.chat(self.tokenizer, pixel_values, full_prompt, gen_config)
+        if pixel_values is not None:
+            del pixel_values
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
+
+
+class Gemma3VL(BaseVLM):
+    """Gemma 3 multimodal (4B-it, 12B-it). Text-only via chat template."""
+
+    def __init__(self, model_size: str = "4b", device: str = "cuda",
+                 num_frames: int = 8, max_pixels: Tuple[int, int] = (256, 256),
+                 quantize_4bit: bool = False):
+        super().__init__(f"Gemma3-{model_size}", device, num_frames, max_pixels, quantize_4bit)
+        self.model_size = model_size
+        self.model_id = f"google/gemma-3-{model_size}-it"
+
+    def load_model(self):
+        from transformers import AutoProcessor
+        load_kwargs = dict(dtype=torch.bfloat16, device_map="auto", low_cpu_mem_usage=True)
+        if self.quant_config:
+            load_kwargs["quantization_config"] = self.quant_config
+        try:
+            from transformers import Gemma3ForConditionalGeneration
+            self.model = Gemma3ForConditionalGeneration.from_pretrained(self.model_id, **load_kwargs)
+        except ImportError:
+            from transformers import AutoModelForCausalLM
+            load_kwargs["trust_remote_code"] = True
+            self.model = AutoModelForCausalLM.from_pretrained(self.model_id, **load_kwargs)
+        self.model.eval()
+        self.processor = AutoProcessor.from_pretrained(self.model_id)
+        print(f"Loaded {self.model_name} (dtype=bf16, 4bit={self.quantize_4bit})")
+        get_gpu_memory_info()
+
+    def prepare_video(self, video_path: str) -> Any:
+        from PIL import Image
+        import decord
+        vr = decord.VideoReader(video_path)
+        # Gemma3 SigLIP encoder produces 256 tokens per 896x896 image. Eight
+        # frames at that res = 2048 tokens plus text - feasible but slow.
+        # We resize to 448x448 to halve token count and use only the
+        # configured num_frames.
+        indices = np.linspace(0, len(vr) - 1, self.num_frames, dtype=int)
+        frames = vr.get_batch(indices).asnumpy()
+        pil_frames = [Image.fromarray(f).resize((448, 448)) for f in frames]
+        del vr, frames
+        return pil_frames
+
+    def inference_with_cache(self, video_cache: Any, question: str, options) -> str:
+        prompt = self.format_mcq_prompt(question, options)
+        pil_frames = video_cache
+        # Gemma3 supports interleaved images; treat each video frame as a separate image.
+        content = [{"type": "image", "image": img} for img in pil_frames]
+        content.append({"type": "text", "text": prompt})
+        messages = [{"role": "user", "content": content}]
+        inputs = self.processor.apply_chat_template(
+            messages, add_generation_prompt=True, tokenize=True,
+            return_dict=True, return_tensors="pt",
+        ).to(self.device)
+        with torch.no_grad():
+            generated_ids = self.model.generate(**inputs, max_new_tokens=8, do_sample=False)
+        prompt_len = inputs["input_ids"].shape[1]
+        trimmed = generated_ids[:, prompt_len:]
+        response = self.processor.batch_decode(trimmed, skip_special_tokens=True)[0]
+        del inputs, generated_ids, trimmed
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
+
+    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
+        video_cache = self.prepare_video(video_path)
+        result = self.inference_with_cache(video_cache, question, options)
+        del video_cache
+        self.cleanup_inference()
+        return result
+
+    def inference_text_only(self, question: str, options) -> str:
+        prompt = self.format_mcq_prompt(question, options)
+        messages = [{"role": "user", "content": [{"type": "text", "text": prompt}]}]
+        inputs = self.processor.apply_chat_template(
+            messages, add_generation_prompt=True, tokenize=True,
+            return_dict=True, return_tensors="pt"
+        ).to(self.device)
+        with torch.no_grad():
+            generated_ids = self.model.generate(**inputs, max_new_tokens=8, do_sample=False)
+        prompt_len = inputs["input_ids"].shape[1]
+        trimmed = generated_ids[:, prompt_len:]
+        response = self.processor.batch_decode(trimmed, skip_special_tokens=True)[0]
+        del inputs, generated_ids, trimmed
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
+
+    def batch_inference_text_only(self, questions, options_list):
+        # Gemma3 processor uses an inner tokenizer; force left-pad for batched gen.
+        tok = getattr(self.processor, "tokenizer", None)
+        if tok is not None:
+            tok.padding_side = "left"
+        prompts = [self.format_mcq_prompt(q, o) for q, o in zip(questions, options_list)]
+        all_msgs = [[{"role": "user", "content": [{"type": "text", "text": p}]}] for p in prompts]
+        inputs = self.processor.apply_chat_template(
+            all_msgs, add_generation_prompt=True, tokenize=True,
+            return_dict=True, return_tensors="pt", padding=True,
+        ).to(self.device)
+        with torch.no_grad():
+            generated_ids = self.model.generate(**inputs, max_new_tokens=8, do_sample=False)
+        prompt_len = inputs["input_ids"].shape[1]
+        trimmed = generated_ids[:, prompt_len:]
+        responses = self.processor.batch_decode(trimmed, skip_special_tokens=True)
+        out = [self.extract_answer(r, num_options=len(o)) for r, o in zip(responses, options_list)]
+        del inputs, generated_ids, trimmed
+        self.cleanup_inference()
+        return out
+
+
+class VideoChatFlash(BaseVLM):
+    """OpenGVLab VideoChat-Flash (Qwen2.5 backbone, 2B or 7B at res448).
+
+    API note: model.chat() expects a video PATH (it decodes internally with
+    decord). Our prepare_video therefore returns the path as the cache; no
+    pre-decoding on our side. For text-only mode we point chat() at a small
+    pre-generated black MP4 (data/dummy_black.mp4)."""
+
+    DEFAULT_DUMMY_MP4 = "/home/ab260989/gen-reid/data/dummy_black.mp4"
+
+    def __init__(self, model_size: str = "2B", device: str = "cuda",
+                 num_frames: int = 8, max_pixels: Tuple[int, int] = (448, 448),
+                 quantize_4bit: bool = False):
+        super().__init__(f"VideoChat-Flash-{model_size}", device, num_frames, max_pixels, quantize_4bit)
+        self.model_size = model_size
+        # HF family naming is non-uniform: 2B uses Qwen2.5 backbone, 7B uses Qwen2.
+        if model_size.upper() == "2B":
+            self.model_id = "OpenGVLab/VideoChat-Flash-Qwen2_5-2B_res448"
+        elif model_size.upper() == "7B":
+            self.model_id = "OpenGVLab/VideoChat-Flash-Qwen2-7B_res448"
+        else:
+            self.model_id = f"OpenGVLab/VideoChat-Flash-Qwen2-{model_size}_res448"
+
+    def load_model(self):
+        # NOTE: VideoChat-Flash custom modeling code is pinned to transformers ~4.40
+        # cache APIs. Run this class in the `videochat-flash` conda env
+        # (transformers==4.40.1, with a stub flash_attn package), not in `reid`.
+        from transformers import AutoModel, AutoTokenizer
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_id, trust_remote_code=True)
+        load_kwargs = dict(trust_remote_code=True)
+        if self.quant_config:
+            load_kwargs["quantization_config"] = self.quant_config
+        self.model = AutoModel.from_pretrained(self.model_id, **load_kwargs)
+        self.model = self.model.to(torch.bfloat16).to(self.device)
+        self.model.eval()
+        print(f"Loaded {self.model_name} (dtype=bf16, 4bit={self.quantize_4bit})")
+        get_gpu_memory_info()
+
+    def prepare_video(self, video_path: str) -> Any:
+        # VideoChat-Flash decodes the mp4 itself; we pass the path through.
+        return video_path
+
+    def _chat(self, video_path: str, prompt: str) -> str:
+        with torch.no_grad():
+            out = self.model.chat(
+                video_path=video_path,
+                tokenizer=self.tokenizer,
+                user_prompt=prompt,
+                return_history=False,
+                max_num_frames=self.num_frames,
+                generation_config=dict(
+                    do_sample=False, max_new_tokens=8, num_beams=1,
+                ),
+            )
+        return out if isinstance(out, str) else out[0]
+
+    def inference_with_cache(self, video_cache: Any, question: str, options) -> str:
+        prompt = self.format_mcq_prompt(question, options)
+        response = self._chat(video_cache, prompt)
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
+
+    def inference(self, video_path: str, question: str, options: Dict[str, str]) -> str:
+        return self.inference_with_cache(video_path, question, options)
+
+    def inference_text_only(self, question: str, options) -> str:
+        prompt = self.format_mcq_prompt(question, options)
+        response = self._chat(self.DEFAULT_DUMMY_MP4, prompt)
+        self.cleanup_inference()
+        return self.extract_answer(response, num_options=len(options))
 
 
 # =============================================================================
-# Model Factory
+# Model Registry
 # =============================================================================
 
-def get_model(model_name: str, device: str = "cuda", mock: bool = False) -> BaseVLM:
-    """Factory function to get the appropriate model."""
-
-    if mock:
-        return MockVLM(f"Mock-{model_name}", device)
-
+def create_model(model_name, device="cuda", num_frames=8,
+                 max_pixels=(256, 256), quantize_4bit=False):
     model_map = {
-        "qwen2-vl": lambda: Qwen2VL("7B", device),
-        "qwen2-vl-2b": lambda: Qwen2VL("2B", device),
-        "qwen2-vl-72b": lambda: Qwen2VL("72B", device),
-        # Qwen2.5-VL (also known as Qwen3-VL)
-        "qwen3-vl": lambda: Qwen3VL("7B", device),    # Default to 7B
-        "qwen3-vl-3b": lambda: Qwen3VL("3B", device),
-        "qwen3-vl-7b": lambda: Qwen3VL("7B", device),
-        "qwen3-vl-72b": lambda: Qwen3VL("72B", device),
-        "qwen2.5-vl": lambda: Qwen3VL("7B", device),
-        "qwen2.5-vl-3b": lambda: Qwen3VL("3B", device),
-        "qwen2.5-vl-7b": lambda: Qwen3VL("7B", device),
-        "qwen2.5-vl-72b": lambda: Qwen3VL("72B", device),
-        # Ovis
-        "ovis": lambda: OvisVLM("1.6", device),
-        "ovis1.6": lambda: OvisVLM("1.6", device),
-        "ovis2.5": lambda: Ovis25VLM("2B", device),
-        # LLaVA, InternVL2 unchanged
-        "llava-next-video": lambda: LLaVANeXTVideo("7B", device),
-        "llava-next-video-34b": lambda: LLaVANeXTVideo("34B", device),
-        "internvl2": lambda: InternVL2("8B", device),
-        "internvl2-26b": lambda: InternVL2("26B", device),
-        "video-llava": lambda: VideoLLaVA(device),
+        "qwen2-vl": lambda: Qwen2VL("7B", device, num_frames, max_pixels, quantize_4bit),
+        "qwen2-vl-2b": lambda: Qwen2VL("2B", device, num_frames, max_pixels, quantize_4bit),
+        "qwen2-vl-72b": lambda: Qwen2VL("72B", device, num_frames, max_pixels, quantize_4bit),
+        "qwen3-vl": lambda: Qwen3VL("7B", device, num_frames, max_pixels, quantize_4bit),
+        "qwen2.5-vl": lambda: Qwen3VL("7B", device, num_frames, max_pixels, quantize_4bit),
+        "qwen2.5-vl-3b": lambda: Qwen3VL("3B", device, num_frames, max_pixels, quantize_4bit),
+        "qwen2.5-vl-7b": lambda: Qwen3VL("7B", device, num_frames, max_pixels, quantize_4bit),
+        "qwen2.5-vl-72b": lambda: Qwen3VL("72B", device, num_frames, max_pixels, quantize_4bit),
+        "qwen3-vl-real-2b": lambda: Qwen3VLReal("2B", device, num_frames, max_pixels, quantize_4bit),
+        "qwen3-vl-real-4b": lambda: Qwen3VLReal("4B", device, num_frames, max_pixels, quantize_4bit),
+        "qwen3-vl-real-8b": lambda: Qwen3VLReal("8B", device, num_frames, max_pixels, quantize_4bit),
+        "ovis": lambda: Ovis("1.6", "Ovis1.6-Gemma2-9B", device, num_frames, max_pixels, quantize_4bit),
+        "ovis2.5": lambda: Ovis25("Ovis2.5-9B", device, num_frames, max_pixels, quantize_4bit),
+        "ovis2.5-2b": lambda: Ovis25("Ovis2.5-2B", device, num_frames, max_pixels, quantize_4bit),
+        "ovis2.5-9b": lambda: Ovis25("Ovis2.5-9B", device, num_frames, max_pixels, quantize_4bit),
+        "llava-next-video": lambda: LLaVANextVideo("7B", device, num_frames, max_pixels, quantize_4bit),
+        "llava-next-video-34b": lambda: LLaVANextVideo("34B", device, num_frames, max_pixels, quantize_4bit),
+        "internvl2": lambda: InternVL2("8B", device, num_frames, max_pixels, quantize_4bit),
+        "internvl2-26b": lambda: InternVL2("26B", device, num_frames, max_pixels, quantize_4bit),
+        "internvl3-2b": lambda: InternVL3("2B", device, num_frames, max_pixels, quantize_4bit),
+        "internvl3-8b": lambda: InternVL3("8B", device, num_frames, max_pixels, quantize_4bit),
+        "internvl3-14b": lambda: InternVL3("14B", device, num_frames, max_pixels, quantize_4bit),
+        "gemma3-4b": lambda: Gemma3VL("4b", device, num_frames, max_pixels, quantize_4bit),
+        "gemma3-12b": lambda: Gemma3VL("12b", device, num_frames, max_pixels, quantize_4bit),
+        "video-llava": lambda: VideoLLaVA(device, num_frames, max_pixels, quantize_4bit),
+        "videochat-flash-2b": lambda: VideoChatFlash("2B", device, num_frames, max_pixels, quantize_4bit),
+        "videochat-flash-7b": lambda: VideoChatFlash("7B", device, num_frames, max_pixels, quantize_4bit),
     }
-
-    model_key = model_name.lower()
-    if model_key not in model_map:
-        raise ValueError(f"Unknown model: {model_name}. Available: {list(model_map.keys())}")
-
-    return model_map[model_key]()
+    key = model_name.lower().strip()
+    if key not in model_map:
+        raise ValueError(f"Unknown model: {model_name}. Available: {', '.join(sorted(model_map.keys()))}")
+    return model_map[key]()
 
 
 # =============================================================================
-# Evaluation Engine
+# Evaluation Engine (Single Job - No Batching)
 # =============================================================================
 
 class BenchmarkEvaluator:
-    """Evaluates VLMs on the Re-ID benchmark."""
+    """Evaluates VLMs on the full benchmark in a single job."""
 
-    def __init__(self, benchmark_path: str, video_dir: str, output_dir: str):
+    def __init__(self, benchmark_path, video_dir, output_dir):
         self.benchmark_path = benchmark_path
         self.video_dir = video_dir
-        self.output_dir = Path(output_dir)
-        self.output_dir.mkdir(parents=True, exist_ok=True)
+        # Auto-detect: if video_dir contains a 'videos' subdirectory, use it
+        videos_subdir = os.path.join(video_dir, "videos")
+        if os.path.isdir(videos_subdir):
+            print(f"  Auto-detected 'videos' subdirectory, using: {videos_subdir}")
+            self.video_dir = videos_subdir
+        self.output_dir = output_dir
+        os.makedirs(output_dir, exist_ok=True)
+        with open(benchmark_path, 'r') as f:
+            raw = json.load(f)
 
-        # Load benchmark
-        with open(benchmark_path) as f:
-            self.benchmark = json.load(f)
-
-        self.results = {}
-
-    def get_video_path(self, video_id: str) -> str:
-        """Get the full path to a video file."""
-        # Try common video extensions
-        for ext in ['.mp4', '.avi', '.mov', '.mkv', '.webm']:
-            path = os.path.join(self.video_dir, f"{video_id}{ext}")
-            if os.path.exists(path):
-                return path
-        # Return default path even if doesn't exist (for mock mode)
-        return os.path.join(self.video_dir, f"{video_id}.mp4")
-
-    def validate_prerequisites(self, models: List[BaseVLM], mock: bool = False) -> Tuple[bool, Dict]:
-        """
-        Pre-flight validation to check all prerequisites before evaluation.
-
-        Checks:
-        1. Video directory exists
-        2. All benchmark videos are accessible
-        3. Model availability (in non-mock mode)
-
-        Returns:
-            Tuple of (is_valid, validation_report)
-        """
-        print("\n" + "=" * 60)
-        print("PRE-FLIGHT VALIDATION")
-        print("=" * 60)
-
-        validation_report = {
-            "video_dir_exists": False,
-            "videos": {},
-            "models": {},
-            "total_videos": 0,
-            "videos_found": 0,
-            "videos_missing": 0,
-            "total_questions": 0,
-            "questions_with_video": 0,
-        }
-
-        is_valid = True
-
-        # 1. Check video directory
-        print(f"\n[1/3] Checking video directory: {self.video_dir}")
-        if os.path.isdir(self.video_dir):
-            validation_report["video_dir_exists"] = True
-            print(f"  [OK] Directory exists")
-        else:
-            validation_report["video_dir_exists"] = False
-            print(f"  [X] Directory does not exist!")
-            is_valid = False
-
-        # 2. Check all videos in benchmark
-        print(f"\n[2/3] Checking video files...")
-        total_questions = 0
-        questions_with_video = 0
-
-        for video in self.benchmark["videos"]:
-            video_id = video["video_id"]
-            num_questions = len(video["questions"])
-            total_questions += num_questions
-            validation_report["total_videos"] += 1
-
-            # Check if video exists
-            video_path = None
-            for ext in ['.mp4', '.avi', '.mov', '.mkv', '.webm']:
-                test_path = os.path.join(self.video_dir, f"{video_id}{ext}")
-                if os.path.exists(test_path):
-                    video_path = test_path
+        # Normalize benchmark to a list of dicts regardless of JSON structure
+        if isinstance(raw, list):
+            self.benchmark = raw
+        elif isinstance(raw, dict):
+            # Check for common wrapper keys first (e.g. {"data": [...]})
+            for key in ("videos", "data", "questions", "items", "benchmark"):
+                if key in raw and isinstance(raw[key], list):
+                    self.benchmark = raw[key]
                     break
-
-            if video_path:
-                file_size = os.path.getsize(video_path) / (1024 * 1024)  # MB
-                validation_report["videos"][video_id] = {
-                    "found": True,
-                    "path": video_path,
-                    "size_mb": round(file_size, 2),
-                    "questions": num_questions
-                }
-                validation_report["videos_found"] += 1
-                questions_with_video += num_questions
-                print(f"  [OK] {video_id} ({num_questions} questions) - {file_size:.1f} MB")
             else:
-                validation_report["videos"][video_id] = {
-                    "found": False,
-                    "path": None,
-                    "questions": num_questions
-                }
-                validation_report["videos_missing"] += 1
-                print(f"  [X] {video_id} ({num_questions} questions) - NOT FOUND")
-                if not mock:
-                    is_valid = False
-
-        validation_report["total_questions"] = total_questions
-        validation_report["questions_with_video"] = questions_with_video
-
-        # 3. Check models
-        print(f"\n[3/3] Checking models...")
-        for model in models:
-            model_name = model.model_name
-            if mock or "Mock" in model_name:
-                validation_report["models"][model_name] = {"available": True, "mock": True}
-                print(f"  [OK] {model_name} (Mock Mode)")
-            else:
-                # For real models, we just note they'll be loaded later
-                validation_report["models"][model_name] = {"available": True, "mock": False}
-                print(f"  ? {model_name} (Will attempt to load)")
-
-        # Summary
-        print("\n" + "-" * 60)
-        print("VALIDATION SUMMARY")
-        print("-" * 60)
-        print(f"  Video Directory: {'[OK]' if validation_report['video_dir_exists'] else '[X] MISSING'}")
-        print(f"  Videos: {validation_report['videos_found']}/{validation_report['total_videos']} found")
-        print(f"  Questions with video: {questions_with_video}/{total_questions}")
-        print(f"  Models to evaluate: {len(models)}")
-
-        if validation_report["videos_missing"] > 0 and not mock:
-            print(f"\n  [!] WARNING: {validation_report['videos_missing']} video(s) missing!")
-            print(f"    Models will answer {total_questions - questions_with_video} questions without video context.")
-
-        if is_valid:
-            print("\n  [OK] All pre-flight checks passed!")
+                # Dict keyed by video filename -> questions
+                self.benchmark = []
+                for video_key, value in raw.items():
+                    if isinstance(value, dict):
+                        value.setdefault("video", video_key)
+                        self.benchmark.append(value)
+                    elif isinstance(value, list):
+                        # Each value is a list of questions for that video
+                        self.benchmark.append({
+                            "video": video_key,
+                            "questions": value,
+                        })
+                    else:
+                        print(f"  WARNING: Skipping unexpected value type for key '{video_key}': {type(value)}")
         else:
-            print("\n  [X] Some pre-flight checks failed!")
+            raise ValueError(f"Unexpected benchmark JSON type: {type(raw)}")
 
-        print("=" * 60 + "\n")
+        print(f"Loaded benchmark: {len(self.benchmark)} items from {benchmark_path}")
 
-        return is_valid, validation_report
+    def evaluate_model(self, model, max_samples=None):
+        results = []
+        correct = total = errors = 0
+        category_results = defaultdict(lambda: {"correct": 0, "total": 0})
 
-    def evaluate_model(self, model: BaseVLM) -> Dict:
-        """Evaluate a single model on the benchmark."""
-        print(f"\n{'='*60}")
-        print(f"Evaluating: {model.model_name}")
-        print(f"{'='*60}")
+        items = self.benchmark[:max_samples] if max_samples else self.benchmark
+        num_items = len(items)
+        print(f"\nEvaluating {model.model_name} on {num_items} items...")
 
-        model.load_model()
+        # Debug: show first item keys so we know the JSON structure
+        if items:
+            print(f"  Benchmark item keys: {list(items[0].keys())}")
+            print(f"  First item preview: {str(items[0])[:200]}")
 
-        results = {
-            "model_name": model.model_name,
-            "predictions": [],
-            "timestamp": datetime.now().isoformat()
-        }
+        get_gpu_memory_info()
+        eval_start = time.time()
 
-        total_questions = sum(len(v["questions"]) for v in self.benchmark["videos"])
-        current = 0
+        for idx, item in enumerate(items):
+            # Build video path: try video/video_path keys first, then video_id + extension
+            video_file = item.get("video", item.get("video_path", ""))
+            if not video_file:
+                vid_id = item.get("video_id", "")
+                if vid_id:
+                    for ext in (".mp4", ".avi", ".mkv", ".mov", ".webm", ""):
+                        candidate = os.path.join(self.video_dir, f"{vid_id}{ext}")
+                        if os.path.isfile(candidate):
+                            video_file = f"{vid_id}{ext}"
+                            break
+                    else:
+                        video_file = f"{vid_id}.mp4"  # default guess
 
-        for video in self.benchmark["videos"]:
-            video_id = video["video_id"]
-            video_path = self.get_video_path(video_id)
+            if video_file and os.path.isabs(video_file):
+                video_path = video_file
+            else:
+                video_path = os.path.join(self.video_dir, video_file)
 
-            print(f"\nProcessing video: {video_id}")
-
-            for question in video["questions"]:
-                current += 1
-
-                try:
-                    predicted = model.inference(
-                        video_path,
-                        question["question_text"],
-                        question["options"]
-                    )
-                except Exception as e:
-                    import traceback
-                    print(f"  Error on Q{question['question_id']}: {e}")
-                    traceback.print_exc()
-                    predicted = "ERROR"
-
-                correct = question["correct_answer"].strip().upper()[0]
-                is_correct = predicted == correct
-
-                result = {
-                    "video_id": video_id,
-                    "question_id": question["question_id"],
-                    "capability": question["capability"],
-                    "referral_strategy": question["referral_strategy"],
-                    "difficulty": question["difficulty"],
-                    "predicted": predicted,
-                    "correct": correct,
-                    "is_correct": is_correct
-                }
-                results["predictions"].append(result)
-
-                status = "[OK]" if is_correct else "[X]"
-                print(f"  [{current}/{total_questions}] Q{question['question_id']}: {status} (pred={predicted}, gt={correct})")
-
-        return results
-
-    def run_evaluation(self, models: List[BaseVLM]) -> Dict:
-        """Run evaluation on multiple models."""
-        for model in models:
-            try:
-                results = self.evaluate_model(model)
-                self.results[model.model_name] = results
-            except Exception as e:
-                print(f"\n[SKIPPED] {model.model_name}: Failed to load - {e}")
+            if not os.path.isfile(video_path):
+                if idx < 3:
+                    print(f"  WARNING: Video not found: {video_path}")
+                    if idx == 0 and os.path.isdir(self.video_dir):
+                        sample = os.listdir(self.video_dir)[:5]
+                        print(f"    Sample files in video_dir: {sample}")
+                errors += 1
                 continue
 
-        # Save raw results
-        results_path = self.output_dir / "raw_results.json"
-        with open(results_path, 'w') as f:
-            json.dump(self.results, f, indent=2)
-        print(f"\nRaw results saved to: {results_path}")
-
-        return self.results
-
-    def compute_metrics(self) -> pd.DataFrame:
-        """Compute comprehensive metrics from results."""
-        all_metrics = []
-
-        for model_name, result in self.results.items():
-            predictions = result["predictions"]
-            df = pd.DataFrame(predictions)
-
-            # Overall accuracy
-            overall_acc = df["is_correct"].mean() * 100
-
-            # Per-capability accuracy
-            cap_acc = df.groupby("capability")["is_correct"].mean() * 100
-
-            # Per-difficulty accuracy
-            diff_acc = df.groupby("difficulty")["is_correct"].mean() * 100
-
-            # Per-referral strategy accuracy
-            ref_acc = df.groupby("referral_strategy")["is_correct"].mean() * 100
-
-            # Per-video accuracy
-            video_acc = df.groupby("video_id")["is_correct"].mean() * 100
-
-            metrics = {
-                "model": model_name,
-                "overall_accuracy": overall_acc,
-                "total_correct": df["is_correct"].sum(),
-                "total_questions": len(df),
-            }
-
-            # Add capability metrics
-            for cap in cap_acc.index:
-                metrics[f"cap_{cap}"] = cap_acc[cap]
-
-            # Add difficulty metrics
-            for diff in diff_acc.index:
-                metrics[f"diff_{diff}"] = diff_acc[diff]
-
-            # Add referral strategy metrics
-            for ref in ref_acc.index:
-                metrics[f"ref_{ref.replace(' ', '_')}"] = ref_acc[ref]
-
-            # Add video metrics
-            for vid in video_acc.index:
-                metrics[f"video_{vid}"] = video_acc[vid]
-
-            all_metrics.append(metrics)
-
-        metrics_df = pd.DataFrame(all_metrics)
-
-        # Save metrics
-        metrics_path = self.output_dir / "metrics.csv"
-        metrics_df.to_csv(metrics_path, index=False)
-        print(f"Metrics saved to: {metrics_path}")
-
-        return metrics_df
-
-
-# =============================================================================
-# Visualization Functions
-# =============================================================================
-# ... (No change below here: all visualizations and report generator remain the same) ...
-
-class BenchmarkVisualizer:
-    """Creates visualizations for benchmark results."""
-
-    def __init__(self, results: Dict, output_dir: Path):
-        self.results = results
-        self.output_dir = output_dir
-        self.colors = plt.cm.Set2(np.linspace(0, 1, 10))
-
-    def plot_all(self):
-        """Generate all visualization plots."""
-        print("\nGenerating visualizations...")
-
-        self.plot_overall_accuracy()
-        self.plot_accuracy_by_capability()
-        self.plot_accuracy_by_difficulty()
-        self.plot_accuracy_by_referral_strategy()
-        self.plot_accuracy_by_video()
-        self.plot_capability_radar()
-        self.plot_confusion_matrices()
-        self.plot_difficulty_capability_heatmap()
-        self.plot_error_analysis()
-        self.plot_performance_distribution()
-        self.plot_comparative_bar_chart()
-
-        print(f"All visualizations saved to: {self.output_dir}")
-
-    def _get_all_predictions_df(self) -> pd.DataFrame:
-        """Combine all predictions into a single DataFrame."""
-        all_preds = []
-        for model_name, result in self.results.items():
-            for pred in result["predictions"]:
-                pred_copy = pred.copy()
-                pred_copy["model"] = model_name
-                all_preds.append(pred_copy)
-        return pd.DataFrame(all_preds)
-
-    def plot_overall_accuracy(self):
-        """Plot overall accuracy comparison across models."""
-        fig, ax = plt.subplots(figsize=(10, 6))
-
-        models = []
-        accuracies = []
-
-        for model_name, result in self.results.items():
-            preds = result["predictions"]
-            acc = sum(p["is_correct"] for p in preds) / len(preds) * 100
-            models.append(model_name)
-            accuracies.append(acc)
-
-        bars = ax.bar(models, accuracies, color=self.colors[:len(models)], edgecolor='black', linewidth=1.2)
-
-        # Add value labels on bars
-        for bar, acc in zip(bars, accuracies):
-            ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 1,
-                   f'{acc:.1f}%', ha='center', va='bottom', fontweight='bold', fontsize=11)
-
-        ax.set_ylabel('Accuracy (%)', fontsize=12)
-        ax.set_xlabel('Model', fontsize=12)
-        ax.set_title('Overall Accuracy Comparison', fontsize=14, fontweight='bold')
-        ax.set_ylim(0, 105)
-        ax.axhline(y=25, color='red', linestyle='--', alpha=0.5, label='Random Baseline (25%)')
-        ax.legend()
-
-        plt.xticks(rotation=45, ha='right')
-        plt.tight_layout()
-        plt.savefig(self.output_dir / 'overall_accuracy.png', dpi=300, bbox_inches='tight')
-        plt.close()
-
-    def plot_accuracy_by_capability(self):
-        """Plot accuracy breakdown by capability."""
-        df = self._get_all_predictions_df()
-
-        capabilities = df['capability'].unique()
-        models = df['model'].unique()
-
-        fig, ax = plt.subplots(figsize=(14, 7))
-
-        x = np.arange(len(capabilities))
-        width = 0.8 / len(models)
-
-        for i, model in enumerate(models):
-            model_df = df[df['model'] == model]
-            accs = [model_df[model_df['capability'] == cap]['is_correct'].mean() * 100
-                   for cap in capabilities]
-            bars = ax.bar(x + i * width, accs, width, label=model, alpha=0.85)
-
-        ax.set_xlabel('Capability', fontsize=12)
-        ax.set_ylabel('Accuracy (%)', fontsize=12)
-        ax.set_title('Accuracy by Capability', fontsize=14, fontweight='bold')
-        ax.set_xticks(x + width * (len(models) - 1) / 2)
-        ax.set_xticklabels(capabilities, rotation=45, ha='right')
-        ax.legend(loc='upper right')
-        ax.set_ylim(0, 105)
-        ax.axhline(y=25, color='red', linestyle='--', alpha=0.5, label='Random Baseline')
-
-        plt.tight_layout()
-        plt.savefig(self.output_dir / 'accuracy_by_capability.png', dpi=300, bbox_inches='tight')
-        plt.close()
-
-    def plot_accuracy_by_difficulty(self):
-        """Plot accuracy breakdown by difficulty level."""
-        df = self._get_all_predictions_df()
-
-        difficulties = ['Easy', 'Medium', 'Hard']
-        models = df['model'].unique()
-
-        fig, ax = plt.subplots(figsize=(10, 6))
-
-        x = np.arange(len(difficulties))
-        width = 0.8 / len(models)
-
-        for i, model in enumerate(models):
-            model_df = df[df['model'] == model]
-            accs = []
-            for diff in difficulties:
-                diff_df = model_df[model_df['difficulty'] == diff]
-                acc = diff_df['is_correct'].mean() * 100 if len(diff_df) > 0 else 0
-                accs.append(acc)
-            ax.bar(x + i * width, accs, width, label=model, alpha=0.85)
-
-        ax.set_xlabel('Difficulty', fontsize=12)
-        ax.set_ylabel('Accuracy (%)', fontsize=12)
-        ax.set_title('Accuracy by Difficulty Level', fontsize=14, fontweight='bold')
-        ax.set_xticks(x + width * (len(models) - 1) / 2)
-        ax.set_xticklabels(difficulties)
-        ax.legend(loc='upper right')
-        ax.set_ylim(0, 105)
-        ax.axhline(y=25, color='red', linestyle='--', alpha=0.5)
-
-        plt.tight_layout()
-        plt.savefig(self.output_dir / 'accuracy_by_difficulty.png', dpi=300, bbox_inches='tight')
-        plt.close()
-
-    def plot_accuracy_by_referral_strategy(self):
-        """Plot accuracy breakdown by referral strategy."""
-        df = self._get_all_predictions_df()
-
-        strategies = df['referral_strategy'].unique()
-        models = df['model'].unique()
-
-        fig, ax = plt.subplots(figsize=(14, 7))
-
-        x = np.arange(len(strategies))
-        width = 0.8 / len(models)
-
-        for i, model in enumerate(models):
-            model_df = df[df['model'] == model]
-            accs = [model_df[model_df['referral_strategy'] == strat]['is_correct'].mean() * 100
-                   for strat in strategies]
-            ax.bar(x + i * width, accs, width, label=model, alpha=0.85)
-
-        ax.set_xlabel('Referral Strategy', fontsize=12)
-        ax.set_ylabel('Accuracy (%)', fontsize=12)
-        ax.set_title('Accuracy by Referral Strategy', fontsize=14, fontweight='bold')
-        ax.set_xticks(x + width * (len(models) - 1) / 2)
-        ax.set_xticklabels(strategies, rotation=45, ha='right')
-        ax.legend(loc='upper right')
-        ax.set_ylim(0, 105)
-        ax.axhline(y=25, color='red', linestyle='--', alpha=0.5)
-
-        plt.tight_layout()
-        plt.savefig(self.output_dir / 'accuracy_by_referral_strategy.png', dpi=300, bbox_inches='tight')
-        plt.close()
-
-    def plot_accuracy_by_video(self):
-        """Plot accuracy breakdown by video."""
-        df = self._get_all_predictions_df()
-
-        videos = df['video_id'].unique()
-        models = df['model'].unique()
-
-        fig, ax = plt.subplots(figsize=(12, 6))
-
-        x = np.arange(len(videos))
-        width = 0.8 / len(models)
-
-        for i, model in enumerate(models):
-            model_df = df[df['model'] == model]
-            accs = [model_df[model_df['video_id'] == vid]['is_correct'].mean() * 100
-                   for vid in videos]
-            ax.bar(x + i * width, accs, width, label=model, alpha=0.85)
-
-        ax.set_xlabel('Video ID', fontsize=12)
-        ax.set_ylabel('Accuracy (%)', fontsize=12)
-        ax.set_title('Accuracy by Video', fontsize=14, fontweight='bold')
-        ax.set_xticks(x + width * (len(models) - 1) / 2)
-        ax.set_xticklabels(videos, rotation=45, ha='right')
-        ax.legend(loc='upper right')
-        ax.set_ylim(0, 105)
-        ax.axhline(y=25, color='red', linestyle='--', alpha=0.5)
-
-        plt.tight_layout()
-        plt.savefig(self.output_dir / 'accuracy_by_video.png', dpi=300, bbox_inches='tight')
-        plt.close()
-
-    def plot_capability_radar(self):
-        """Create radar chart comparing capabilities across models."""
-        df = self._get_all_predictions_df()
-
-        capabilities = sorted(df['capability'].unique())
-        models = df['model'].unique()
-
-        # Number of variables
-        N = len(capabilities)
-
-        # Compute angle for each axis
-        angles = [n / float(N) * 2 * np.pi for n in range(N)]
-        angles += angles[:1]  # Complete the circle
-
-        fig, ax = plt.subplots(figsize=(10, 10), subplot_kw=dict(polar=True))
-
-        colors = plt.cm.Set2(np.linspace(0, 1, len(models)))
-
-        for idx, model in enumerate(models):
-            model_df = df[df['model'] == model]
-            values = [model_df[model_df['capability'] == cap]['is_correct'].mean() * 100
-                     for cap in capabilities]
-            values += values[:1]  # Complete the circle
-
-            ax.plot(angles, values, 'o-', linewidth=2, label=model, color=colors[idx])
-            ax.fill(angles, values, alpha=0.15, color=colors[idx])
-
-        ax.set_xticks(angles[:-1])
-        ax.set_xticklabels(capabilities, fontsize=10)
-        ax.set_ylim(0, 100)
-        ax.set_title('Capability Comparison Radar Chart', fontsize=14, fontweight='bold', pad=20)
-        ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.0))
-
-        plt.tight_layout()
-        plt.savefig(self.output_dir / 'capability_radar.png', dpi=300, bbox_inches='tight')
-        plt.close()
-
-    def plot_confusion_matrices(self):
-        """Plot confusion matrices for each model."""
-        df = self._get_all_predictions_df()
-        models = df['model'].unique()
-
-        n_models = len(models)
-        cols = min(3, n_models)
-        rows = (n_models + cols - 1) // cols
-
-        fig, axes = plt.subplots(rows, cols, figsize=(5*cols, 4*rows))
-        if n_models == 1:
-            axes = np.array([axes])
-        axes = axes.flatten()
-
-        options = ['A', 'B', 'C', 'D']
-
-        for idx, model in enumerate(models):
-            model_df = df[df['model'] == model]
-
-            # Create confusion matrix
-            cm = np.zeros((4, 4), dtype=int)
-            for _, row in model_df.iterrows():
-                pred = row['predicted']
-                true = row['correct']
-                if pred in options and true in options:
-                    cm[options.index(true)][options.index(pred)] += 1
-
-            # Normalize
-            cm_normalized = cm.astype('float') / cm.sum(axis=1, keepdims=True)
-            cm_normalized = np.nan_to_num(cm_normalized)
-
-            sns.heatmap(cm_normalized, annot=True, fmt='.2f', cmap='Blues',
-                       xticklabels=options, yticklabels=options, ax=axes[idx],
-                       cbar_kws={'label': 'Proportion'})
-            axes[idx].set_xlabel('Predicted', fontsize=10)
-            axes[idx].set_ylabel('True', fontsize=10)
-            axes[idx].set_title(f'{model}', fontsize=11, fontweight='bold')
-
-        # Hide empty subplots
-        for idx in range(n_models, len(axes)):
-            axes[idx].axis('off')
-
-        plt.suptitle('Confusion Matrices (Normalized)', fontsize=14, fontweight='bold', y=1.02)
-        plt.tight_layout()
-        plt.savefig(self.output_dir / 'confusion_matrices.png', dpi=300, bbox_inches='tight')
-        plt.close()
-
-    def plot_difficulty_capability_heatmap(self):
-        """Create heatmap of accuracy across difficulty and capability dimensions."""
-        df = self._get_all_predictions_df()
-        models = df['model'].unique()
-
-        n_models = len(models)
-        cols = min(2, n_models)
-        rows = (n_models + cols - 1) // cols
-
-        fig, axes = plt.subplots(rows, cols, figsize=(8*cols, 6*rows))
-        if n_models == 1:
-            axes = np.array([axes])
-        axes = axes.flatten()
-
-        capabilities = sorted(df['capability'].unique())
-        difficulties = ['Easy', 'Medium', 'Hard']
-
-        for idx, model in enumerate(models):
-            model_df = df[df['model'] == model]
-
-            # Create accuracy matrix
-            acc_matrix = np.zeros((len(difficulties), len(capabilities)))
-            for i, diff in enumerate(difficulties):
-                for j, cap in enumerate(capabilities):
-                    subset = model_df[(model_df['difficulty'] == diff) &
-                                     (model_df['capability'] == cap)]
-                    if len(subset) > 0:
-                        acc_matrix[i, j] = subset['is_correct'].mean() * 100
-                    else:
-                        acc_matrix[i, j] = np.nan
-
-            sns.heatmap(acc_matrix, annot=True, fmt='.1f', cmap='RdYlGn',
-                       xticklabels=capabilities, yticklabels=difficulties,
-                       ax=axes[idx], vmin=0, vmax=100,
-                       cbar_kws={'label': 'Accuracy (%)'})
-            axes[idx].set_xlabel('Capability', fontsize=10)
-            axes[idx].set_ylabel('Difficulty', fontsize=10)
-            axes[idx].set_title(f'{model}', fontsize=11, fontweight='bold')
-            plt.setp(axes[idx].xaxis.get_majorticklabels(), rotation=45, ha='right')
-
-        # Hide empty subplots
-        for idx in range(n_models, len(axes)):
-            axes[idx].axis('off')
-
-        plt.suptitle('Accuracy by Difficulty & Capability', fontsize=14, fontweight='bold', y=1.02)
-        plt.tight_layout()
-        plt.savefig(self.output_dir / 'difficulty_capability_heatmap.png', dpi=300, bbox_inches='tight')
-        plt.close()
-
-    def plot_error_analysis(self):
-        """Analyze and visualize common error patterns."""
-        df = self._get_all_predictions_df()
-
-        fig, axes = plt.subplots(2, 2, figsize=(14, 12))
-
-        # 1. Error rate by capability
-        ax1 = axes[0, 0]
-        error_by_cap = df.groupby('capability')['is_correct'].apply(lambda x: (1 - x.mean()) * 100)
-        error_by_cap.sort_values(ascending=False).plot(kind='barh', ax=ax1, color='coral')
-        ax1.set_xlabel('Error Rate (%)')
-        ax1.set_title('Error Rate by Capability', fontweight='bold')
-        ax1.axvline(x=75, color='red', linestyle='--', alpha=0.5, label='Random Error (75%)')
-
-        # 2. Error rate by difficulty
-        ax2 = axes[0, 1]
-        error_by_diff = df.groupby('difficulty')['is_correct'].apply(lambda x: (1 - x.mean()) * 100)
-        order = ['Easy', 'Medium', 'Hard']
-        error_by_diff = error_by_diff.reindex(order)
-        error_by_diff.plot(kind='bar', ax=ax2, color=['green', 'orange', 'red'], alpha=0.7)
-        ax2.set_xlabel('Difficulty')
-        ax2.set_ylabel('Error Rate (%)')
-        ax2.set_title('Error Rate by Difficulty', fontweight='bold')
-        ax2.set_xticklabels(ax2.get_xticklabels(), rotation=0)
-
-        # 3. Most common wrong answer patterns
-        ax3 = axes[1, 0]
-        wrong_df = df[~df['is_correct']]
-        if len(wrong_df) > 0:
-            wrong_df['pattern'] = wrong_df['correct'] + ' -> ' + wrong_df['predicted']
-            pattern_counts = wrong_df['pattern'].value_counts().head(10)
-            pattern_counts.plot(kind='barh', ax=ax3, color='steelblue')
-            ax3.set_xlabel('Count')
-            ax3.set_title('Most Common Wrong Answer Patterns', fontweight='bold')
-        else:
-            ax3.text(0.5, 0.5, 'No Errors!', ha='center', va='center', fontsize=14)
-            ax3.set_title('Most Common Wrong Answer Patterns', fontweight='bold')
-
-        # 4. Error distribution across models
-        ax4 = axes[1, 1]
-        models = df['model'].unique()
-        model_errors = []
-        for model in models:
-            model_df = df[df['model'] == model]
-            error_rate = (1 - model_df['is_correct'].mean()) * 100
-            model_errors.append({'model': model, 'error_rate': error_rate})
-
-        error_df = pd.DataFrame(model_errors)
-        error_df.set_index('model')['error_rate'].plot(kind='bar', ax=ax4, color='crimson', alpha=0.7)
-        ax4.set_xlabel('Model')
-        ax4.set_ylabel('Error Rate (%)')
-        ax4.set_title('Error Rate by Model', fontweight='bold')
-        ax4.set_xticklabels(ax4.get_xticklabels(), rotation=45, ha='right')
-        ax4.axhline(y=75, color='red', linestyle='--', alpha=0.5, label='Random Baseline')
-
-        plt.suptitle('Error Analysis', fontsize=16, fontweight='bold', y=1.02)
-        plt.tight_layout()
-        plt.savefig(self.output_dir / 'error_analysis.png', dpi=300, bbox_inches='tight')
-        plt.close()
-
-    def plot_performance_distribution(self):
-        """Plot distribution of correct answers across questions."""
-        df = self._get_all_predictions_df()
-
-        fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-
-        # 1. Distribution of accuracy across questions
-        ax1 = axes[0]
-        question_acc = df.groupby(['video_id', 'question_id'])['is_correct'].mean()
-        ax1.hist(question_acc, bins=20, edgecolor='black', alpha=0.7, color='steelblue')
-        ax1.axvline(x=question_acc.mean(), color='red', linestyle='--',
-                   label=f'Mean: {question_acc.mean()*100:.1f}%')
-        ax1.set_xlabel('Accuracy per Question')
-        ax1.set_ylabel('Count')
-        ax1.set_title('Distribution of Per-Question Accuracy', fontweight='bold')
-        ax1.legend()
-
-        # 2. Questions ranked by difficulty (how many models got them right)
-        ax2 = axes[1]
-        question_success = df.groupby(['video_id', 'question_id']).agg({
-            'is_correct': 'sum',
-            'capability': 'first',
-            'difficulty': 'first'
-        }).reset_index()
-        question_success['success_rate'] = question_success['is_correct'] / len(df['model'].unique())
-
-        # Color by difficulty
-        colors = {'Easy': 'green', 'Medium': 'orange', 'Hard': 'red'}
-        for diff in ['Easy', 'Medium', 'Hard']:
-            subset = question_success[question_success['difficulty'] == diff]
-            ax2.scatter(range(len(subset)), sorted(subset['success_rate']),
-                       label=diff, alpha=0.7, c=colors[diff], s=50)
-
-        ax2.set_xlabel('Questions (sorted)')
-        ax2.set_ylabel('Success Rate (across models)')
-        ax2.set_title('Question Difficulty Analysis', fontweight='bold')
-        ax2.legend()
-        ax2.axhline(y=0.5, color='gray', linestyle='--', alpha=0.5)
-
-        plt.tight_layout()
-        plt.savefig(self.output_dir / 'performance_distribution.png', dpi=300, bbox_inches='tight')
-        plt.close()
-
-    def plot_comparative_bar_chart(self):
-        """Create a comprehensive comparative bar chart."""
-        df = self._get_all_predictions_df()
-        models = df['model'].unique()
+            questions = item.get("questions", [item])
+
+            try:
+                video_cache = model.prepare_video(video_path)
+            except Exception as e:
+                print(f"  ERROR preparing video {video_path}: {e}")
+                errors += 1
+                clear_gpu_memory()
+                continue
+
+            for q_idx, q in enumerate(questions):
+                question_text = q.get("question", q.get("question_text", q.get("text", "")))
+                options = q.get("options", {})
+                correct_answer = q.get("answer", q.get("correct_answer", ""))
+                meta = q.get("metadata", {})
+                category = q.get("category", q.get("type", meta.get("capability", "unknown")))
+
+                try:
+                    t0 = time.time()
+                    predicted = model.inference_with_cache(video_cache, question_text, options)
+                    elapsed = time.time() - t0
+
+                    is_correct = predicted.upper() == correct_answer.upper()
+                    if is_correct:
+                        correct += 1
+                    total += 1
+                    category_results[category]["total"] += 1
+                    if is_correct:
+                        category_results[category]["correct"] += 1
+
+                    results.append({
+                        "video": video_path, "question": question_text,
+                        "correct_answer": correct_answer, "predicted": predicted,
+                        "is_correct": is_correct, "category": category,
+                        "time_seconds": elapsed,
+                    })
+                except Exception as e:
+                    print(f"  ERROR on Q{q_idx} for {video_path}: {e}")
+                    errors += 1
+                    results.append({
+                        "video": video_path, "question": question_text,
+                        "correct_answer": correct_answer, "predicted": "ERROR",
+                        "is_correct": False, "category": category, "error": str(e),
+                    })
+
+            del video_cache
+            clear_gpu_memory()
+
+            if (idx + 1) % 5 == 0 or idx == num_items - 1 or idx < 3:
+                acc = correct / total * 100 if total > 0 else 0
+                elapsed_total = time.time() - eval_start
+                rate = (idx + 1) / elapsed_total * 60 if elapsed_total > 0 else 0
+                eta = (num_items - idx - 1) / rate if rate > 0 else 0
+                print(f"  [{idx+1}/{num_items}] Acc: {acc:.1f}% ({correct}/{total}) | "
+                      f"Errors: {errors} | {rate:.1f} vid/min | ETA: {eta:.0f} min")
+                get_gpu_memory_info()
+
+        total_time = time.time() - eval_start
+        accuracy = correct / total * 100 if total > 0 else 0
+
+        category_accuracies = {}
+        for cat, counts in category_results.items():
+            cat_acc = counts["correct"] / counts["total"] * 100 if counts["total"] > 0 else 0
+            category_accuracies[cat] = {"accuracy": cat_acc, "correct": counts["correct"], "total": counts["total"]}
 
         metrics = {
-            'Overall': df.groupby('model')['is_correct'].mean() * 100,
-            'Easy': df[df['difficulty'] == 'Easy'].groupby('model')['is_correct'].mean() * 100,
-            'Medium': df[df['difficulty'] == 'Medium'].groupby('model')['is_correct'].mean() * 100,
-            'Hard': df[df['difficulty'] == 'Hard'].groupby('model')['is_correct'].mean() * 100,
+            "model": model.model_name, "overall_accuracy": accuracy,
+            "correct": correct, "total": total, "errors": errors,
+            "total_time_minutes": total_time / 60,
+            "videos_per_minute": num_items / total_time * 60 if total_time > 0 else 0,
+            "category_accuracies": category_accuracies,
+            "config": {"num_frames": model.num_frames,
+                       "max_pixels": f"{model.max_pixels_h}x{model.max_pixels_w}",
+                       "quantize_4bit": model.quantize_4bit},
+            "timestamp": datetime.now().isoformat(),
         }
 
-        fig, ax = plt.subplots(figsize=(14, 8))
+        print(f"\n{'='*60}")
+        print(f"RESULTS: {model.model_name}")
+        print(f"  Overall Accuracy: {accuracy:.2f}% ({correct}/{total})")
+        print(f"  Errors: {errors}")
+        print(f"  Total Time: {total_time/60:.1f} minutes")
+        for cat, cm in sorted(category_accuracies.items()):
+            print(f"  {cat}: {cm['accuracy']:.1f}% ({cm['correct']}/{cm['total']})")
+        print(f"{'='*60}")
 
-        x = np.arange(len(models))
-        width = 0.2
+        return {"metrics": metrics, "results": results}
 
-        for i, (metric_name, metric_values) in enumerate(metrics.items()):
-            values = [metric_values.get(m, 0) for m in models]
-            bars = ax.bar(x + i * width, values, width, label=metric_name, alpha=0.85)
+    def save_results(self, model_name, eval_output):
+        safe_name = model_name.replace("/", "_").replace(" ", "_")
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-            # Add value labels
-            for bar, val in zip(bars, values):
-                ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5,
-                       f'{val:.1f}', ha='center', va='bottom', fontsize=8, rotation=90)
+        for suffix, data in [("metrics", eval_output["metrics"]), ("results", eval_output["results"])]:
+            path = os.path.join(self.output_dir, f"{safe_name}_{suffix}_{ts}.json")
+            with open(path, 'w') as f:
+                json.dump(data, f, indent=2)
+            print(f"  Saved: {path}")
 
-        ax.set_xlabel('Model', fontsize=12)
-        ax.set_ylabel('Accuracy (%)', fontsize=12)
-        ax.set_title('Comprehensive Performance Comparison', fontsize=14, fontweight='bold')
-        ax.set_xticks(x + width * 1.5)
-        ax.set_xticklabels(models, rotation=45, ha='right')
-        ax.legend(loc='upper right')
-        ax.set_ylim(0, 110)
-        ax.axhline(y=25, color='red', linestyle='--', alpha=0.5, label='Random Baseline')
-
-        plt.tight_layout()
-        plt.savefig(self.output_dir / 'comparative_bar_chart.png', dpi=300, bbox_inches='tight')
-        plt.close()
+        csv_path = os.path.join(self.output_dir, f"{safe_name}_results_{ts}.csv")
+        pd.DataFrame(eval_output["results"]).to_csv(csv_path, index=False)
+        print(f"  Saved: {csv_path}")
 
 
 # =============================================================================
-# Report Generator
+# Visualization
 # =============================================================================
 
-def generate_report(results: Dict, metrics_df: pd.DataFrame, output_dir: Path):
-    """Generate a summary report."""
-    report_lines = []
-    report_lines.append("=" * 80)
-    report_lines.append("VIDEO RE-ID BENCHMARK EVALUATION REPORT")
-    report_lines.append("=" * 80)
-    report_lines.append(f"\nGenerated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    report_lines.append(f"Output Directory: {output_dir}")
-
-    report_lines.append("\n" + "-" * 40)
-    report_lines.append("OVERALL RESULTS")
-    report_lines.append("-" * 40)
-
-    for _, row in metrics_df.iterrows():
-        report_lines.append(f"\n{row['model']}:")
-        report_lines.append(f"  Overall Accuracy: {row['overall_accuracy']:.2f}%")
-        report_lines.append(f"  Correct: {int(row['total_correct'])}/{int(row['total_questions'])}")
-
-    report_lines.append("\n" + "-" * 40)
-    report_lines.append("ACCURACY BY CAPABILITY")
-    report_lines.append("-" * 40)
-
-    cap_cols = [c for c in metrics_df.columns if c.startswith('cap_')]
-    for cap_col in cap_cols:
-        cap_name = cap_col.replace('cap_', '')
-        report_lines.append(f"\n{cap_name}:")
-        for _, row in metrics_df.iterrows():
-            report_lines.append(f"  {row['model']}: {row[cap_col]:.2f}%")
-
-    report_lines.append("\n" + "-" * 40)
-    report_lines.append("ACCURACY BY DIFFICULTY")
-    report_lines.append("-" * 40)
-
-    diff_cols = [c for c in metrics_df.columns if c.startswith('diff_')]
-    for diff_col in diff_cols:
-        diff_name = diff_col.replace('diff_', '')
-        report_lines.append(f"\n{diff_name}:")
-        for _, row in metrics_df.iterrows():
-            report_lines.append(f"  {row['model']}: {row[diff_col]:.2f}%")
-
-    report_lines.append("\n" + "=" * 80)
-    report_lines.append("END OF REPORT")
-    report_lines.append("=" * 80)
-
-    report_text = "\n".join(report_lines)
-
-    # Save report
-    report_path = output_dir / "evaluation_report.txt"
-    with open(report_path, 'w') as f:
-        f.write(report_text)
-
-    print(report_text)
-    print(f"\nReport saved to: {report_path}")
+def plot_results(all_metrics, output_dir):
+    if not all_metrics:
+        return
+    fig, ax = plt.subplots(figsize=(10, 6))
+    models = [m["model"] for m in all_metrics]
+    accuracies = [m["overall_accuracy"] for m in all_metrics]
+    bars = ax.bar(models, accuracies, color=sns.color_palette("husl", len(models)))
+    ax.set_ylabel("Accuracy (%)")
+    ax.set_title("VLM Benchmark: Overall Accuracy")
+    ax.set_ylim(0, 100)
+    for bar, acc in zip(bars, accuracies):
+        ax.text(bar.get_x() + bar.get_width()/2., bar.get_height()+1,
+                f'{acc:.1f}%', ha='center', va='bottom', fontweight='bold')
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
+    plt.savefig(os.path.join(output_dir, "overall_accuracy.png"), dpi=150, bbox_inches='tight')
+    plt.close()
+    print(f"Plots saved to {output_dir}")
 
 
 # =============================================================================
 # Main
 # =============================================================================
 
-def parse_args():
-    parser = argparse.ArgumentParser(
-        description="Evaluate VLMs on Video Re-ID Benchmark",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-    # Run with mock models for testing
-    python evaluate_vlm_benchmark.py \\
-        --benchmark benchmark_questions.json \\
-        --video_dir /path/to/videos \\
-        --models qwen2-vl ovis ovis2.5 qwen3-vl \\
-        --mock
-
-    # Run actual evaluation
-    python evaluate_vlm_benchmark.py \\
-        --benchmark benchmark_questions.json \\
-        --video_dir /path/to/videos \\
-        --models qwen2-vl ovis ovis2.5 qwen3-vl llava-next-video internvl2 video-llava
-
-Available Models:
-    - qwen2-vl (Qwen2-VL-7B-Instruct)
-    - qwen2-vl-2b (Qwen2-VL-2B-Instruct)
-    - qwen2-vl-72b (Qwen2-VL-72B-Instruct)
-    - qwen3-vl / qwen2.5-vl (Qwen2.5-VL-7B-Instruct)
-    - qwen3-vl-3b / qwen2.5-vl-3b (Qwen2.5-VL-3B-Instruct)
-    - qwen3-vl-7b / qwen2.5-vl-7b (Qwen2.5-VL-7B-Instruct)
-    - qwen3-vl-72b / qwen2.5-vl-72b (Qwen2.5-VL-72B-Instruct)
-    - ovis (Ovis1.6-Gemma2-9B)
-    - ovis2.5 (Ovis2.5-Gemma2-9B)
-    - llava-next-video (LLaVA-NeXT-Video-7B)
-    - llava-next-video-34b (LLaVA-NeXT-Video-34B)
-    - internvl2 (InternVL2-8B)
-    - internvl2-26b (InternVL2-26B)
-    - video-llava (Video-LLaVA-7B)
-        """
-    )
-
-    parser.add_argument(
-        "--benchmark",
-        type=str,
-        required=True,
-        help="Path to benchmark JSON file"
-    )
-
-    parser.add_argument(
-        "--video_dir",
-        type=str,
-        required=True,
-        help="Directory containing video files"
-    )
-
-    parser.add_argument(
-        "--models",
-        nargs="+",
-        default=["qwen2-vl"],
-        help="List of models to evaluate (e.g., qwen2-vl ovis ovis2.5 qwen3-vl)"
-    )
-
-    parser.add_argument(
-        "--output_dir",
-        type=str,
-        default="results",
-        help="Directory to save results and plots"
-    )
-
-    parser.add_argument(
-        "--device",
-        type=str,
-        default="cuda",
-        help="Device to use (cuda/cpu)"
-    )
-
-    parser.add_argument(
-        "--mock",
-        action="store_true",
-        help="Use mock models for testing (random predictions)"
-    )
-
-    parser.add_argument(
-        "--skip_validation",
-        action="store_true",
-        help="Skip pre-flight validation checks"
-    )
-
-    return parser.parse_args()
-
-
 def main():
-    args = parse_args()
+    parser = argparse.ArgumentParser(description="Evaluate VLMs on Video Re-ID Benchmark")
+    parser.add_argument("--benchmark", required=True, help="Path to benchmark JSON")
+    parser.add_argument("--video_dir", required=True, help="Path to video directory")
+    parser.add_argument("--models", nargs="+", required=True, help="Models to evaluate")
+    parser.add_argument("--output_dir", default="results", help="Output directory")
+    parser.add_argument("--device", default="cuda", help="Device")
+    parser.add_argument("--max_samples", type=int, default=None, help="Max samples (debug)")
+    parser.add_argument("--num_frames", type=int, default=8, help="Frames per video")
+    parser.add_argument("--max_pixels", type=int, nargs=2, default=[256, 256], metavar=("H", "W"))
+    parser.add_argument("--quantize_4bit", action="store_true", help="4-bit quantization")
+    args = parser.parse_args()
 
-    print("\n" + "=" * 60)
-    print("VIDEO RE-ID BENCHMARK EVALUATION")
     print("=" * 60)
-    print(f"Benchmark: {args.benchmark}")
-    print(f"Video Directory: {args.video_dir}")
-    print(f"Models: {', '.join(args.models)}")
-    print(f"Output Directory: {args.output_dir}")
-    print(f"Mock Mode: {args.mock}")
+    print("Video Re-ID Benchmark Evaluation")
+    print("=" * 60)
+    print(f"Benchmark:  {args.benchmark}")
+    print(f"Video dir:  {args.video_dir}")
+    print(f"Models:     {args.models}")
+    print(f"Frames:     {args.num_frames}")
+    print(f"Max pixels: {args.max_pixels[0]}x{args.max_pixels[1]}")
+    print(f"4-bit:      {args.quantize_4bit}")
+    if torch.cuda.is_available():
+        print(f"GPU:        {torch.cuda.get_device_name(0)}")
+        tmem = torch.cuda.get_device_properties(0).total_memory / 1024**3
+        print(f"GPU VRAM:   {tmem:.1f} GB")
+        if tmem <= 34 and not args.quantize_4bit:
+            print("\n*** WARNING: <=34GB VRAM. Consider --quantize_4bit ***")
     print("=" * 60)
 
-    # Initialize evaluator
-    evaluator = BenchmarkEvaluator(
-        benchmark_path=args.benchmark,
-        video_dir=args.video_dir,
-        output_dir=args.output_dir
-    )
+    evaluator = BenchmarkEvaluator(args.benchmark, args.video_dir, args.output_dir)
+    all_metrics = []
 
-    # Load models
-    models = []
     for model_name in args.models:
+        print(f"\n{'='*60}\nLoading: {model_name}\n{'='*60}")
+        model = None
         try:
-            model = get_model(model_name, args.device, mock=args.mock)
-            models.append(model)
-        except ValueError as e:
-            print(f"Warning: {e}")
-            continue
+            model = create_model(model_name, args.device, args.num_frames,
+                                tuple(args.max_pixels), args.quantize_4bit)
+            model.load_model()
+            eval_output = evaluator.evaluate_model(model, args.max_samples)
+            evaluator.save_results(model_name, eval_output)
+            all_metrics.append(eval_output["metrics"])
+        except Exception as e:
+            print(f"FAILED: {model_name}: {e}")
+            import traceback
+            traceback.print_exc()
+        finally:
+            if model is not None:
+                del model
+            clear_gpu_memory()
 
-    if not models:
-        print("Error: No valid models specified!")
-        sys.exit(1)
-
-    # Pre-flight validation
-    if not args.skip_validation:
-        is_valid, validation_report = evaluator.validate_prerequisites(models, mock=args.mock)
-
-        # Save validation report
-        validation_path = evaluator.output_dir / "validation_report.json"
-        with open(validation_path, 'w') as f:
-            json.dump(validation_report, f, indent=2)
-        print(f"Validation report saved to: {validation_path}")
-
-        if not is_valid and not args.mock:
-            print("\nERROR: Pre-flight validation failed!")
-            print("Fix the issues above or use --skip_validation to proceed anyway.")
-            sys.exit(1)
-    else:
-        print("\n[!] Skipping pre-flight validation (--skip_validation)")
-
-    # Run evaluation
-    results = evaluator.run_evaluation(models)
-
-    # Compute metrics
-    metrics_df = evaluator.compute_metrics()
-
-    # Generate visualizations
-    visualizer = BenchmarkVisualizer(results, evaluator.output_dir)
-    visualizer.plot_all()
-
-    # Generate report
-    generate_report(results, metrics_df, evaluator.output_dir)
-
-    print("\n" + "=" * 60)
-    print("EVALUATION COMPLETE")
-    print("=" * 60)
+    if all_metrics:
+        plot_results(all_metrics, args.output_dir)
+        summary_path = os.path.join(args.output_dir, "summary.json")
+        with open(summary_path, 'w') as f:
+            json.dump(all_metrics, f, indent=2)
+        print(f"\nSummary: {summary_path}")
+    print("Done!")
 
 
 if __name__ == "__main__":
