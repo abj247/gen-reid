@@ -1,0 +1,312 @@
+{
+  "benchmark_name": "Video Person Re-Identification (Re-ID) Benchmark",
+  "version": "1.0",
+  "videos": [
+    {
+      "video_id": "100",
+      "source_document": "100.mp4",
+      "questions": [
+        {
+          "question_id": "1.1",
+          "capability": "Activity",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "Scene with bedpost",
+          "question_text": "In the bedroom scene, a woman wearing a white headwrap brings a tray of food into the room. Later, what physical action does this same woman perform while standing behind the younger woman who is holding onto the bedpost?",
+          "options": {
+            "A": "She combs the younger woman's hair.",
+            "B": "She tightens the laces of the younger woman's corset.",
+            "C": "She puts a necklace on the younger woman.",
+            "D": "She fans the younger woman with a palm leaf."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.2",
+          "capability": "Object State",
+          "referral_strategy": "Location Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "After looking in mirror",
+          "question_text": "A large yellow straw hat with green ribbons is initially seen resting on a bedpost in the bedroom. What does the woman in the green floral dress do with this object immediately after checking her reflection in the mirror?",
+          "options": {
+            "A": "She hands it to the servant.",
+            "B": "She leaves it on the bedpost.",
+            "C": "She puts it on her head and ties the ribbons.",
+            "D": "She throws it onto the bed."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.3",
+          "capability": "Appearance",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "Arrival at exterior entrance",
+          "question_text": "A woman is initially seen in her undergarments holding onto a bedpost while a servant tightens her laces. When this same woman is later seen stepping out of a carriage outdoors, what pattern is visible on her dress?",
+          "options": {
+            "A": "Solid dark blue velvet.",
+            "B": "White with a green floral print.",
+            "C": "Red and white stripes.",
+            "D": "Plain brown cotton."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.4",
+          "capability": "Interaction",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "When Scarlett enters foyer",
+          "question_text": "A woman wearing a bonnet with pink ribbons waits at the bottom of the staircase in the foyer. When the woman in the large straw hat enters and approaches her, how do they greet each other?",
+          "options": {
+            "A": "They shake hands formally.",
+            "B": "They embrace and kiss on the cheek.",
+            "C": "They bow to each other from a distance.",
+            "D": "The woman in the bonnet turns her back."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.5",
+          "capability": "Location",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "After greeting exchange",
+          "question_text": "A blonde man in a brown suit walks down the stairs to greet the new arrival. After the initial greeting, where does he stand in relation to the woman in the blue dress and bonnet?",
+          "options": {
+            "A": "He stands closely next to her, linking arms.",
+            "B": "He stands on the opposite side of the room.",
+            "C": "He remains on the staircase looking down.",
+            "D": "He stands behind the woman in the large hat."
+          },
+          "correct_answer": "A"
+        },
+        {
+          "question_id": "1.6",
+          "capability": "Activity",
+          "referral_strategy": "Location Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "While speaking to twins",
+          "question_text": "The woman in the large hat is surrounded by two young men with red hair in blue suits in the foyer. As she speaks to them, what is her specific head movement behavior?",
+          "options": {
+            "A": "She stares strictly at the floor.",
+            "B": "She keeps her head still and looks only at the man on her left.",
+            "C": "She turns her head back and forth rapidly between the two men.",
+            "D": "She looks up at the ceiling while laughing."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.7",
+          "capability": "Object State",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "Woman leaving bedroom",
+          "question_text": "A silver tray with food is brought into the bedroom by the woman in the white headwrap. After the conversation about eating before the party, what is the state of the food on the tray when the women leave the room?",
+          "options": {
+            "A": "The plate is empty as the woman ate it all.",
+            "B": "The food remains visibly uneaten on the tray.",
+            "C": "The tray is thrown on the floor.",
+            "D": "The food is wrapped in a napkin."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.8",
+          "capability": "Interaction",
+          "referral_strategy": "Location Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "When Scarlett looks up",
+          "question_text": "A man with dark hair and a mustache stands alone on the staircase landing. When the woman in the large hat looks up at him from the foyer below, with whom is he speaking?",
+          "options": {
+            "A": "He is speaking to the older man in the grey coat.",
+            "B": "He is speaking to the woman in the bonnet.",
+            "C": "He is interacting with no one; he stands alone.",
+            "D": "He is arguing with one of the red-headed twins."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.9",
+          "capability": "Appearance",
+          "referral_strategy": "Interaction Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "In the crowded foyer",
+          "question_text": "The woman who argues with the servant about eating breakfast is initially seen wearing white undergarments. When she later appears in the crowded foyer speaking to the blonde man, what color are the velvet ribbons on her dress?",
+          "options": {
+            "A": "Black.",
+            "B": "Deep Red.",
+            "C": "Green.",
+            "D": "Blue."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.10",
+          "capability": "Location",
+          "referral_strategy": "Environment Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Carriage arrival",
+          "question_text": "A white carriage pulled by horses moves down the tree-lined driveway. Where does this vehicle eventually stop to let the passenger out?",
+          "options": {
+            "A": "In the middle of the garden path.",
+            "B": "In front of the columned entrance of the house.",
+            "C": "At the back of the house near the stables.",
+            "D": "At the main gate by the road."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.11",
+          "capability": "Activity",
+          "referral_strategy": "Location Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Greeting at entrance",
+          "question_text": "An older man with white hair stands near the entrance pillars greeting guests. When the woman in the green floral dress arrives, what gesture does he use to greet her?",
+          "options": {
+            "A": "He waves from a distance.",
+            "B": "He bows without touching her.",
+            "C": "He takes her hand and kisses it.",
+            "D": "He ignores her and talks to the next guest."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.12",
+          "capability": "Interaction",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "Carriage arrival",
+          "question_text": "A woman in a rust-colored dress with a lace collar stands beside the older host. When the guest in the large hat arrives, does the woman in the rust dress embrace her?",
+          "options": {
+            "A": "Yes, she hugs her warmly.",
+            "B": "No, she stands stiffly and greets her formally.",
+            "C": "Yes, she kisses her on both cheeks.",
+            "D": "She turns and walks inside immediately."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.13",
+          "capability": "Location",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "Conversation with bearded man",
+          "question_text": "Two men in identical blue suits greet the woman in the hat when she enters the foyer. Later, when she is speaking to the man with the beard, where are these two men located?",
+          "options": {
+            "A": "They are standing immediately behind and flanking her.",
+            "B": "They have moved to the staircase.",
+            "C": "They are sitting on a bench in the background.",
+            "D": "They left the room entirely."
+          },
+          "correct_answer": "A"
+        },
+        {
+          "question_id": "1.14",
+          "capability": "Appearance",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "Speaking to young man in black coat",
+          "question_text": "A woman is seen stepping into a hoop skirt frame in her bedroom. When she is later seen in the foyer speaking to a young man with brown hair, what type of hat is she wearing?",
+          "options": {
+            "A": "A small blue bonnet.",
+            "B": "A large yellow straw hat with a green ribbon.",
+            "C": "A black velvet riding cap.",
+            "D": "She is not wearing a hat."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.15",
+          "capability": "Activity",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Hard",
+          "temporal_anchor": "After greeting exchange",
+          "question_text": "The blonde man in the brown suit greets the woman in the straw hat in the foyer. What action does he take immediately after the woman in the bonnet touches his arm?",
+          "options": {
+            "A": "He stays to talk to the woman in the hat.",
+            "B": "He invites the woman in the hat to dance.",
+            "C": "He turns and walks away with the woman in the bonnet.",
+            "D": "He sits down on the stairs."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.16",
+          "capability": "Object State",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "During tightening",
+          "question_text": "In the bedroom, a servant pulls on the strings of a white undergarment worn by the young woman. As the young woman holds her breath, what happens to the gap in the back of the garment?",
+          "options": {
+            "A": "The gap widens significantly.",
+            "B": "The gap remains unchanged.",
+            "C": "The gap closes as the laces are tightened.",
+            "D": "The strings snap and break."
+          },
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "1.17",
+          "capability": "Interaction",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "While hand is being kissed",
+          "question_text": "A young man with brown hair and a black coat approaches the woman in the straw hat. While he is kissing her hand, who is the woman primarily looking at?",
+          "options": {
+            "A": "She is looking directly at the young man kissing her hand.",
+            "B": "She is looking past him at the blonde man.",
+            "C": "She is looking at the floor.",
+            "D": "She is looking at the servant in the background."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.18",
+          "capability": "Appearance",
+          "referral_strategy": "Activity Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "Greeting in foyer",
+          "question_text": "A man wearing a patterned vest approaches the woman in the hat to greet her warmly. What distinctive feature is visible on his face?",
+          "options": {
+            "A": "A large handlebar mustache.",
+            "B": "Heavy sideburns/mutton chops.",
+            "C": "A monocle over one eye.",
+            "D": "He is clean-shaven."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.19",
+          "capability": "Location",
+          "referral_strategy": "Appearance Ref",
+          "difficulty": "Easy",
+          "temporal_anchor": "Scene progression",
+          "question_text": "A man in a black suit is seen standing on the staircase landing. As the scene progresses and various guests enter the foyer below, does he move down to the main floor?",
+          "options": {
+            "A": "Yes, he comes down to shake hands.",
+            "B": "No, he remains on the landing looking down.",
+            "C": "Yes, he exits through a side door upstairs.",
+            "D": "He sits on the steps halfway down."
+          },
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "1.20",
+          "capability": "Activity",
+          "referral_strategy": "Location Ref",
+          "difficulty": "Medium",
+          "temporal_anchor": "Mirror scene",
+          "question_text": "In the bedroom, the young woman stands before a mirror and pinches her cheeks. What is the apparent purpose of this physical action?",
+          "options": {
+            "A": "To remove a smudge of dirt.",
+            "B": "To test the elasticity of her skin.",
+            "C": "To bring color/redness to her cheeks.",
+            "D": "To adjust her earrings."
+          },
+          "correct_answer": "C"
+        }
+      ]
+    }
+  ]
+}
