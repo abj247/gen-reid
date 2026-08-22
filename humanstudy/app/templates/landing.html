@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Watch one short video, then answer questions about it</h1>
+<p class="lead">Each question asks about one specific person in the video: what they are wearing,
+what they do, where they are, or what they are holding. The person is described at one moment and
+asked about at another, so you will need to follow them as the scene changes.</p>
+
+<div class="card">
+  <ol class="steps">
+    <li>Watch the video once, all the way through. It runs about two to four minutes.</li>
+    <li>Answer the questions one at a time. There are usually twelve to eighteen of them.</li>
+    <li>You can replay or scrub the video at any point while answering.</li>
+    <li>Review your answers, then submit. The whole thing takes about fifteen to twenty minutes.</li>
+  </ol>
+</div>
+
+<h2>Before you start</h2>
+<p>Every question has exactly one correct answer, and the questions are hard on purpose. Answer as
+best you can rather than rushing. A laptop or desktop works better than a phone.</p>
+
+<div class="notice">
+  We record your answers, how long each question took, and how you used the video player. Nothing
+  that identifies you is collected or stored.
+</div>
+
+<form method="post" action="/start">
+  <button class="big" type="submit">
+    {% if resuming %}Continue where you left off{% else %}Start{% endif %}
+  </button>
+  {% if resuming %}
+  <p class="small dim" style="margin-top:12px">You have a session already in progress
+    with {{ n_questions }} questions.</p>
+  {% endif %}
+</form>
+{% endblock %}

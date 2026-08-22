@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Finished{% endblock %}
+{% block content %}
+<h1>Thank you</h1>
+<p class="lead">Your answers have been recorded.</p>
+
+<div class="card" style="max-width:340px">
+  <span class="dim small">You answered</span>
+  <p class="score">{{ correct }} / {{ answered }}</p>
+  <span class="dim small">
+    {% if answered < total %}{{ total - answered }} left unanswered.{% else %}All questions answered.{% endif %}
+  </span>
+</div>
+
+<p style="margin-top:24px" class="dim">These questions are difficult by design, and a low score here
+is expected rather than unusual.</p>
+
+{% if is_author %}
+<p><a class="btn" href="/author?key={{ request.query_params.get('key','') }}">Back to the dashboard</a></p>
+{% endif %}
+{% endblock %}

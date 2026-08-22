@@ -1,0 +1,230 @@
+/* PersistQA Human Benchmarking
+ *
+ * One stylesheet, no build step, no framework. The whole interface is a header, a video,
+ * and a list of radio options, and a framework would add a toolchain this repository does
+ * not otherwise have.
+ *
+ * Colour is defined once as tokens on :root for light, then redefined under
+ * prefers-color-scheme for dark. Sessions run 15 to 20 minutes of close attention to
+ * video, so dark mode is a comfort feature rather than a decoration.
+ *
+ * Option targets are deliberately large. A participant answers a dozen questions in a
+ * row, and a small radio dot is both slow to hit and easy to mis-click, which shows up
+ * later as noise in the very number the study exists to measure.
+ */
+
+:root {
+  --bg: #ffffff;
+  --surface: #f7f8fa;
+  --surface-2: #eef0f4;
+  --border: #d9dde5;
+  --text: #14171f;
+  --text-dim: #5b6376;
+  --accent: #1f5fd0;
+  --accent-soft: #e8f0fe;
+  --accent-text: #ffffff;
+  --good: #1a7f52;
+  --warn: #9a6100;
+  --shadow: 0 1px 2px rgba(16, 20, 32, .06), 0 6px 20px rgba(16, 20, 32, .06);
+  --radius: 12px;
+  --maxw: 940px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1218;
+    --surface: #171b23;
+    --surface-2: #1f242e;
+    --border: #2c3340;
+    --text: #e8ebf1;
+    --text-dim: #9aa3b4;
+    --accent: #6ea8ff;
+    --accent-soft: #1b2740;
+    --accent-text: #0f1218;
+    --good: #4bd39a;
+    --warn: #e0a844;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 6px 20px rgba(0, 0, 0, .35);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+
+/* ------------------------------------------------------------------ chrome */
+
+header.site {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky; top: 0; z-index: 20;
+}
+.bar { display: flex; align-items: center; gap: 16px; height: 56px; }
+.brand { font-weight: 650; letter-spacing: -.01em; }
+.brand-sub {
+  color: var(--text-dim); font-weight: 450; margin-left: 8px;
+  padding-left: 10px; border-left: 1px solid var(--border);
+}
+@media (max-width: 560px) { .brand-sub { display: none; } }
+
+.counter { margin-left: auto; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+
+.site-foot {
+  margin-top: 48px; padding: 20px 0 40px;
+  border-top: 1px solid var(--border); color: var(--text-dim); font-size: 13px;
+}
+
+/* ------------------------------------------------------------------ blocks */
+
+h1 { font-size: 28px; line-height: 1.25; letter-spacing: -.02em; margin: 32px 0 12px; }
+h2 { font-size: 19px; margin: 28px 0 10px; letter-spacing: -.01em; }
+p  { margin: 0 0 14px; }
+.lead { font-size: 17px; color: var(--text-dim); }
+.dim { color: var(--text-dim); }
+.small { font-size: 13px; }
+
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
+}
+
+.steps { margin: 20px 0 8px; padding: 0; list-style: none; counter-reset: s; }
+.steps li {
+  counter-increment: s; position: relative;
+  padding: 10px 0 10px 40px; border-bottom: 1px solid var(--border);
+}
+.steps li:last-child { border-bottom: 0; }
+.steps li::before {
+  content: counter(s); position: absolute; left: 0; top: 10px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--accent-soft); color: var(--accent);
+  font-size: 13px; font-weight: 650; display: grid; place-items: center;
+}
+
+.notice {
+  margin: 20px 0; padding: 12px 14px; border-radius: 10px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  color: var(--text-dim); font-size: 14px;
+}
+
+/* ------------------------------------------------------------------ video */
+
+.player {
+  width: 100%; border-radius: var(--radius); overflow: hidden;
+  background: #000; border: 1px solid var(--border); display: block;
+}
+.player video { width: 100%; display: block; max-height: 62vh; background: #000; }
+
+/* On the question pages the video stays reachable but collapsed, so a participant can
+ * re-check a detail without losing their place in the flow. */
+details.rewatch { margin: 0 0 20px; }
+details.rewatch > summary {
+  cursor: pointer; padding: 10px 14px; border-radius: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  font-size: 14px; font-weight: 550; list-style: none; user-select: none;
+}
+details.rewatch > summary::-webkit-details-marker { display: none; }
+details.rewatch > summary::before { content: "▸ "; color: var(--text-dim); }
+details.rewatch[open] > summary::before { content: "▾ "; }
+details.rewatch .player { margin-top: 10px; }
+
+/* ------------------------------------------------------------------ options */
+
+.qtext { font-size: 20px; line-height: 1.45; margin: 6px 0 20px; letter-spacing: -.01em; }
+
+.options { display: grid; gap: 10px; margin: 0 0 24px; }
+
+.opt { position: relative; display: block; }
+.opt input { position: absolute; opacity: 0; pointer-events: none; }
+.opt span {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 10px;
+  background: var(--surface); cursor: pointer;
+  transition: border-color .12s, background .12s;
+}
+.opt span::before {
+  content: attr(data-letter);
+  flex: 0 0 26px; height: 26px; border-radius: 6px;
+  background: var(--surface-2); color: var(--text-dim);
+  font-size: 13px; font-weight: 650; display: grid; place-items: center;
+}
+.opt:hover span { border-color: var(--accent); }
+.opt input:checked + span {
+  border-color: var(--accent); background: var(--accent-soft);
+}
+.opt input:checked + span::before { background: var(--accent); color: var(--accent-text); }
+.opt input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ------------------------------------------------------------------ controls */
+
+.row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.row.end { justify-content: flex-end; }
+.spacer { flex: 1; }
+
+button, .btn {
+  font: inherit; font-weight: 600; cursor: pointer;
+  padding: 11px 20px; border-radius: 10px; border: 1px solid transparent;
+  background: var(--accent); color: var(--accent-text);
+  text-decoration: none; display: inline-block;
+}
+button:disabled { opacity: .45; cursor: not-allowed; }
+button.ghost, .btn.ghost {
+  background: transparent; color: var(--text); border-color: var(--border);
+}
+button.ghost:hover:not(:disabled), .btn.ghost:hover { background: var(--surface-2); }
+button.big { padding: 14px 28px; font-size: 17px; }
+
+kbd {
+  font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  padding: 3px 6px; border-radius: 5px;
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--text-dim);
+}
+
+/* ------------------------------------------------------------------ review */
+
+.grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+  gap: 8px; margin: 16px 0 24px;
+}
+.cell {
+  aspect-ratio: 1; border-radius: 8px; border: 1.5px solid var(--border);
+  background: var(--surface); display: grid; place-items: center;
+  font-size: 13px; font-weight: 650; text-decoration: none; color: var(--text);
+}
+.cell.done { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.cell.todo { border-style: dashed; color: var(--warn); border-color: var(--warn); }
+.cell:hover { border-color: var(--accent); }
+
+table.plain { width: 100%; border-collapse: collapse; font-size: 14px; }
+table.plain th, table.plain td {
+  text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--border);
+}
+table.plain th { color: var(--text-dim); font-weight: 550; }
+table.plain td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.pill {
+  display: inline-block; padding: 2px 9px; border-radius: 999px;
+  font-size: 12px; font-weight: 600;
+  background: var(--surface-2); color: var(--text-dim);
+}
+.pill.ok { background: var(--accent-soft); color: var(--accent); }
+
+.score { font-size: 44px; font-weight: 700; letter-spacing: -.03em; margin: 8px 0 0; }
+
+select, input[type=text] {
+  font: inherit; padding: 10px 12px; border-radius: 9px;
+  border: 1px solid var(--border); background: var(--bg); color: var(--text);
+  min-width: 200px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

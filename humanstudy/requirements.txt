@@ -1,0 +1,12 @@
+# Runtime dependencies for the human study application only.
+#
+# This app is deliberately isolated from the research tree: it must never import torch,
+# decord, transformers, or anything under benchmark/ or solutions/. It reads one frozen
+# JSON file and talks to a database. Keeping the dependency set this small is what lets
+# it deploy to a free hosting tier and start in seconds.
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+jinja2==3.1.5
+sqlalchemy==2.0.36
+psycopg[binary]==3.2.3        # Postgres in deployment; SQLite needs no driver
+python-multipart==0.0.20      # form parsing for the answer POSTs

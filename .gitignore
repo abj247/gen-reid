@@ -76,3 +76,10 @@ paper/iclr2026/figures_backup_0803/
 /kf_queue_feeder.sh
 /combined_all_hard_v3_retagged.json
 /video_id_mapping.json
+
+# Human study: local runtime artefacts. pools.json IS committed (it is the frozen pool);
+# the prepared videos and the database are regenerated or live in managed services.
+humanstudy/.venv/
+humanstudy/data/video/
+humanstudy/*.db
+humanstudy/.env

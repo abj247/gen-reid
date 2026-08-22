@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Author mode{% endblock %}
+{% block headerextra %}<span class="counter">Author mode</span>{% endblock %}
+{% block content %}
+<h1>Author mode</h1>
+<p class="lead">{{ videos|length }} videos, {{ total_questions }} questions in total. Work through
+them across as many sittings as you like; progress is saved after every question.</p>
+
+<form method="post" action="/author/start" class="row card" style="margin-bottom:24px">
+  <input type="hidden" name="key" value="{{ key }}">
+  <label for="name" class="small dim">Answering as</label>
+  <select name="name" id="name" required>
+    {% for n in names %}<option value="{{ n }}" {% if n == name %}selected{% endif %}>{{ n }}</option>{% endfor %}
+  </select>
+  <span class="spacer"></span>
+  <button type="submit">{% if name %}Continue{% else %}Start{% endif %}</button>
+</form>
+
+{% if name %}
+<h2>Progress for {{ name }}</h2>
+<table class="plain">
+  <thead><tr><th>Video</th><th class="num">Questions</th><th class="num">Answered</th><th>Status</th></tr></thead>
+  <tbody>
+  {% for v in videos %}
+    {% set p = progress.get(v.real_id) %}
+    <tr>
+      <td><code>{{ v.real_id }}</code></td>
+      <td class="num">{{ v.n_questions }}</td>
+      <td class="num">{{ p.answered if p else 0 }}</td>
+      <td>
+        {% if p and p.status == 'completed' %}<span class="pill ok">done</span>
+        {% elif p %}<span class="pill">in progress</span>
+        {% else %}<span class="pill">not started</span>{% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

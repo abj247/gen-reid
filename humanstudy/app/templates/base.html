@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex, nofollow">
+<title>{% block title %}PersistQA Human Benchmarking{% endblock %}</title>
+<link rel="stylesheet" href="/static/app.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#127916;</text></svg>">
+</head>
+<body>
+<header class="site">
+  <div class="wrap bar">
+    <span class="brand">PersistQA<span class="brand-sub">Human Benchmarking</span></span>
+    {% block headerextra %}{% endblock %}
+  </div>
+</header>
+
+<main class="wrap">
+{% block content %}{% endblock %}
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">{% block footer %}{% endblock %}</div>
+</footer>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

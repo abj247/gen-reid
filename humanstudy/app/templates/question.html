@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Question {{ position + 1 }} of {{ total }}{% endblock %}
+{% block headerextra %}
+  {# Sectional count rather than a percentage bar: progress bars are known to depress
+     completion when they signal slow progress, and a plain count does not. #}
+  <span class="counter">Question {{ position + 1 }} of {{ total }}</span>
+{% endblock %}
+{% block content %}
+
+<details class="rewatch">
+  <summary>Rewatch the video</summary>
+  <div class="player">
+    <video id="player" src="{{ video_url }}" controls preload="none" playsinline></video>
+  </div>
+</details>
+
+<p class="qtext">{{ q.question_text }}</p>
+
+<form method="post" action="/q/{{ position }}" id="qform">
+  <div class="options">
+    {% for letter, text in options %}
+    <label class="opt">
+      <input type="radio" name="chosen" value="{{ letter }}" {% if chosen == letter %}checked{% endif %}>
+      <span data-letter="{{ letter }}">{{ text }}</span>
+    </label>
+    {% endfor %}
+  </div>
+
+  <input type="hidden" name="ms_on_question" id="ms_on_question" value="0">
+  <input type="hidden" name="n_changes" id="n_changes" value="0">
+  <input type="hidden" name="action" id="action" value="next">
+
+  <div class="row">
+    {% if position > 0 %}
+      <button type="button" class="ghost" onclick="PQA.go('back')">Back</button>
+    {% endif %}
+    <span class="spacer"></span>
+    <span class="small dim">Press <kbd>1</kbd>&ndash;<kbd>8</kbd> to choose, <kbd>Enter</kbd> to continue</span>
+    <button type="submit" id="next" {% if not chosen %}disabled{% endif %}>
+      {% if position + 1 == total %}Review answers{% else %}Next{% endif %}
+    </button>
+  </div>
+</form>
+{% endblock %}
+{% block scripts %}
+<script src="/static/app.js"></script>
+<script>
+  PQA.telemetry("{{ session.id }}");
+  PQA.question({{ position }}, {{ options|length }});
+</script>
+{% endblock %}

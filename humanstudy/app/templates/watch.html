@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block headerextra %}<span class="counter">{{ n_questions }} questions after the video</span>{% endblock %}
+{% block content %}
+<h1>Watch the video</h1>
+<p class="lead">Watch it once all the way through. The questions unlock at the end. You can replay
+and scrub freely once you get there.</p>
+
+<div class="player">
+  <video id="player" src="{{ video_url }}" controls preload="metadata" playsinline></video>
+</div>
+
+<div class="row" style="margin-top:20px">
+  <span id="hint" class="dim small">The questions unlock when the video reaches the end.</span>
+  <span class="spacer"></span>
+  <a id="go" class="btn" href="/q/{{ resume_at }}" {% if not already_watched %}hidden{% endif %}>
+    Start the questions
+  </a>
+</div>
+
+<div id="loaderr" class="notice" hidden>
+  The video did not load. Check your connection and refresh the page. If it keeps failing, close the
+  tab and open the link again to be given a different video.
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/app.js"></script>
+<script>
+  PQA.telemetry("{{ session.id }}");
+  PQA.watchGate({{ 'true' if already_watched else 'false' }});
+</script>
+{% endblock %}

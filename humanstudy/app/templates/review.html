@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Review your answers{% endblock %}
+{% block content %}
+<h1>Review your answers</h1>
+<p class="lead">Click any question to go back and change it. Dashed squares are unanswered.</p>
+
+<div class="grid">
+  {% for it in items %}
+  <a class="cell {{ 'done' if it.chosen else 'todo' }}" href="/q/{{ it.position }}"
+     title="{{ it.text }}">{{ it.position + 1 }}</a>
+  {% endfor %}
+</div>
+
+{% if n_unanswered %}
+<div class="notice">
+  {{ n_unanswered }} question{{ 's' if n_unanswered != 1 else '' }} still unanswered. You can submit
+  anyway, but answering them all is more useful.
+</div>
+{% endif %}
+
+<form method="post" action="/submit" class="row end">
+  <a class="btn ghost" href="/q/0">Back to the questions</a>
+  <button class="big" type="submit">Submit</button>
+</form>
+{% endblock %}
