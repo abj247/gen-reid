@@ -1,0 +1,41 @@
+# Render blueprint. With this file in the repository, Render configures the service from
+# it rather than making you fill in a form, so deployment is: connect the repo, paste four
+# secrets, click apply.
+#
+# What this file deliberately does NOT do: create a database. Render's own free Postgres
+# expires after 30 days, which would silently take the study's data with it partway
+# through recruitment. Use an external managed Postgres with an ongoing free tier and set
+# DATABASE_URL by hand.
+
+services:
+  - type: web
+    name: persistqa-human-study
+    runtime: docker
+    plan: free
+    region: oregon
+    rootDir: humanstudy
+    dockerfilePath: ./Dockerfile
+
+    # The free plan sleeps after 15 minutes idle and takes about a minute to wake. All
+    # state is in Postgres, so a sleep costs latency and never data, but a participant
+    # landing on a cold start may leave. Point an uptime pinger at this during recruitment.
+    healthCheckPath: /healthz
+
+    envVars:
+      # ---- set these four by hand in the Render dashboard ----
+      - key: DATABASE_URL
+        sync: false          # external Postgres connection string
+      - key: VIDEO_BASE_URL
+        sync: false          # object storage base URL, no trailing slash
+      - key: AUTHOR_KEY
+        sync: false          # long random string; author mode 404s without it
+      - key: PERSISTQA_POOL_SALT
+        sync: false          # MUST match the value used when pools.json was built
+
+      # ---- these are fine as-is ----
+      - key: AUTHOR_NAMES
+        value: author-1,author-2
+      - key: COOKIE_SECURE
+        value: "1"
+      - key: PYTHONUNBUFFERED
+        value: "1"
