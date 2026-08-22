@@ -85,3 +85,9 @@ humanstudy/.venv/
 humanstudy/data/video/
 humanstudy/*.db
 humanstudy/.env
+
+# Rendered clip sets for the external benchmarks. Regenerate with
+# solutions/lantern/slurm/select_external.slurm
+external_clips/
+overleaf_add/
+overleaf_full/

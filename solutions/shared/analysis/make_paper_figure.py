@@ -4,12 +4,12 @@
 Authored at the FINAL printed size (5.5in = ICLR \\linewidth) rather than at an arbitrary size and
 scaled by graphicx, so the tick/label point sizes in the PDF are the point sizes on the page.
 
-(a) evidence-window hit rate by selection mode  -> Path 1 finds the evidence
+(a) evidence-window hit rate by selection mode  -> Lantern finds the evidence
 (b) the exact mediation split                   -> ...but that is only a third of the gain
-(c) hit rate against concentration              -> Path 2's granularity is the wrong one
+(c) hit rate against concentration              -> Cairn's granularity is the wrong one
 
 Colours (Okabe-Ito, colourblind-safe), identical to the appendix figures:
-  keyframe / Path 1  #0072B2   chunk / Path 2  #D55E00   random  #999999   uniform-8  #009E73
+  Lantern  #0072B2    Cairn  #D55E00    random-8  #999999    uniform-8  #009E73
 
 All three panels condition on ORACLE evidence windows: they are DIAGNOSTICS that explain the
 measured gain, never methods and never an achievable accuracy.
@@ -28,16 +28,16 @@ matplotlib.rcParams.update({
 })
 D = str(Path(__file__).resolve().parent)
 C = {"referent": "#0072B2", "chunk": "#D55E00", "random": "#999999", "uniform": "#009E73"}
-# short tick labels: at 5.5in across three panels the full names collide, and the path/control
-# identity is carried by colour (stated in the caption) plus panel (c)'s in-place annotations.
-LBL = {"referent": "keyfr.", "chunk": "chunk", "random": "rand.", "uniform": "unif."}
+# Method names in the figure match the names in the text. The two controls are named for what
+# they are rather than for how they were implemented, so the panel is readable without the caption.
+LBL = {"referent": "Lantern", "chunk": "Cairn", "random": "random", "uniform": "uniform"}
 
 p1 = json.load(open(f"{D}/lantern_stats_tol.json"))
 p2 = json.load(open(f"{D}/cairn_stats_tol.json"))
 med = p1["mediation"]["internvl3-14b"]
 order = ["referent", "chunk", "random", "uniform"]
 
-fig, ax = plt.subplots(1, 3, figsize=(5.5, 1.85))
+fig, ax = plt.subplots(1, 3, figsize=(5.5, 1.85), gridspec_kw={"width_ratios": [1.10, 0.92, 0.98]})
 
 # ---- (a) hit rate ---------------------------------------------------------
 a = ax[0]
@@ -52,7 +52,7 @@ for i, x in enumerate(v):
 d = p1["hit_rate_delta"]["referent_minus_random"]
 a.plot([0, 0, 2, 2], [76, 79, 79, 58], lw=0.6, c="#333333")
 a.text(1.0, 80.5, f"+{d['delta']*100:.1f} pts", ha="center", fontsize=6.2)
-a.set_xticks(range(4)); a.set_xticklabels([LBL[m] for m in order], fontsize=6.2)
+a.set_xticks(range(4)); a.set_xticklabels([LBL[m] for m in order], fontsize=5.7)
 a.set_ylabel("evidence-window hit rate (%)"); a.set_ylim(0, 95)
 a.set_title("(a) it finds the evidence", fontsize=7, pad=3)
 
@@ -93,13 +93,13 @@ for m in order:
     e = [(hr[m]["rate"] - hr[m]["ci95"][0]) * 100, (hr[m]["ci95"][1] - hr[m]["rate"]) * 100]
     c.errorbar(bd[m]["mean_distinct_chunks"], bd[m]["hit_rate"], yerr=[[e[0]], [e[1]]],
                fmt=mk[m], ms=4.5, c=C[m], ecolor=C[m], lw=0.7, capsize=1.6, capthick=0.6, zorder=3)
-c.annotate("keyframe", (bd["referent"]["mean_distinct_chunks"], bd["referent"]["hit_rate"]),
+c.annotate("Lantern", (bd["referent"]["mean_distinct_chunks"], bd["referent"]["hit_rate"]),
            textcoords="offset points", xytext=(2, 5), fontsize=6, color=C["referent"])
-c.annotate("chunk", (bd["chunk"]["mean_distinct_chunks"], bd["chunk"]["hit_rate"]),
+c.annotate("Cairn", (bd["chunk"]["mean_distinct_chunks"], bd["chunk"]["hit_rate"]),
            textcoords="offset points", xytext=(-20, -10), fontsize=6, color=C["chunk"])
 c.annotate("random", (bd["random"]["mean_distinct_chunks"], bd["random"]["hit_rate"]),
            textcoords="offset points", xytext=(-6, -12), fontsize=6, color="#777777")
-c.annotate("uniform-8", (bd["uniform"]["mean_distinct_chunks"], bd["uniform"]["hit_rate"]),
+c.annotate("uniform", (bd["uniform"]["mean_distinct_chunks"], bd["uniform"]["hit_rate"]),
            textcoords="offset points", xytext=(-4, 6), fontsize=6, color=C["uniform"])
 c.set_xlim(8.8, 1.2)   # inverted, with margin so the rightmost marker+label stay on canvas
 c.set_xlabel("segments touched (of 8)\nconcentration $\\rightarrow$", fontsize=6.5)
