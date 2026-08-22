@@ -19,7 +19,14 @@ export TOKENIZERS_PARALLELISM=false
 export PYTHONPATH="$REPO:$PYTHONPATH"
 # CVD guard: some nodes (c2-2) export an invalid CUDA_VISIBLE_DEVICES
 [[ "$CUDA_VISIBLE_DEVICES" =~ ^[0-9,]*$ ]] || export CUDA_VISIBLE_DEVICES=0
-REPO="${PERSISTQA_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)}"
+# SLURM copies the batch script into /var/spool before running it, so BASH_SOURCE
+# points at the spooled copy and not at the repository. SLURM_SUBMIT_DIR is the
+# directory sbatch was invoked from, which is the reliable anchor here.
+REPO="${PERSISTQA_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
+if [ ! -d "$REPO/solutions" ]; then
+  echo "cannot locate the repository root (tried PERSISTQA_ROOT, SLURM_SUBMIT_DIR, PWD)" >&2
+  exit 2
+fi
 cd "$REPO"
 
 ARMS="${ARMS:-mb_uniform32,mb_top2,mb_rand2,mb_top1,mb_rand1,mb_oracle}"

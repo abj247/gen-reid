@@ -6,7 +6,14 @@
 # four JobHeldUser pg_* jobs as mine. Its "am I under the cap" test was therefore never true and it
 # waited ~24h while the GPUs sat idle. Here the count excludes BOTH the user's `bash` shell and any
 # job whose reason is JobHeldUser, and the logic was verified against live squeue output before use.
-REPO="${PERSISTQA_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)}"
+# SLURM copies the batch script into /var/spool before running it, so BASH_SOURCE
+# points at the spooled copy and not at the repository. SLURM_SUBMIT_DIR is the
+# directory sbatch was invoked from, which is the reliable anchor here.
+REPO="${PERSISTQA_ROOT:-${SLURM_SUBMIT_DIR:-$PWD}}"
+if [ ! -d "$REPO/solutions" ]; then
+  echo "cannot locate the repository root (tried PERSISTQA_ROOT, SLURM_SUBMIT_DIR, PWD)" >&2
+  exit 2
+fi
 cd "$REPO"
 
 mine() { squeue -u "$USER" -h -o "%j|%t|%r" | awk -F'|' '$1!="bash" && $3!~/JobHeldUser/' | wc -l; }

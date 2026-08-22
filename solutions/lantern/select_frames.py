@@ -55,9 +55,22 @@ CHUNK_TOPK = 2        # chunks retrieved; k frames are split evenly between them
 CLIP_MODEL = ("ViT-B-32-quickgelu", "openai")
 
 
-def load_bench():
-    raw = json.load(open(BENCH_ANON)); out = {}
+def load_bench(bench_path=None):
+    """Question records keyed by "<video_id>|<question_id>", plus any per-video path.
+
+    Handles two benchmark shapes with one loader. PersistQA identifies videos by an
+    anonymous id and resolves the file through the id mapping; the converted external
+    benchmarks (MLVU, LongVideoBench) carry an absolute `video_path` on each video and
+    have no mapping at all. The returned `vpath` is None for the former and set for the
+    latter, and the caller resolves accordingly.
+
+    External benchmarks also have no `temporal_anchor`, so the referent query mode
+    degenerates to the plain question there. That is a real limitation of running this
+    method off PersistQA and is stated rather than hidden: use `question` mode on them.
+    """
+    raw = json.load(open(bench_path or BENCH_ANON)); out = {}
     for v in raw["videos"]:
+        vpath = v.get("video_path")
         for q in v.get("questions", []):
             qid = q.get("question_id")
             if not qid:
@@ -67,6 +80,7 @@ def load_bench():
                 "qtext": q.get("question_text", ""),
                 "options": " ".join(q.get("options", {}).values()),
                 "anchor": md.get("temporal_anchor", "") or "",
+                "vpath": vpath,
             }
     return out
 
@@ -154,6 +168,9 @@ def main():
     ap.add_argument("--n_candidates", type=int, default=N_CANDIDATES)
     ap.add_argument("--topk", type=int, default=TOPK)
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--bench", default=None,
+                    help="benchmark JSON; defaults to PersistQA. Converted external "
+                         "benchmarks carry video_path per video and need no id mapping.")
     args = ap.parse_args()
     os.makedirs(args.out, exist_ok=True)
     # CPU fallback: the control modes need no CLIP at all, and even the CLIP modes are cheap
@@ -162,7 +179,7 @@ def main():
     # "No CUDA GPUs are available" AFTER decoding, which wastes the whole pass.
     dev = "cuda" if torch.cuda.is_available() else "cpu"
     a2r = json.load(open(ID_MAPPING)).get("anon_to_real", {})
-    bench = load_bench()
+    bench = load_bench(args.bench)
     vids = sorted({k.split("|")[0] for k in bench})
     if args.limit:
         vids = vids[:args.limit]
@@ -189,8 +206,18 @@ def main():
         return f.cpu().numpy()[0]
 
     manifest = {}
+    # Both lookups are built once. Scanning the whole question dict per video is O(n^2),
+    # and MLVU has 1,242 videos against 2,174 questions, where that dominates the runtime.
+    vpaths, by_video = {}, {}
+    for k, rec in bench.items():
+        vid = k.split("|")[0]
+        by_video.setdefault(vid, []).append(k)
+        if rec.get("vpath"):
+            vpaths.setdefault(vid, rec["vpath"])
+
     for vi, anon in enumerate(vids):
-        vp = P.resolve_video(anon, a2r)
+        # External benchmarks name the file directly; PersistQA resolves via the mapping.
+        vp = vpaths.get(anon) or P.resolve_video(anon, a2r)
         if not vp:
             continue
         try:
@@ -202,16 +229,28 @@ def main():
         # Encoded once per video and reused across its questions -- but only when a CLIP mode
         # actually needs it.
         feats = fimg(pil) if needs_clip else None
-        for k in [kk for kk in bench if kk.split("|")[0] == anon]:
+        for k in by_video.get(anon, ()):
             sims = (feats @ ftxt(query_text(bench[k], args.query_mode))) if needs_clip else None
             top = select_pool_indices(args.query_mode, k, len(pil), args.topk, sims)
             frames = [pil[i] for i in top]
-            clip_path = f"{args.out}/{anon}__{k.split('|')[1]}.mp4"
+            # MLVU video ids embed a directory ("1_plotQA/1"), so a raw id in the
+            # filename points at a subdirectory that does not exist. cv2.VideoWriter does
+            # NOT raise on that: it returns a writer that silently discards every frame,
+            # and the run finishes with a full manifest and zero clips on disk. Sanitise
+            # the filename while leaving the manifest key as the true id.
+            safe = anon.replace("/", "__").replace("\\", "__")
+            clip_path = f"{args.out}/{safe}__{k.split('|')[1]}.mp4"
             w, h = frames[0].width, frames[0].height
             wtr = cv2.VideoWriter(clip_path, cv2.VideoWriter_fourcc(*"mp4v"), CLIP_FPS, (w, h))
             for fr in frames:
                 wtr.write(cv2.cvtColor(np.array(fr), cv2.COLOR_RGB2BGR))
             wtr.release()
+            if not os.path.exists(clip_path) or os.path.getsize(clip_path) == 0:
+                # Never record a manifest entry for a clip that was not written; a
+                # manifest that lies is worse than a short one, because the evaluation
+                # silently skips the missing file and reports a smaller n with no error.
+                print(f"  [write fail] {clip_path}", flush=True)
+                continue
             manifest[k] = clip_path
         del vr
         if (vi + 1) % 10 == 0:
